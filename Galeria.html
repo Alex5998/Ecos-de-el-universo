@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galería | Ecos del Universo</title>
+<meta name="description" content="Galería visual del universo: imágenes de la NASA y los grandes telescopios, con una vista 3D interactiva y folletos con información sobre cada una.">
+<link rel="icon" href="assets/img/logo-ecos.png">
+<link rel="stylesheet" href="galeria.css">
+   <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
+</head>
+<body>
+
+<canvas id="estrellas"></canvas>
+<div class="fondo-inmersivo" aria-hidden="true">
+  <div class="fondo-capa is-activa" data-fondo="hero" style="background-image:url('assets/img/fondos/hero.jpg')"></div>
+  <div class="fondo-capa" data-fondo="proyecto" style="background-image:url('assets/img/fondos/proyecto.jpg')"></div>
+  <div class="fondo-capa" data-fondo="universo" style="background-image:url('assets/img/fondos/universo.jpg')"></div>
+  <div class="fondo-capa" data-fondo="videos" style="background-image:url('assets/img/fondos/videos.jpg')"></div>
+  <div class="fondo-capa" data-fondo="equipo" style="background-image:url('assets/img/fondos/equipo.jpg')"></div>
+</div>
+<div class="grano" aria-hidden="true"></div>
+
+<!-- ============ NAVEGACIÓN ============ -->
+<nav class="nav">
+  <div class="wrap nav__inner">
+    <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+    <ul class="nav__links">
+      <li><a href="Index.html">Inicio</a></li>
+      <li><a href="Zona Creativa.html">Zona Creativa</a></li>
+      <li><a href="Dasaboard.html">Dashboard</a></li>
+      <li><a href="Galeria.html" class="is-active">Galería</a></li>
+      <li><a href="Acerca.html">Acerca de</a></li>
+    </ul>
+
+    <div class="nav__brands">
+ <img src="Imagenes/logo_colegio-removebg-preview.png" alt="Escudo del Colegio Manuel Antonio Rueda Jara">
+      <div class="nav__divider"></div>
+      <img src="Imagenes/logo-removebg-preview.png" alt="Logotipo Ecos del Universo" class="nav__logo-ecos">
+    </div>
+  </div>
+</nav>
+<div class="nav-overlay" hidden></div>
+
+<main>
+
+  <!-- ============ PORTADA ============ -->
+  <section class="portada" id="portada">
+    <div class="wrap portada__inner">
+      <span class="eyebrow">NASA · Telescopios · Misiones</span>
+      <h1>Galería del <span class="accent">Universo</span></h1>
+      <p class="lead">Un recorrido visual por algunas de las imágenes y misiones más importantes de la astronomía: desde el telescopio Hubble hasta los anillos de Saturno. Explora la vista 3D o abre los folletos para conocer la historia detrás de cada una.</p>
+      <div class="portada__cta">
+        <a href="#galeria-3d" class="btn btn--solid">Explorar en 3D</a>
+        <a href="#folletos" class="btn btn--ghost">Ver los folletos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALERÍA 3D ============ -->
+  <section id="galeria-3d">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Explora en 3D</span>
+        <h2>Gira la galería con el dedo o el mouse</h2>
+        <p>Arrastra hacia los lados o usa las flechas para recorrer una selección de imágenes icónicas de la astronomía.</p>
+      </div>
+
+      <div class="galeria3d reveal">
+        <div class="galeria3d__escenario">
+          <div class="galeria3d__anillo" id="galeria3d-anillo">
+            <figure class="galeria3d__item" data-id="hubble" style="--tinte:var(--nebula);" data-titulo="Telescopio Espacial Hubble" data-categoria="Telescopios" data-resumen="En órbita desde 1990, observa el cosmos sin la distorsión de la atmósfera terrestre.">
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.07.37 AM.jpeg')"></span>
+              <figcaption>Hubble</figcaption>
+            </figure>
+            <figure class="galeria3d__item" data-id="webb" style="--tinte:var(--gold);" data-titulo="Telescopio Espacial James Webb" data-categoria="Telescopios" data-resumen="El telescopio más grande jamás lanzado al espacio, diseñado para ver en luz infrarroja.">
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.08.15 AM.jpeg')"></span>
+              <figcaption>James Webb</figcaption>
+            </figure>
+            <figure class="galeria3d__item" data-id="pilares" style="--tinte:var(--wine);" data-titulo="Pilares de la Creación" data-categoria="Nebulosas y galaxias" data-resumen="Columnas de gas y polvo en la Nebulosa del Águila, una de las imágenes más famosas del Hubble.">
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.08.49 AM.jpeg')"></span>
+              <figcaption>Pilares de la Creación</figcaption>
+            </figure>
+            <figure class="galeria3d__item" data-id="saturno" style="--tinte:var(--ember);" data-titulo="Saturno y sus anillos" data-categoria="Planetas" data-resumen="La sonda Cassini pasó 13 años estudiando Saturno de cerca antes de terminar su misión en 2017.">
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.09.28 AM.jpeg')"></span>
+              <figcaption>Saturno</figcaption>
+            </figure>
+            <figure class="galeria3d__item" data-id="andromeda" style="--tinte:var(--nebula);" data-titulo="Galaxia de Andrómeda" data-categoria="Nebulosas y galaxias" data-resumen="Nuestra galaxia vecina más grande, y con la que la Vía Láctea eventualmente se fusionará.">
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.11.27 AM.jpeg')"></span>
+              <figcaption>Andrómeda</figcaption>
+            </figure>
+            <figure class="galeria3d__item" data-id="marte" style="--tinte:var(--gold);" data-titulo="Superficie de Marte" data-categoria="Planetas" data-resumen="Los rovers de la NASA han recorrido el planeta rojo desde el 2004, buscando señales de agua antigua.">
+              <span class="galeria3d__imagen" style="background-image:url('assets/img/galeria/marte.jpg')"></span>
+              <figcaption>Marte</figcaption>
+            </figure>
+            <figure class="galeria3d__item" data-id="iss" style="--tinte:var(--wine);" data-titulo="Estación Espacial Internacional" data-categoria="Misiones" data-resumen="Un laboratorio orbital habitado de forma continua desde el año 2000, a 400 km de altura.">
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.14.10 AM.jpeg')"></span>
+              <figcaption>Estación Espacial</figcaption>
+            </figure>
+            <figure class="galeria3d__item" data-id="campo-profundo" style="--tinte:var(--ember);" data-titulo="Campo Profundo del Hubble" data-categoria="Nebulosas y galaxias" data-resumen="Una fotografía de una zona diminuta y aparentemente vacía del cielo, que reveló miles de galaxias.">
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.03.45 AM.jpeg')"></span>
+              <figcaption>Campo Profundo</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="galeria3d__controles">
+          <button id="galeria3d-prev" class="galeria3d__flecha" aria-label="Imagen anterior">‹</button>
+          <div class="galeria3d__info">
+            <span class="galeria3d__categoria" id="galeria3d-categoria">Telescopios</span>
+            <h3 id="galeria3d-titulo">Telescopio Espacial Hubble</h3>
+            <p id="galeria3d-resumen">En órbita desde 1990, observa el cosmos sin la distorsión de la atmósfera terrestre.</p>
+          </div>
+          <button id="galeria3d-next" class="galeria3d__flecha" aria-label="Imagen siguiente">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOLLETOS INTERACTIVOS ============ -->
+  <section id="folletos">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Para leer con calma</span>
+        <h2>Folletos: toca cada uno para abrirlo</h2>
+        <p>Diez postales del universo, con la historia y los datos detrás de cada una. Filtra por categoría o ábrelas todas.</p>
+      </div>
+
+      <div class="filtros-galeria reveal">
+        <button class="filtro-chip is-activo" data-categoria="todos">Todos</button>
+        <button class="filtro-chip" data-categoria="Telescopios">Telescopios</button>
+        <button class="filtro-chip" data-categoria="Planetas">Planetas</button>
+        <button class="filtro-chip" data-categoria="Nebulosas y galaxias">Nebulosas y galaxias</button>
+        <button class="filtro-chip" data-categoria="Misiones">Misiones</button>
+      </div>
+
+      <div class="folletos-grid reveal">
+
+        <article class="folleto" data-id="hubble" data-categoria="Telescopios">
+          <button class="folleto__portada" aria-label="Ver folleto: Telescopio Espacial Hubble">
+            <span class="folleto__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.07.37 AM.jpeg')"></span>
+            <span class="folleto__etiqueta">Telescopios</span>
+            <h3>Telescopio Espacial Hubble</h3>
+            <span class="folleto__accion">Ver folleto <i>+</i></span>
+          </button>
+        </article>
+
+        <article class="folleto" data-id="webb" data-categoria="Telescopios">
+          <button class="folleto__portada" aria-label="Ver folleto: Telescopio Espacial James Webb">
+            <span class="folleto__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.08.15 AM.jpeg')"></span>
+            <span class="folleto__etiqueta">Telescopios</span>
+            <h3>Telescopio Espacial James Webb</h3>
+            <span class="folleto__accion">Ver folleto <i>+</i></span>
+          </button>
+        </article>
+
+        <article class="folleto" data-id="kepler" data-categoria="Telescopios">
+          <button class="folleto__portada" aria-label="Ver folleto: Telescopio Espacial Kepler">
+            <span class="folleto__imagen" style="background-image:url('Imagenes/kepleer.jpg')"></span>
+            <span class="folleto__etiqueta">Telescopios</span>
+            <h3>Telescopio Espacial Kepler</h3>
+            <span class="folleto__accion">Ver folleto <i>+</i></span>
+          </button>
+        </article>
+
+        <article class="folleto" data-id="saturno" data-categoria="Planetas">
+          <button class="folleto__portada" aria-label="Ver folleto: Saturno y sus anillos">
+            <span class="folleto__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.09.28 AM.jpeg')"></span>
+            <span class="folleto__etiqueta">Planetas</span>
+            <h3>Saturno y sus anillos</h3>
+            <span class="folleto__accion">Ver folleto <i>+</i></span>
+          </button>
+        </article>
+
+        <article class="folleto" data-id="jupiter" data-categoria="Planetas">
+          <button class="folleto__portada" aria-label="Ver folleto: Júpiter y la Gran Mancha Roja">
+            <span class="folleto__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.09.28 AM.jpeg')"></span>
+            <span class="folleto__etiqueta">Planetas</span>
+            <h3>Júpiter y la Gran Mancha Roja</h3>
+            <span class="folleto__accion">Ver folleto <i>+</i></span>
+          </button>
+        </article>
+
+        <article class="folleto" data-id="marte" data-categoria="Planetas">
+          <button class="folleto__portada" aria-label="Ver folleto: Superficie de Marte">
+            <span class="folleto__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.12.33 AM.jpeg')"></span>
+            <span class="folleto__etiqueta">Planetas</span>
+            <h3>Superficie de Marte</h3>
+            <span class="folleto__accion">Ver folleto <i>+</i></span>
+          </button>
+        </article>
+
+        <article class="folleto" data-id="pilares" data-categoria="Nebulosas y galaxias">
+          <button class="folleto__portada" aria-label="Ver folleto: Pilares de la Creación">
+            <span class="folleto__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.08.49 AM.jpeg')"></span>
+            <span class="folleto__etiqueta">Nebulosas y galaxias</span>
+            <h3>Pilares de la Creación</h3>
+            <span class="folleto__accion">Ver folleto <i>+</i></span>
+          </button>
+        </article>
+
+        <article class="folleto" data-id="andromeda" data-categoria="Nebulosas y galaxias">
+          <button class="folleto__portada" aria-label="Ver folleto: Galaxia de Andrómeda">
+            <span class="folleto__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.11.27 AM.jpeg')"></span>
+            <span class="folleto__etiqueta">Nebulosas y galaxias</span>
+            <h3>Galaxia de Andrómeda</h3>
+            <span class="folleto__accion">Ver folleto <i>+</i></span>
+          </button>
+        </article>
+
+        <article class="folleto" data-id="campo-profundo" data-categoria="Nebulosas y galaxias">
+          <button class="folleto__portada" aria-label="Ver folleto: Campo Profundo del Hubble">
+            <span class="folleto__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.03.45 AM.jpeg')"></span>
+            <span class="folleto__etiqueta">Nebulosas y galaxias</span>
+            <h3>Campo Profundo del Hubble</h3>
+            <span class="folleto__accion">Ver folleto <i>+</i></span>
+          </button>
+        </article>
+
+        <article class="folleto" data-id="iss" data-categoria="Misiones">
+          <button class="folleto__portada" aria-label="Ver folleto: Estación Espacial Internacional">
+            <span class="folleto__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.14.10 AM.jpeg')"></span>
+            <span class="folleto__etiqueta">Misiones</span>
+            <h3>Estación Espacial Internacional</h3>
+            <span class="folleto__accion">Ver folleto <i>+</i></span>
+          </button>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ LIGHTBOX (vista enfocada con zoom) ============ -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lightbox__fondo" id="lightbox-fondo"></div>
+  <div class="lightbox__panel" id="lightbox-panel">
+    <button class="lightbox__cerrar" id="lightbox-cerrar" aria-label="Cerrar">✕</button>
+    <button class="lightbox__flecha lightbox__flecha--prev" id="lightbox-prev" aria-label="Imagen anterior">‹</button>
+    <button class="lightbox__flecha lightbox__flecha--next" id="lightbox-next" aria-label="Imagen siguiente">›</button>
+
+    <div class="lightbox__imagen" id="lightbox-imagen"></div>
+    <div class="lightbox__texto">
+      <span class="lightbox__etiqueta" id="lightbox-etiqueta"></span>
+      <h3 id="lightbox-titulo"></h3>
+      <p id="lightbox-detalle"></p>
+      <ul class="lightbox__datos" id="lightbox-datos"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PIE DE PÁGINA ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+       <img src="Imagenes/images-removebg-preview.png" alt="Escudo del colegio">s
+        <div class="sep"></div>
+        <div>
+          <strong>Ecos del Universo</strong><br>
+          <small>Técnico en Integración de Contenidos Digitales</small>
+        </div>
+      </div>
+
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h4>En esta página</h4>
+          <ul>
+            <li><a href="#portada">Portada</a></li>
+            <li><a href="#galeria-3d">Galería 3D</a></li>
+            <li><a href="#folletos">Folletos</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>El sitio completo</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="zona-creativa.html">Zona Creativa</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+            <li><a href="acerca.html#contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Institución</h4>
+          <ul>
+            <li>Colegio Manuel Antonio Rueda Jara</li>
+            <li>Villa del Rosario</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="anio-actual"></span> Ecos del Universo. Proyecto de fin de año.</span>
+      <span>Hecho con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  iniciarFondoEstrellas();
+  iniciarNav();
+  iniciarRevelado();
+  iniciarFondoInmersivo();
+  iniciarGaleria3D();
+  iniciarFolletos();
+  iniciarLightbox();
+  document.getElementById('anio-actual').textContent = new Date().getFullYear();
+});
+
+/* ---------------------------------------------------------
+   1) Fondo animado de estrellas + polvo cósmico (canvas)
+   --------------------------------------------------------- */
+function iniciarFondoEstrellas() {
+  const canvas = document.getElementById('estrellas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const prefiereReducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let ancho, alto, estrellas;
+
+  function crearEstrellas() {
+    const cantidad = Math.floor((ancho * alto) / 9000);
+    estrellas = Array.from({ length: cantidad }, () => ({
+      x: Math.random() * ancho,
+      y: Math.random() * alto,
+      radio: Math.random() * 1.3 + 0.2,
+      fase: Math.random() * Math.PI * 2,
+      velocidad: Math.random() * 0.015 + 0.004,
+      deriva: Math.random() * 0.15 + 0.02
+    }));
+  }
+
+  function ajustarTamano() {
+    ancho = canvas.width = window.innerWidth;
+    alto = canvas.height = window.innerHeight;
+    crearEstrellas();
+  }
+
+  function dibujar(t) {
+    ctx.clearRect(0, 0, ancho, alto);
+    for (const e of estrellas) {
+      const brillo = 0.55 + Math.sin(t * e.velocidad + e.fase) * 0.45;
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, e.radio, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(246,244,236,${Math.max(brillo, 0.08)})`;
+      ctx.fill();
+      if (!prefiereReducido) {
+        e.y += e.deriva * 0.05;
+        if (e.y > alto) e.y = 0;
+      }
+    }
+    requestAnimationFrame(dibujar);
+  }
+
+  window.addEventListener('resize', ajustarTamano);
+  ajustarTamano();
+  requestAnimationFrame(dibujar);
+}
+
+/* ---------------------------------------------------------
+   2) Navegación: fondo sólido al hacer scroll + menú móvil
+   --------------------------------------------------------- */
+function iniciarNav() {
+  const nav = document.querySelector('.nav');
+  const toggle = document.querySelector('.nav__toggle');
+  const links = document.querySelector('.nav__links');
+  const overlay = document.querySelector('.nav-overlay');
+  if (!nav) return;
+
+  const marcarSolido = () => {
+    nav.classList.toggle('nav--solid', window.scrollY > 40);
+  };
+  marcarSolido();
+  window.addEventListener('scroll', marcarSolido, { passive: true });
+
+  if (toggle && links && overlay) {
+    const abrirMenu = () => {
+      links.classList.add('is-open');
+      overlay.hidden = false;
+      requestAnimationFrame(() => overlay.classList.add('is-open'));
+      toggle.textContent = '✕';
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('menu-abierto');
+    };
+
+    const cerrarMenu = () => {
+      links.classList.remove('is-open');
+      overlay.classList.remove('is-open');
+      toggle.textContent = '☰';
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-abierto');
+      setTimeout(() => { if (!overlay.classList.contains('is-open')) overlay.hidden = true; }, 300);
+    };
+
+    toggle.addEventListener('click', () => {
+      const yaAbierto = links.classList.contains('is-open');
+      yaAbierto ? cerrarMenu() : abrirMenu();
+    });
+
+    overlay.addEventListener('click', cerrarMenu);
+
+    links.querySelectorAll('a').forEach((enlace) => {
+      enlace.addEventListener('click', cerrarMenu);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && links.classList.contains('is-open')) cerrarMenu();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980 && links.classList.contains('is-open')) cerrarMenu();
+    });
+  }
+
+  const secciones = document.querySelectorAll('main section[id]');
+  const enlaces = document.querySelectorAll('.nav__links a[href^="#"]');
+  if (secciones.length && enlaces.length) {
+    const observer = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting) {
+          enlaces.forEach((a) => a.classList.remove('is-active'));
+          const activo = document.querySelector(`.nav__links a[href="#${entrada.target.id}"]`);
+          if (activo) activo.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    secciones.forEach((s) => observer.observe(s));
+  }
+}
+
+/* ---------------------------------------------------------
+   3) Animación de aparición al hacer scroll
+   --------------------------------------------------------- */
+function iniciarRevelado() {
+  const elementos = document.querySelectorAll('.reveal');
+  if (!elementos.length) return;
+  const observer = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add('is-visible');
+        observer.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  elementos.forEach((el) => observer.observe(el));
+}
+
+/* ---------------------------------------------------------
+   4) Fondos inmersivos: se intercalan (crossfade) según
+      la sección que esté cruzando el centro de la pantalla
+   --------------------------------------------------------- */
+function iniciarFondoInmersivo() {
+  const capas = document.querySelectorAll('.fondo-capa');
+  const secciones = document.querySelectorAll('main section[id], .portada[id]');
+  if (!capas.length || !secciones.length) return;
+
+  const mapaFondos = {
+    portada: 'hero',
+    'galeria-3d': 'universo',
+    folletos: 'proyecto'
+  };
+
+  const activar = (nombre) => {
+    capas.forEach((capa) => {
+      capa.classList.toggle('is-activa', capa.dataset.fondo === nombre);
+    });
+  };
+
+  // En vez de calcular "porcentaje visible" (que favorece injustamente a las
+  // secciones cortas frente a las largas), miramos directamente cual seccion
+  // ocupa el centro vertical de la pantalla en cada momento: es el metodo mas
+  // simple y el que da el resultado mas intuitivo.
+  let ultimoActivo = null;
+
+  function actualizarSegunScroll() {
+    const centro = window.innerHeight / 2;
+    let elegido = null;
+
+    secciones.forEach((s) => {
+      if (elegido) return;
+      const r = s.getBoundingClientRect();
+      if (r.top <= centro && r.bottom >= centro) elegido = s;
+    });
+
+    // Si el centro cae justo en un borde entre dos secciones, usamos la mas cercana
+    if (!elegido) {
+      let mejorDistancia = Infinity;
+      secciones.forEach((s) => {
+        const r = s.getBoundingClientRect();
+        const distancia = Math.min(Math.abs(r.top - centro), Math.abs(r.bottom - centro));
+        if (distancia < mejorDistancia) { mejorDistancia = distancia; elegido = s; }
+      });
+    }
+
+    if (elegido) {
+      const nombre = mapaFondos[elegido.id];
+      if (nombre && nombre !== ultimoActivo) {
+        ultimoActivo = nombre;
+        activar(nombre);
+      }
+    }
+  }
+
+  let tickPendiente = false;
+  window.addEventListener('scroll', () => {
+    if (tickPendiente) return;
+    tickPendiente = true;
+    requestAnimationFrame(() => { actualizarSegunScroll(); tickPendiente = false; });
+  }, { passive: true });
+
+  actualizarSegunScroll();
+}
+
+/* ---------------------------------------------------------
+   5) Galería 3D: anillo giratorio con botones y arrastre
+   --------------------------------------------------------- */
+function iniciarGaleria3D() {
+  const escenario = document.querySelector('.galeria3d__escenario');
+  const anillo = document.getElementById('galeria3d-anillo');
+  if (!escenario || !anillo) return;
+
+  const items = Array.from(anillo.querySelectorAll('.galeria3d__item'));
+  const n = items.length;
+  if (!n) return;
+  const anguloPaso = 360 / n;
+
+  let radioActual = 0;
+  function calcularRadio() {
+    const anchoItem = items[0].getBoundingClientRect().width || 200;
+    return Math.round((anchoItem / 2) / Math.tan(Math.PI / n)) + 60;
+  }
+
+  let indiceActual = 0;
+  let rotacionActual = 0;
+
+  // Aplica, a cada imagen del anillo, un tamaño, brillo y opacidad distintos
+  // según qué tan de frente está mirando a la cámara en este momento: la que
+  // está al frente se ve grande y nítida, las que están de lado se achican
+  // y se apagan un poco — esto da la sensación real de profundidad.
+  function aplicarEfectosDeProfundidad() {
+    items.forEach((item, i) => {
+      const anguloBase = i * anguloPaso;
+      let anguloEfectivo = (anguloBase + rotacionActual) % 360;
+      if (anguloEfectivo < 0) anguloEfectivo += 360;
+      const distancia = Math.min(anguloEfectivo, 360 - anguloEfectivo); // 0 a 180
+      const foco = 1 - distancia / 180; // 1 = de frente, 0 = de espaldas
+
+      const escala = 0.72 + foco * 0.38;
+      const opacidad = 0.32 + foco * 0.68;
+      const brillo = 0.5 + foco * 0.5;
+
+      item.style.transform = `rotateY(${anguloBase}deg) translateZ(${radioActual}px) scale(${escala})`;
+      item.style.opacity = opacidad;
+      item.style.filter = `brightness(${brillo})`;
+      item.style.zIndex = Math.round(foco * 100);
+    });
+  }
+
+  function colocarItems() {
+    radioActual = calcularRadio();
+    aplicarEfectosDeProfundidad();
+  }
+  colocarItems();
+  window.addEventListener('resize', colocarItems);
+
+  const elCategoria = document.getElementById('galeria3d-categoria');
+  const elTitulo = document.getElementById('galeria3d-titulo');
+  const elResumen = document.getElementById('galeria3d-resumen');
+
+  function actualizarInfo() {
+    const item = items[indiceActual];
+    elCategoria.textContent = item.dataset.categoria;
+    elTitulo.textContent = item.dataset.titulo;
+    elResumen.textContent = item.dataset.resumen;
+  }
+
+  function actualizarAnillo() {
+    anillo.style.transform = `rotateY(${rotacionActual}deg)`;
+    aplicarEfectosDeProfundidad();
+    actualizarInfo();
+  }
+
+  function siguiente() {
+    indiceActual = (indiceActual + 1) % n;
+    rotacionActual -= anguloPaso;
+    actualizarAnillo();
+  }
+  function anterior() {
+    indiceActual = (indiceActual - 1 + n) % n;
+    rotacionActual += anguloPaso;
+    actualizarAnillo();
+  }
+
+  document.getElementById('galeria3d-next').addEventListener('click', siguiente);
+  document.getElementById('galeria3d-prev').addEventListener('click', anterior);
+
+  // Arrastre con mouse / dedo para girar libremente, con "imán" al soltar
+  let arrastrando = false, inicioX = 0, rotacionInicio = 0, distanciaMovida = 0;
+
+  function alPresionar(e) {
+    arrastrando = true;
+    inicioX = e.touches ? e.touches[0].clientX : e.clientX;
+    rotacionInicio = rotacionActual;
+    distanciaMovida = 0;
+    anillo.style.transition = 'none';
+    items.forEach((item) => { item.style.transition = 'none'; });
+  }
+  function alMover(e) {
+    if (!arrastrando) return;
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const delta = x - inicioX;
+    distanciaMovida = Math.abs(delta);
+    rotacionActual = rotacionInicio + delta * 0.4;
+    anillo.style.transform = `rotateY(${rotacionActual}deg)`;
+    aplicarEfectosDeProfundidad();
+  }
+  function alSoltar() {
+    if (!arrastrando) return;
+    arrastrando = false;
+    anillo.style.transition = '';
+    items.forEach((item) => { item.style.transition = ''; });
+    const pasos = Math.round(rotacionActual / anguloPaso);
+    rotacionActual = pasos * anguloPaso;
+    indiceActual = (((-pasos) % n) + n) % n;
+    actualizarAnillo();
+    // Marcamos si hubo arrastre real, para que el "click" que sigue
+    // sepa si debe abrir el lightbox o no (evita abrirlo por accidente)
+    items.forEach((item) => { item.dataset.arrastrado = distanciaMovida > 6 ? 'true' : 'false'; });
+  }
+
+  escenario.addEventListener('mousedown', alPresionar);
+  window.addEventListener('mousemove', alMover);
+  window.addEventListener('mouseup', alSoltar);
+  escenario.addEventListener('touchstart', alPresionar, { passive: true });
+  escenario.addEventListener('touchmove', alMover, { passive: true });
+  escenario.addEventListener('touchend', alSoltar);
+
+  actualizarInfo();
+}
+
+/* ---------------------------------------------------------
+   6) Folletos: abrir/cerrar y filtrar por categoría
+   --------------------------------------------------------- */
+function iniciarFolletos() {
+  const folletos = document.querySelectorAll('.folleto');
+  if (!folletos.length) return;
+
+  folletos.forEach((folleto) => {
+    const boton = folleto.querySelector('.folleto__portada');
+    boton.addEventListener('click', () => {
+      abrirLightbox(folleto.dataset.id, boton);
+    });
+  });
+
+  const chips = document.querySelectorAll('.filtro-chip');
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      chips.forEach((c) => c.classList.remove('is-activo'));
+      chip.classList.add('is-activo');
+      const categoria = chip.dataset.categoria;
+      folletos.forEach((folleto) => {
+        const coincide = categoria === 'todos' || folleto.dataset.categoria === categoria;
+        folleto.classList.toggle('oculto-filtro', !coincide);
+      });
+    });
+  });
+}
+
+/* ---------------------------------------------------------
+   7) Lightbox: vista grande y enfocada, con efecto de zoom
+      desde el elemento que se tocó. Comparten esta misma
+      ventana tanto los folletos como la galería 3D.
+   --------------------------------------------------------- */
+const datosGaleria = {
+  hubble: {
+    categoria: 'Telescopios', titulo: 'Telescopio Espacial Hubble',
+    imagen: 'assets/img/galeria/hubble.jpg',
+    detalle: 'Lanzado en 1990, el Hubble orbita a unos 540 km de altura, por encima de la atmósfera que distorsiona las imágenes tomadas desde la Tierra. Durante más de tres décadas ha capturado algunas de las fotografías más influyentes de la historia de la astronomía.',
+    datos: [['Lanzamiento', '24 de abril de 1990'], ['Operado por', 'NASA / ESA'], ['Altitud orbital', '~540 km']]
+  },
+  webb: {
+    categoria: 'Telescopios', titulo: 'Telescopio Espacial James Webb',
+    imagen: 'assets/img/galeria/webb.jpg',
+    detalle: 'Lanzado en 2021, es el telescopio espacial más grande y potente construido hasta ahora. Observa principalmente en luz infrarroja, lo que le permite ver a través de nubes de polvo y detectar galaxias extremadamente lejanas y antiguas.',
+    datos: [['Lanzamiento', '25 de diciembre de 2021'], ['Operado por', 'NASA / ESA / CSA'], ['Ubicación', 'Punto de Lagrange L2, a 1.5 millones de km']]
+  },
+  kepler: {
+    categoria: 'Telescopios', titulo: 'Telescopio Espacial Kepler',
+    imagen: 'assets/img/galeria/kepler.jpg',
+    detalle: 'Su misión, entre 2009 y 2018, fue buscar planetas fuera del sistema solar midiendo pequeñas caídas de brillo cuando un planeta pasaba frente a su estrella. Confirmó más de 2,600 exoplanetas.',
+    datos: [['Lanzamiento', '7 de marzo de 2009'], ['Exoplanetas confirmados', '2,600+'], ['Fin de la misión', '2018']]
+  },
+  saturno: {
+    categoria: 'Planetas', titulo: 'Saturno y sus anillos',
+    imagen: 'assets/img/galeria/saturno.jpg',
+    detalle: 'La sonda Cassini orbitó Saturno durante 13 años, revelando el detalle de sus anillos y descubriendo océanos bajo el hielo de algunas de sus lunas. En 2017, la sonda se dejó caer intencionalmente en la atmósfera del planeta para evitar contaminar esas lunas.',
+    datos: [['Misión', 'Cassini-Huygens'], ['Años en órbita', '13 (2004–2017)'], ['Lunas exploradas', 'Titán, Encélado, entre otras']]
+  },
+  jupiter: {
+    categoria: 'Planetas', titulo: 'Júpiter y la Gran Mancha Roja',
+    imagen: 'assets/img/galeria/jupiter.jpg',
+    detalle: 'La sonda Juno orbita Júpiter desde 2016, estudiando su atmósfera y su intenso campo magnético. La Gran Mancha Roja es una tormenta gigante, más ancha que la Tierra, que lleva siglos activa.',
+    datos: [['Misión', 'Juno'], ['Llegada', '2016'], ['Gran Mancha Roja', 'Más grande que la Tierra']]
+  },
+  marte: {
+    categoria: 'Planetas', titulo: 'Superficie de Marte',
+    imagen: 'assets/img/galeria/marte.jpg',
+    detalle: 'Distintos rovers de la NASA —Spirit, Opportunity, Curiosity y Perseverance— han recorrido la superficie marciana desde 2004, buscando evidencia de agua líquida antigua y posibles señales de vida microbiana pasada.',
+    datos: [['Rover más reciente', 'Perseverance (desde 2021)'], ['Objetivo principal', 'Buscar señales de vida antigua'], ['Gravedad marciana', '~38% de la terrestre']]
+  },
+  pilares: {
+    categoria: 'Nebulosas y galaxias', titulo: 'Pilares de la Creación',
+    imagen: 'assets/img/galeria/pilares.jpg',
+    detalle: 'Estas columnas de gas y polvo, dentro de la Nebulosa del Águila, son una región donde nacen nuevas estrellas. Fotografiadas por primera vez por el Hubble en 1995, y de nuevo con más detalle por el James Webb en 2022.',
+    datos: [['Ubicación', 'Nebulosa del Águila'], ['Distancia', '~6,500 años luz'], ['Primera foto famosa', 'Hubble, 1995']]
+  },
+  andromeda: {
+    categoria: 'Nebulosas y galaxias', titulo: 'Galaxia de Andrómeda',
+    imagen: 'assets/img/galeria/andromeda.jpg',
+    detalle: 'Es la galaxia grande más cercana a la nuestra, visible a simple vista en una noche despejada. Se está acercando a la Vía Láctea y, dentro de unos 4,500 millones de años, ambas galaxias se fusionarán.',
+    datos: [['Distancia', '~2.5 millones de años luz'], ['Tipo', 'Galaxia espiral'], ['Fusión con la Vía Láctea', 'En ~4,500 millones de años']]
+  },
+  'campo-profundo': {
+    categoria: 'Nebulosas y galaxias', titulo: 'Campo Profundo del Hubble',
+    imagen: 'assets/img/galeria/campo-profundo.jpg',
+    detalle: 'En 1995, el Hubble apuntó durante 10 días seguidos a una zona del cielo que parecía completamente vacía, del tamaño de un grano de arena sostenido a la distancia de un brazo. El resultado: miles de galaxias nunca antes vistas.',
+    datos: [['Año', '1995'], ['Tiempo de exposición', '10 días'], ['Galaxias reveladas', '~3,000 en una sola imagen']]
+  },
+  iss: {
+    categoria: 'Misiones', titulo: 'Estación Espacial Internacional',
+    imagen: 'assets/img/galeria/iss.jpg',
+    detalle: 'Habitada de forma continua desde el año 2000, es un laboratorio orbital construido por varias agencias espaciales trabajando juntas. Da la vuelta a la Tierra cada 90 minutos aproximadamente, a unos 400 km de altura.',
+    datos: [['Habitada desde', 'Noviembre del 2000'], ['Altitud', '~400 km'], ['Vuelta a la Tierra', '~cada 90 minutos']]
+  }
+};
+
+function iniciarLightbox() {
+  const orden = Object.keys(datosGaleria);
+  const lightbox = document.getElementById('lightbox');
+  const panel = document.getElementById('lightbox-panel');
+  const fondo = document.getElementById('lightbox-fondo');
+  const elImagen = document.getElementById('lightbox-imagen');
+  const elEtiqueta = document.getElementById('lightbox-etiqueta');
+  const elTitulo = document.getElementById('lightbox-titulo');
+  const elDetalle = document.getElementById('lightbox-detalle');
+  const elDatos = document.getElementById('lightbox-datos');
+  if (!lightbox) return;
+
+  let indiceActual = 0;
+
+  function pintar(id) {
+    const item = datosGaleria[id];
+    if (!item) return;
+    elImagen.style.backgroundImage = `url('${item.imagen}')`;
+    elEtiqueta.textContent = item.categoria;
+    elTitulo.textContent = item.titulo;
+    elDetalle.textContent = item.detalle;
+    elDatos.innerHTML = item.datos.map(([clave, valor]) => `<li><span>${clave}</span><strong>${valor}</strong></li>`).join('');
+    indiceActual = orden.indexOf(id);
+  }
+
+  window.abrirLightbox = function (id, elementoOrigen) {
+    if (!datosGaleria[id]) return;
+    pintar(id);
+
+    // El zoom nace desde el punto donde se tocó, no siempre desde el centro
+    if (elementoOrigen) {
+      const r = elementoOrigen.getBoundingClientRect();
+      panel.style.transformOrigin = `${r.left + r.width / 2}px ${r.top + r.height / 2}px`;
+    } else {
+      panel.style.transformOrigin = 'center';
+    }
+
+    lightbox.hidden = false;
+    lightbox.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => lightbox.classList.add('abierto'));
+    document.body.classList.add('menu-abierto');
+  };
+
+  function cerrar() {
+    lightbox.classList.remove('abierto');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-abierto');
+    setTimeout(() => { lightbox.hidden = true; }, 350);
+  }
+
+  function siguiente() {
+    indiceActual = (indiceActual + 1) % orden.length;
+    panel.style.transformOrigin = 'center';
+    pintar(orden[indiceActual]);
+  }
+  function anterior() {
+    indiceActual = (indiceActual - 1 + orden.length) % orden.length;
+    panel.style.transformOrigin = 'center';
+    pintar(orden[indiceActual]);
+  }
+
+  document.getElementById('lightbox-cerrar').addEventListener('click', cerrar);
+  document.getElementById('lightbox-next').addEventListener('click', siguiente);
+  document.getElementById('lightbox-prev').addEventListener('click', anterior);
+  fondo.addEventListener('click', cerrar);
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.hidden) return;
+    if (e.key === 'Escape') cerrar();
+    if (e.key === 'ArrowRight') siguiente();
+    if (e.key === 'ArrowLeft') anterior();
+  });
+
+  // Conectar los elementos de la galería 3D: un toque (sin haber arrastrado)
+  // abre el lightbox de esa imagen en grande
+  document.querySelectorAll('.galeria3d__item').forEach((item) => {
+    item.addEventListener('click', () => {
+      if (item.dataset.arrastrado === 'true') return;
+      abrirLightbox(item.dataset.id, item);
+    });
+  });
+}
+</script>
+</body>
+</html>

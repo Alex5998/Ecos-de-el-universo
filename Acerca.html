@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acerca de | Ecos del Universo</title>
+<meta name="description" content="Cómo está hecho Ecos del Universo, por qué lo creamos, el proceso detrás del proyecto, el equipo completo, y cómo ponerte en contacto con nosotros.">
+<link rel="icon" href="assets/img/logo-ecos.png">
+<link rel="stylesheet" href="Acerca.css">
+   <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
+<style>
+  /* Estilo del bloque nuevo (Diseño 3D en Tinkercad). Se deja aquí, dentro del
+     mismo HTML, para no tener que tocar Acerca.css. */
+  .tinkercad-embed{
+    border-radius: var(--radius-lg, 18px);
+    overflow: hidden;
+    border: var(--edge, 1px solid rgba(246,244,236,0.08));
+    background: var(--bg-panel, #10102b);
+    aspect-ratio: 16 / 10;
+  }
+  .tinkercad-embed iframe{
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="estrellas"></canvas>
+<div class="fondo-inmersivo" aria-hidden="true">
+  <div class="fondo-capa is-activa" data-fondo="hero" style="background-image:url('assets/img/fondos/hero.jpg')"></div>
+  <div class="fondo-capa" data-fondo="proyecto" style="background-image:url('assets/img/fondos/proyecto.jpg')"></div>
+  <div class="fondo-capa" data-fondo="universo" style="background-image:url('assets/img/fondos/universo.jpg')"></div>
+  <div class="fondo-capa" data-fondo="videos" style="background-image:url('assets/img/fondos/videos.jpg')"></div>
+  <div class="fondo-capa" data-fondo="equipo" style="background-image:url('assets/img/fondos/equipo.jpg')"></div>
+</div>
+<div class="grano" aria-hidden="true"></div>
+
+<!-- ============ NAVEGACIÓN ============ -->
+<nav class="nav">
+  <div class="wrap nav__inner">
+    <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+    <ul class="nav__links">
+      <li><a href="Index.html">Inicio</a></li>
+      <li><a href="Zona Creativa.html">Zona Creativa</a></li>
+      <li><a href="Dasaboard.html">Dashboard</a></li>
+      <li><a href="Galeria.html">Galería</a></li>
+      <li><a href="Acerca.html" class="is-active">Acerca de</a></li>
+    </ul>
+
+    <div class="nav__brands">
+ <img src="Imagenes/logo_colegio-removebg-preview.png" alt="Escudo del Colegio Manuel Antonio Rueda Jara">
+      <div class="nav__divider"></div>
+      <img src="Imagenes/logo-removebg-preview.png" alt="Logotipo Ecos del Universo" class="nav__logo-ecos">
+    </div>
+  </div>
+</nav>
+<div class="nav-overlay" hidden></div>
+
+<main>
+
+  <!-- ============ PORTADA ============ -->
+  <section class="portada" id="portada">
+    <div class="wrap portada__inner">
+      <span class="eyebrow">El proyecto · El equipo · El contacto</span>
+      <h1>Acerca de <span class="accent">Ecos del Universo</span></h1>
+      <p class="lead">La historia detrás del sitio: qué quisimos lograr, con qué lo construimos, quiénes somos, y cómo escribirnos si tienes alguna pregunta.</p>
+      <div class="portada__cta">
+        <a href="#tecnologias" class="btn btn--solid">Ver cómo está hecho</a>
+        <a href="#contacto" class="btn btn--ghost">Ir a contacto</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUÉ ES ============ -->
+  <section id="que-es">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">El proyecto, en pocas palabras</span>
+        <h2>Qué es Ecos del Universo</h2>
+        <p>Ecos del Universo es una plataforma educativa hecha por estudiantes, como proyecto de fin de año del programa Técnico en Integración de Contenidos Digitales. La idea fue simple: usar lo que aprendimos sobre desarrollo web para contar, de una forma visual e interactiva, algunas de las cosas que más nos sorprendieron al investigar sobre el universo.</p>
+      </div>
+
+      <div class="grid-3">
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3>Zona Creativa</h3>
+          <p>Un planetario 3D navegable del sistema solar, y dos juegos originales sobre el espacio.</p>
+        </article>
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+          </div>
+          <h3>Dashboard</h3>
+          <p>Estadísticas, tablas y diagramas sobre el sistema solar, las estrellas y el universo.</p>
+        </article>
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="15" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 19"/></svg>
+          </div>
+          <h3>Galería</h3>
+          <p>Una vitrina 3D y folletos interactivos sobre telescopios, planetas y misiones espaciales.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO ESTÁ HECHO ============ -->
+  <section id="tecnologias">
+    <div class="wrap">
+      <div class="section__head-row">
+        <div class="section__head reveal">
+          <span class="eyebrow">Sin frameworks, sin plantillas</span>
+          <h2>Cómo está hecho este sitio</h2>
+          <p>Todo el sitio —diseño, animaciones, juegos, el planetario 3D— está construido desde cero con HTML, CSS y JavaScript "vanilla" (sin librerías de por medio, salvo una). Esta es la lista completa de lo que usamos y para qué.</p>
+        </div>
+        <svg class="constelacion reveal" viewBox="0 0 220 160" aria-hidden="true">
+          <g stroke="rgba(185,169,255,0.45)" stroke-width="1">
+            <line x1="20" y1="120" x2="60" y2="60"/>
+            <line x1="60" y1="60" x2="115" y2="80"/>
+            <line x1="115" y1="80" x2="160" y2="30"/>
+          </g>
+          <g fill="#F6F4EC">
+            <circle cx="20" cy="120" r="2.4"/>
+            <circle cx="60" cy="60" r="3.2"/>
+            <circle cx="115" cy="80" r="2.8"/>
+            <circle cx="160" cy="30" r="3.6"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="tabla-wrap reveal">
+        <table class="tabla-planetas">
+          <thead>
+            <tr><th>Tecnología</th><th>Para qué la usamos</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="tabla-planetas__nombre">HTML5 y CSS3</td><td>Toda la estructura y el diseño visual del sitio: colores, tipografía, animaciones y el diseño adaptable a cualquier pantalla.</td></tr>
+            <tr><td class="tabla-planetas__nombre">JavaScript (vanilla)</td><td>Toda la interactividad: menús, filtros, formularios, el sistema de fondos que se intercalan, y la lógica de los dos juegos.</td></tr>
+            <tr><td class="tabla-planetas__nombre">Three.js</td><td>El planetario 3D del sistema solar en Zona Creativa: los planetas, sus texturas, las lunas y la cámara navegable.</td></tr>
+            <tr><td class="tabla-planetas__nombre">CSS Grid y Flexbox</td><td>Todas las cuadrículas y paneles del sitio: tarjetas, tablas, la galería 3D y el diseño responsive.</td></tr>
+            <tr><td class="tabla-planetas__nombre">Transformaciones 3D en CSS</td><td>La galería giratoria en 3D y el efecto de zoom del lightbox de la página de Galería.</td></tr>
+            <tr><td class="tabla-planetas__nombre">Web Audio API</td><td>El sonido ambiental del planetario, generado por completo con código, sin ningún archivo de audio.</td></tr>
+            <tr><td class="tabla-planetas__nombre">Fullscreen API</td><td>El modo de pantalla completa del planetario y los juegos.</td></tr>
+            <tr><td class="tabla-planetas__nombre">LocalStorage</td><td>Guardar tu mejor puntaje en el juego Esquiva Asteroides entre visitas.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tabla-nota">Ninguna de estas es una plantilla prediseñada: cada componente (las tarjetas, la galería, los gráficos del dashboard) se diseñó y programó específicamente para este proyecto.</p>
+    </div>
+  </section>
+
+  <!-- ============ POR QUÉ LO HICIMOS ============ -->
+  <section id="motivaciones">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Más allá de la nota</span>
+        <h2>Por qué elegimos el universo</h2>
+        <p>Queríamos un proyecto que nos obligara a aprender de verdad, no solo a seguir instrucciones. El universo nos pareció el tema perfecto: es visual, tiene datos concretos e interesantes, y hay muchísimo por explorar — desde el sistema solar hasta preguntas que ni los científicos han resuelto todavía.</p>
+        <p>En el camino aprendimos bastante más de lo que esperábamos: no solo de astronomía, sino de diseño, de trabajo en equipo, y de que un buen proyecto casi nunca queda "terminado" a la primera — siempre hay algo que se puede pulir o explicar mejor.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LÍNEA DE TIEMPO DEL PROCESO ============ -->
+  <section id="proceso">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Cómo fue creciendo</span>
+        <h2>El proceso de creación</h2>
+        <p>El sitio no se hizo de un día para otro. Así fue tomando forma, sección por sección.</p>
+      </div>
+
+      <ol class="linea-tiempo reveal">
+        <li>
+          <span class="linea-tiempo__punto"></span>
+          <span class="linea-tiempo__cuando">Primer paso</span>
+          <h3>La idea y el diseño base</h3>
+          <p>Definimos el nombre, el logo, la paleta de colores oscura con dorado, y la tipografía Signika que usa todo el sitio.</p>
+        </li>
+        <li>
+          <span class="linea-tiempo__punto"></span>
+          <span class="linea-tiempo__cuando">Segundo paso</span>
+          <h3>La página de Inicio</h3>
+          <p>Construimos la portada, la misión y visión del proyecto, los datos del universo, y la sección de videos del equipo.</p>
+        </li>
+        <li>
+          <span class="linea-tiempo__punto"></span>
+          <span class="linea-tiempo__cuando">Tercer paso</span>
+          <h3>Zona Creativa</h3>
+          <p>La parte más ambiciosa: el planetario 3D del sistema solar, y los dos juegos originales, Esquiva Asteroides y Memoria Cósmica.</p>
+        </li>
+        <li>
+          <span class="linea-tiempo__punto"></span>
+          <span class="linea-tiempo__cuando">Cuarto paso</span>
+          <h3>El Dashboard</h3>
+          <p>Reunimos estadísticas reales sobre el sistema solar y las estrellas, y las convertimos en tablas y gráficos visuales.</p>
+        </li>
+        <li>
+          <span class="linea-tiempo__punto"></span>
+          <span class="linea-tiempo__cuando">Quinto paso</span>
+          <h3>La Galería</h3>
+          <p>Una vitrina 3D y folletos interactivos sobre telescopios, planetas y misiones espaciales reales.</p>
+        </li>
+        <li>
+          <span class="linea-tiempo__punto linea-tiempo__punto--activo"></span>
+          <span class="linea-tiempo__cuando">Hoy</span>
+          <h3>Esta página</h3>
+          <p>Acerca de, para contar la historia completa del proyecto y dejarte una forma fácil de contactarnos.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ EQUIPO COMPLETO ============ -->
+  <section id="equipo-completo">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Quiénes hicimos esto</span>
+        <h2>El equipo completo</h2>
+        <p>Cuatro personas, cada una con un rol distinto, detrás de todo el sitio.</p>
+      </div>
+
+      <div class="equipo-grid">
+        <article class="equipo-card reveal">
+          <div class="equipo-card__foto">
+            <img src="assets/img/equipo/jhon-parada.jpg" onerror="this.src='assets/img/equipo/placeholder.png'" alt="Foto de Jhon Alexander Parada Ruiz">
+          </div>
+          <h3>Jhon Alexander Parada Ruiz</h3>
+          <span class="equipo-card__rol">Desarrollo e integración digital</span>
+        </article>
+
+        <article class="equipo-card reveal">
+          <div class="equipo-card__foto">
+            <img src="assets/img/equipo/juan-rincon.jpg" onerror="this.src='assets/img/equipo/placeholder.png'" alt="Foto de Juan Sebastián Rincón Gómez">
+          </div>
+          <h3>Juan Sebastián Rincón Gómez</h3>
+          <span class="equipo-card__rol">Diseñador 3D</span>
+        </article>
+
+        <article class="equipo-card reveal">
+          <div class="equipo-card__foto">
+            <img src="assets/img/equipo/dulce-hernandez.jpg" onerror="this.src='assets/img/equipo/placeholder.png'" alt="Foto de Dulce Hernández">
+          </div>
+          <h3>Dulce Hernández</h3>
+          <span class="equipo-card__rol">Diseñadora</span>
+        </article>
+
+        <article class="equipo-card reveal">
+          <div class="equipo-card__foto">
+            <img src="assets/img/equipo/yulian-reyes.jpg" onerror="this.src='assets/img/equipo/placeholder.png'" alt="Foto de Yulian Reyes">
+          </div>
+          <h3>Yulian Reyes</h3>
+          <span class="equipo-card__rol">Diseñador</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section id="contacto">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Escríbenos</span>
+        <h2>Ponte en contacto</h2>
+        <p>¿Tienes una pregunta, una corrección, o solo quieres saludar? Este es el lugar.</p>
+      </div>
+
+      <div class="contacto-panel reveal">
+        <div class="contacto-info">
+          <div class="contacto-dato">
+            <span class="contacto-dato__icono">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v13H7l-3 3V4Z"/><path d="M7.5 9h9M7.5 12.5h6"/></svg>
+            </span>
+            <div>
+              <span class="contacto-dato__etiqueta">Correo del equipo</span>
+              <a href="mailto:ecosdeluniverso.proyecto@gmail.com">ecosdeluniverso.proyecto@gmail.com</a>
+            </div>
+          </div>
+          <div class="contacto-dato">
+            <span class="contacto-dato__icono">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            </span>
+            <div>
+              <span class="contacto-dato__etiqueta">Institución</span>
+              <span>Colegio Manuel Antonio Rueda Jara, Villa del Rosario</span>
+            </div>
+          </div>
+          <div class="contacto-dato">
+            <span class="contacto-dato__icono">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/><circle cx="12" cy="12" r="4"/></svg>
+            </span>
+            <div>
+              <span class="contacto-dato__etiqueta">Programa</span>
+              <span>Técnico en Integración de Contenidos Digitales</span>
+            </div>
+          </div>
+        </div>
+
+        <form class="contacto-formulario" id="formulario-contacto">
+          <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="¿Cómo te llamas?">
+          </div>
+          <div class="campo">
+            <label for="correo">Correo</label>
+            <input type="email" id="correo" name="correo" required placeholder="tu@correo.com">
+          </div>
+          <div class="campo">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Cuéntanos qué quieres decirnos"></textarea>
+          </div>
+          <button type="submit" class="btn btn--solid">Enviar mensaje</button>
+          <p class="contacto-formulario__nota" id="contacto-nota"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DISEÑO 3D EN TINKERCAD ============ -->
+  <section id="diseno-3d">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Prototipo en 3D</span>
+        <h2>El diseño 3D del proyecto</h2>
+        <p>Antes de construir el planetario en el sitio, armamos una primera versión del diseño en Tinkercad para pensar las formas y la disposición del sistema solar. Puedes explorarlo tú mismo aquí abajo: gira, acerca y aleja el modelo con el mouse.</p>
+      </div>
+
+      <div class="tinkercad-embed reveal">
+        <iframe
+          src="https://www.tinkercad.com/things/l8tPdQSMXHf-don-pollo/edit?returnTo=https%3A%2F%2Fwww.tinkercad.com%2Fdashboard%2Fdesigns%2Fall&sharecode=ypApB7JigN7FzHFeDywDUE65a4wOxGoIUvcoNlFo41o"
+          width="100%" height="500"
+          frameborder="0"
+          marginwidth="0" marginheight="0"
+          allowfullscreen
+          title="Diseño 3D de Ecos del Universo en Tinkercad">
+        </iframe>
+      </div>
+      <p class="tabla-nota">Para que se vea tu diseño real: entra a tu proyecto en Tinkercad → botón "Compartir" → "Insertar en tu página web" → copia el enlace que empieza con "https://www.tinkercad.com/embed/..." y pégalo en el "src" del recuadro de arriba, reemplazando el texto "AQUI-VA-EL-ID-DE-TU-DISENO".</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ PIE DE PÁGINA ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+   <img src="Imagenes/images-removebg-preview.png" alt="Escudo del colegio">s
+        <div class="sep"></div>
+        <div>
+          <strong>Ecos del Universo</strong><br>
+          <small>Técnico en Integración de Contenidos Digitales</small>
+        </div>
+      </div>
+
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h4>En esta página</h4>
+          <ul>
+            <li><a href="#que-es">Qué es</a></li>
+            <li><a href="#tecnologias">Cómo está hecho</a></li>
+            <li><a href="#proceso">El proceso</a></li>
+            <li><a href="#equipo-completo">Equipo</a></li>
+            <li><a href="#diseno-3d">Diseño 3D</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>El sitio completo</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="zona-creativa.html">Zona Creativa</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="galeria.html">Galería</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Institución</h4>
+          <ul>
+            <li>Colegio Manuel Antonio Rueda Jara</li>
+            <li>Villa del Rosario</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="anio-actual"></span> Ecos del Universo. Proyecto de fin de año.</span>
+      <span>Hecho con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  iniciarFondoEstrellas();
+  iniciarNav();
+  iniciarRevelado();
+  iniciarFondoInmersivo();
+  iniciarFormularioContacto();
+  document.getElementById('anio-actual').textContent = new Date().getFullYear();
+});
+
+/* ---------------------------------------------------------
+   1) Fondo animado de estrellas + polvo cósmico (canvas)
+   --------------------------------------------------------- */
+function iniciarFondoEstrellas() {
+  const canvas = document.getElementById('estrellas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const prefiereReducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let ancho, alto, estrellas;
+
+  function crearEstrellas() {
+    const cantidad = Math.floor((ancho * alto) / 9000);
+    estrellas = Array.from({ length: cantidad }, () => ({
+      x: Math.random() * ancho,
+      y: Math.random() * alto,
+      radio: Math.random() * 1.3 + 0.2,
+      fase: Math.random() * Math.PI * 2,
+      velocidad: Math.random() * 0.015 + 0.004,
+      deriva: Math.random() * 0.15 + 0.02
+    }));
+  }
+
+  function ajustarTamano() {
+    ancho = canvas.width = window.innerWidth;
+    alto = canvas.height = window.innerHeight;
+    crearEstrellas();
+  }
+
+  function dibujar(t) {
+    ctx.clearRect(0, 0, ancho, alto);
+    for (const e of estrellas) {
+      const brillo = 0.55 + Math.sin(t * e.velocidad + e.fase) * 0.45;
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, e.radio, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(246,244,236,${Math.max(brillo, 0.08)})`;
+      ctx.fill();
+      if (!prefiereReducido) {
+        e.y += e.deriva * 0.05;
+        if (e.y > alto) e.y = 0;
+      }
+    }
+    requestAnimationFrame(dibujar);
+  }
+
+  window.addEventListener('resize', ajustarTamano);
+  ajustarTamano();
+  requestAnimationFrame(dibujar);
+}
+
+/* ---------------------------------------------------------
+   2) Navegación: fondo sólido al hacer scroll + menú móvil
+   --------------------------------------------------------- */
+function iniciarNav() {
+  const nav = document.querySelector('.nav');
+  const toggle = document.querySelector('.nav__toggle');
+  const links = document.querySelector('.nav__links');
+  const overlay = document.querySelector('.nav-overlay');
+  if (!nav) return;
+
+  const marcarSolido = () => {
+    nav.classList.toggle('nav--solid', window.scrollY > 40);
+  };
+  marcarSolido();
+  window.addEventListener('scroll', marcarSolido, { passive: true });
+
+  if (toggle && links && overlay) {
+    const abrirMenu = () => {
+      links.classList.add('is-open');
+      overlay.hidden = false;
+      requestAnimationFrame(() => overlay.classList.add('is-open'));
+      toggle.textContent = '✕';
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('menu-abierto');
+    };
+
+    const cerrarMenu = () => {
+      links.classList.remove('is-open');
+      overlay.classList.remove('is-open');
+      toggle.textContent = '☰';
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-abierto');
+      setTimeout(() => { if (!overlay.classList.contains('is-open')) overlay.hidden = true; }, 300);
+    };
+
+    toggle.addEventListener('click', () => {
+      const yaAbierto = links.classList.contains('is-open');
+      yaAbierto ? cerrarMenu() : abrirMenu();
+    });
+
+    overlay.addEventListener('click', cerrarMenu);
+
+    links.querySelectorAll('a').forEach((enlace) => {
+      enlace.addEventListener('click', cerrarMenu);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && links.classList.contains('is-open')) cerrarMenu();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980 && links.classList.contains('is-open')) cerrarMenu();
+    });
+  }
+
+  const secciones = document.querySelectorAll('main section[id]');
+  const enlaces = document.querySelectorAll('.nav__links a[href^="#"]');
+  if (secciones.length && enlaces.length) {
+    const observer = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting) {
+          enlaces.forEach((a) => a.classList.remove('is-active'));
+          const activo = document.querySelector(`.nav__links a[href="#${entrada.target.id}"]`);
+          if (activo) activo.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    secciones.forEach((s) => observer.observe(s));
+  }
+}
+
+/* ---------------------------------------------------------
+   3) Animación de aparición al hacer scroll
+   --------------------------------------------------------- */
+function iniciarRevelado() {
+  const elementos = document.querySelectorAll('.reveal');
+  if (!elementos.length) return;
+  const observer = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add('is-visible');
+        observer.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  elementos.forEach((el) => observer.observe(el));
+}
+
+/* ---------------------------------------------------------
+   4) Fondos inmersivos: se intercalan (crossfade) según
+      la sección que esté cruzando el centro de la pantalla
+   --------------------------------------------------------- */
+function iniciarFondoInmersivo() {
+  const capas = document.querySelectorAll('.fondo-capa');
+  const secciones = document.querySelectorAll('main section[id], .portada[id]');
+  if (!capas.length || !secciones.length) return;
+
+  const mapaFondos = {
+    portada: 'hero',
+    'que-es': 'proyecto',
+    tecnologias: 'universo',
+    proceso: 'videos',
+    'equipo-completo': 'equipo',
+    'diseno-3d': 'proyecto',
+    contacto: 'equipo'
+  };
+
+  const activar = (nombre) => {
+    capas.forEach((capa) => {
+      capa.classList.toggle('is-activa', capa.dataset.fondo === nombre);
+    });
+  };
+
+  // En vez de calcular "porcentaje visible" (que favorece injustamente a las
+  // secciones cortas frente a las largas), miramos directamente cual seccion
+  // ocupa el centro vertical de la pantalla en cada momento: es el metodo mas
+  // simple y el que da el resultado mas intuitivo.
+  let ultimoActivo = null;
+
+  function actualizarSegunScroll() {
+    const centro = window.innerHeight / 2;
+    let elegido = null;
+
+    secciones.forEach((s) => {
+      if (elegido) return;
+      const r = s.getBoundingClientRect();
+      if (r.top <= centro && r.bottom >= centro) elegido = s;
+    });
+
+    // Si el centro cae justo en un borde entre dos secciones, usamos la mas cercana
+    if (!elegido) {
+      let mejorDistancia = Infinity;
+      secciones.forEach((s) => {
+        const r = s.getBoundingClientRect();
+        const distancia = Math.min(Math.abs(r.top - centro), Math.abs(r.bottom - centro));
+        if (distancia < mejorDistancia) { mejorDistancia = distancia; elegido = s; }
+      });
+    }
+
+    if (elegido) {
+      const nombre = mapaFondos[elegido.id];
+      if (nombre && nombre !== ultimoActivo) {
+        ultimoActivo = nombre;
+        activar(nombre);
+      }
+    }
+  }
+
+  let tickPendiente = false;
+  window.addEventListener('scroll', () => {
+    if (tickPendiente) return;
+    tickPendiente = true;
+    requestAnimationFrame(() => { actualizarSegunScroll(); tickPendiente = false; });
+  }, { passive: true });
+
+  actualizarSegunScroll();
+}
+
+/* ---------------------------------------------------------
+   5) Formulario de contacto: abre el correo del usuario con
+      el mensaje ya redactado (el sitio no tiene servidor propio)
+   --------------------------------------------------------- */
+function iniciarFormularioContacto() {
+  const formulario = document.getElementById('formulario-contacto');
+  const nota = document.getElementById('contacto-nota');
+  if (!formulario) return;
+
+  formulario.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value.trim();
+    const correo = document.getElementById('correo').value.trim();
+    const mensaje = document.getElementById('mensaje').value.trim();
+
+    const destino = 'ecosdeluniverso.proyecto@gmail.com';
+    const asunto = `Mensaje de ${nombre} desde Ecos del Universo`;
+    const cuerpo = `${mensaje}\n\n— ${nombre} (${correo})`;
+    const enlaceMailto = `mailto:${destino}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+
+    window.location.href = enlaceMailto;
+    nota.textContent = 'Se abrió tu programa de correo con el mensaje ya escrito. Si no se abrió nada, escríbenos directo a ' + destino + '.';
+    nota.classList.add('visible');
+  });
+}
+</script>
+</body>
+</html>

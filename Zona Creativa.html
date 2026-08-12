@@ -1,0 +1,2405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zona Creativa | Ecos del Universo</title>
+<meta name="description" content="Explora un planetario 3D interactivo del sistema solar y juega dos minijuegos originales sobre el universo, hechos por el equipo de Ecos del Universo.">
+<link rel="icon" href="assets/img/logo-ecos.png">
+<link rel="stylesheet" href="zona creativa.css">
+   <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
+</head>
+<body>
+
+<canvas id="estrellas"></canvas>
+<div class="grano" aria-hidden="true"></div>
+
+<!-- ============ NAVEGACIÓN ============ -->
+<nav class="nav">
+  <div class="wrap nav__inner">
+    <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+    <ul class="nav__links">
+      <li><a href="Index.html">Inicio</a></li>
+      <li><a href="Zona Creativa.html" class="is-active">Zona Creativa</a></li>
+      <li><a href="Dasaboard.html">Dashboard</a></li>
+      <li><a href="Galeria.html">Galería</a></li>
+      <li><a href="Acerca.html">Acerca de</a></li>
+    </ul>
+
+    <div class="nav__brands">
+      <img src="Imagenes/logo_colegio-removebg-preview.png" alt="Escudo del Colegio Manuel Antonio Rueda Jara">
+      <div class="nav__divider"></div>
+      <img src="Imagenes/logo-removebg-preview.png" alt="Logotipo Ecos del Universo" class="nav__logo-ecos">
+    </div>
+  </div>
+</nav>
+<div class="nav-overlay" hidden></div>
+
+<main>
+
+  <!-- ============ PORTADA ============ -->
+  <section class="portada" id="portada">
+    <div class="wrap portada__inner">
+      <span class="eyebrow">Juega · Explora · Aprende</span>
+      <h1>Zona <span class="accent">Creativa</span></h1>
+      <p class="lead">Un rincón del sitio para explorar el universo de forma interactiva: un planetario 3D del sistema solar que puedes recorrer con tus propias manos, y dos juegos originales hechos por nuestro equipo.</p>
+      <div class="portada__cta">
+        <a href="#simulador" class="btn btn--solid">Abrir el planetario 3D</a>
+        <a href="#juegos" class="btn btn--ghost">Ir a los juegos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PLANETARIO 3D ============ -->
+  <section id="simulador">
+    <div class="wrap">
+      <div class="section__head-row">
+        <div class="section__head reveal">
+          <span class="eyebrow">Planetario interactivo</span>
+          <h2>Explora el sistema solar en 3D</h2>
+          <p>Arrastra para girar la cámara, usa la rueda del mouse (o pellizca en el celular) para acercarte, y toca cualquier planeta para conocer más sobre él.</p>
+        </div>
+
+        <svg class="constelacion reveal" viewBox="0 0 220 160" aria-hidden="true">
+          <g stroke="rgba(185,169,255,0.45)" stroke-width="1">
+            <line x1="20" y1="120" x2="60" y2="60"/>
+            <line x1="60" y1="60" x2="115" y2="80"/>
+            <line x1="115" y1="80" x2="160" y2="30"/>
+            <line x1="115" y1="80" x2="150" y2="130"/>
+            <line x1="60" y1="60" x2="30" y2="30"/>
+          </g>
+          <g fill="#F6F4EC">
+            <circle cx="20" cy="120" r="2.4"/>
+            <circle cx="60" cy="60" r="3.2"/>
+            <circle cx="115" cy="80" r="2.8"/>
+            <circle cx="160" cy="30" r="3.6"/>
+            <circle cx="150" cy="130" r="2.4"/>
+            <circle cx="30" cy="30" r="2"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="planetario-panel reveal">
+        <ul class="planetario-lista" id="lista-planetas">
+          <li><button class="is-activo" data-planeta="sol">☀️ El Sol</button></li>
+          <li><button data-planeta="mercurio">Mercurio</button></li>
+          <li><button data-planeta="venus">Venus</button></li>
+          <li><button data-planeta="tierra">Tierra</button></li>
+          <li><button data-planeta="marte">Marte</button></li>
+          <li><button data-planeta="jupiter">Júpiter</button></li>
+          <li><button data-planeta="saturno">Saturno</button></li>
+          <li><button data-planeta="urano">Urano</button></li>
+          <li><button data-planeta="neptuno">Neptuno</button></li>
+        </ul>
+
+        <div class="planetario-escena">
+          <div id="contenedor-3d"></div>
+          <div class="planetario-tooltip oculto" id="planetario-tooltip"></div>
+          <div class="planetario-carga" id="planetario-carga">
+            <span>Cargando el planetario…</span>
+          </div>
+          <div class="planetario-controles">
+            <button id="btn-pausa" aria-label="Pausar animación">⏸</button>
+            <div class="planetario-velocidad">
+              <label for="velocidad">Velocidad</label>
+              <input type="range" id="velocidad" min="0" max="4" step="0.1" value="1">
+            </div>
+            <button id="btn-tour" aria-label="Iniciar recorrido automático">🚀</button>
+            <button id="btn-sonido" aria-label="Activar sonido ambiental">🔇</button>
+            <button id="btn-pantalla-completa" aria-label="Ver en pantalla completa">⛶</button>
+          </div>
+          <span class="planetario-ayuda">🖱️ Arrastra para girar · Rueda para zoom</span>
+        </div>
+
+        <div class="planetario-info">
+          <span class="planetario-info__tag" id="info-tag">Estrella</span>
+          <h3 id="info-nombre">El Sol</h3>
+          <p id="info-texto">La estrella que mantiene unido a todo el sistema solar gracias a su gravedad. Concentra más del 99% de toda la masa del sistema y su luz tarda unos 8 minutos en llegar a la Tierra.</p>
+          <ul class="planetario-datos" id="info-datos">
+            <li><span>Tipo</span><strong>Estrella enana amarilla</strong></li>
+            <li><span>Diámetro</span><strong>~1,392,700 km</strong></li>
+            <li><span>Temperatura superficial</span><strong>~5,500 °C</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ JUEGOS ============ -->
+  <section id="juegos">
+    <div class="wrap">
+      <div class="section__head-row">
+        <div class="section__head reveal">
+          <span class="eyebrow">Dos juegos, un mismo universo</span>
+          <h2>Aprende jugando</h2>
+          <p>Dos minijuegos originales, hechos por nuestro equipo, para poner a prueba tus reflejos y tu memoria mientras exploras temas del espacio.</p>
+        </div>
+
+        <svg class="trayectoria reveal" viewBox="0 0 200 120" aria-hidden="true">
+          <path d="M10 100 C 60 100, 70 30, 130 30 S 180 60, 190 20" fill="none" stroke="rgba(242,179,61,0.4)" stroke-width="1.5" stroke-dasharray="3 6"/>
+          <circle cx="10" cy="100" r="3" fill="var(--nebula-soft)"/>
+          <g transform="translate(178,10) rotate(35)">
+            <path d="M0 10 L4 0 L8 10 L4 7 Z" fill="url(#gradPlaneta2)"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- ---- Juego 1: Esquiva Asteroides ---- -->
+      <div class="juego-bloque reveal" id="juego-asteroides">
+        <div class="juego-titulo">
+          <span class="eyebrow">Juego 01</span>
+          <h3>Esquiva Asteroides</h3>
+          <p>Mueve la nave libremente por todo el espacio con las flechas del teclado (o arrastrando el dedo/mouse) y esquiva los asteroides el mayor tiempo posible.</p>
+        </div>
+
+        <div class="juego-panel">
+          <div class="juego-hud">
+            <div class="juego-hud__dato"><span>Puntaje</span><strong id="ea-puntaje">0</strong></div>
+            <div class="juego-hud__dato"><span>Mejor puntaje</span><strong id="ea-record">0</strong></div>
+            <div class="juego-hud__vida" id="ea-vida" aria-label="Vidas restantes"></div>
+            <div class="juego-hud__poder oculto" id="ea-poder-escudo">🛡 <span id="ea-poder-escudo-t">0</span>s</div>
+            <div class="juego-hud__poder oculto" id="ea-poder-disparo">⚡ <span id="ea-poder-disparo-t">0</span>s</div>
+            <div class="juego-hud__poder oculto" id="ea-poder-ralentizar">🐢 <span id="ea-poder-ralentizar-t">0</span>s</div>
+            <button class="juego-hud__pantalla-completa" id="ea-pantalla-completa" aria-label="Ver en pantalla completa">⛶</button>
+          </div>
+          <div class="juego-lienzo-wrap">
+            <canvas id="ea-canvas"></canvas>
+            <div class="juego-dato-curioso oculto" id="ea-dato-curioso"></div>
+            <div class="juego-overlay" id="ea-overlay">
+              <h4>¿Listo para despegar?</h4>
+              <p>Mueve la nave libremente con las flechas (o arrastrando el dedo/mouse). Tu nave dispara sola. Esquiva los asteroides: aguantas 5 impactos. Recoge power-ups: 🛡 escudo, ⚡ disparo rápido, ❤️ vida extra, 🐢 ralentiza los asteroides. Presiona "P" (o doble clic) para pausar.</p>
+              <button class="btn btn--solid" id="ea-iniciar">Empezar a jugar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- Juego 2: Memoria Cósmica ---- -->
+      <div class="juego-bloque reveal" id="juego-memoria">
+        <div class="juego-titulo">
+          <span class="eyebrow">Juego 02</span>
+          <h3>Memoria Cósmica</h3>
+          <p>No busques símbolos iguales: cada término tiene su definición en otra carta. Encuentra las 8 parejas correctas con el menor número de intentos posible.</p>
+        </div>
+
+        <div class="juego-panel">
+          <div class="juego-hud">
+            <div class="juego-hud__dato"><span>Movimientos</span><strong id="mc-movimientos">0</strong></div>
+            <div class="juego-hud__dato"><span>Parejas</span><strong id="mc-parejas">0 / 8</strong></div>
+            <button class="btn btn--ghost" id="mc-reiniciar">Reiniciar</button>
+            <button class="juego-hud__pantalla-completa" id="mc-pantalla-completa" aria-label="Ver en pantalla completa">⛶</button>
+          </div>
+          <div class="juego-lienzo-wrap juego-lienzo-wrap--memoria">
+            <div class="memoria-tablero" id="memoria-tablero"></div>
+            <div class="juego-overlay oculto" id="mc-overlay">
+              <h4>🎉 ¡Completado!</h4>
+              <p id="mc-resultado"></p>
+              <button class="btn btn--solid" id="mc-jugar-de-nuevo">Jugar de nuevo</button>
+            </div>
+          </div>
+          <div class="memoria-aprendidos-wrap">
+            <span class="memoria-aprendidos-titulo">Lo que vas descubriendo</span>
+            <ul class="memoria-aprendidos" id="memoria-aprendidos"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ PIE DE PÁGINA ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="Imagenes/images-removebg-preview.png" alt="Escudo del colegio">s
+        <div class="sep"></div>
+        <div>
+          <strong>Ecos del Universo</strong><br>
+          <small>Técnico en Integración de Contenidos Digitales</small>
+        </div>
+      </div>
+
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h4>En esta página</h4>
+          <ul>
+            <li><a href="#portada">Portada</a></li>
+            <li><a href="#simulador">Planetario 3D</a></li>
+            <li><a href="#juego-asteroides">Esquiva Asteroides</a></li>
+            <li><a href="#juego-memoria">Memoria Cósmica</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>El sitio completo</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="galeria.html">Galería</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+            <li><a href="acerca.html#contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Institución</h4>
+          <ul>
+            <li>Colegio Manuel Antonio Rueda Jara</li>
+            <li>Villa del Rosario</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="anio-actual"></span> Ecos del Universo. Proyecto de fin de año.</span>
+      <span>Hecho con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   ECOS DEL UNIVERSO — JavaScript (Zona Creativa)
+   Funciones compartidas + planetario 3D + juegos
+   ========================================================= */
+
+document.addEventListener('DOMContentLoaded', () => {
+  iniciarFondoEstrellas();
+  iniciarNav();
+  iniciarRevelado();
+  iniciarFondoInmersivo();
+  iniciarJuegoAsteroides();
+  iniciarJuegoMemoria();
+  iniciarPantallaCompleta();
+  document.getElementById('anio-actual').textContent = new Date().getFullYear();
+});
+
+/* ---------------------------------------------------------
+   1) Fondo animado de estrellas + polvo cósmico (canvas)
+   --------------------------------------------------------- */
+function iniciarFondoEstrellas() {
+  const canvas = document.getElementById('estrellas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const prefiereReducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let ancho, alto, estrellas;
+
+  function crearEstrellas() {
+    const cantidad = Math.floor((ancho * alto) / 9000);
+    estrellas = Array.from({ length: cantidad }, () => ({
+      x: Math.random() * ancho,
+      y: Math.random() * alto,
+      radio: Math.random() * 1.3 + 0.2,
+      fase: Math.random() * Math.PI * 2,
+      velocidad: Math.random() * 0.015 + 0.004,
+      deriva: Math.random() * 0.15 + 0.02
+    }));
+  }
+
+  function ajustarTamano() {
+    ancho = canvas.width = window.innerWidth;
+    alto = canvas.height = window.innerHeight;
+    crearEstrellas();
+  }
+
+  function dibujar(t) {
+    ctx.clearRect(0, 0, ancho, alto);
+    for (const e of estrellas) {
+      const brillo = 0.55 + Math.sin(t * e.velocidad + e.fase) * 0.45;
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, e.radio, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(246,244,236,${Math.max(brillo, 0.08)})`;
+      ctx.fill();
+      if (!prefiereReducido) {
+        e.y += e.deriva * 0.05;
+        if (e.y > alto) e.y = 0;
+      }
+    }
+    requestAnimationFrame(dibujar);
+  }
+
+  window.addEventListener('resize', ajustarTamano);
+  ajustarTamano();
+  requestAnimationFrame(dibujar);
+}
+
+/* ---------------------------------------------------------
+   2) Navegación: fondo sólido al hacer scroll + menú móvil
+   --------------------------------------------------------- */
+function iniciarNav() {
+  const nav = document.querySelector('.nav');
+  const toggle = document.querySelector('.nav__toggle');
+  const links = document.querySelector('.nav__links');
+  const overlay = document.querySelector('.nav-overlay');
+  if (!nav) return;
+
+  const marcarSolido = () => {
+    nav.classList.toggle('nav--solid', window.scrollY > 40);
+  };
+  marcarSolido();
+  window.addEventListener('scroll', marcarSolido, { passive: true });
+
+  if (toggle && links && overlay) {
+    const abrirMenu = () => {
+      links.classList.add('is-open');
+      overlay.hidden = false;
+      requestAnimationFrame(() => overlay.classList.add('is-open'));
+      toggle.textContent = '✕';
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('menu-abierto');
+    };
+
+    const cerrarMenu = () => {
+      links.classList.remove('is-open');
+      overlay.classList.remove('is-open');
+      toggle.textContent = '☰';
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-abierto');
+      setTimeout(() => { if (!overlay.classList.contains('is-open')) overlay.hidden = true; }, 300);
+    };
+
+    toggle.addEventListener('click', () => {
+      const yaAbierto = links.classList.contains('is-open');
+      yaAbierto ? cerrarMenu() : abrirMenu();
+    });
+
+    overlay.addEventListener('click', cerrarMenu);
+
+    links.querySelectorAll('a').forEach((enlace) => {
+      enlace.addEventListener('click', cerrarMenu);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && links.classList.contains('is-open')) cerrarMenu();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980 && links.classList.contains('is-open')) cerrarMenu();
+    });
+  }
+
+  const secciones = document.querySelectorAll('main section[id]');
+  const enlaces = document.querySelectorAll('.nav__links a[href^="#"]');
+  if (secciones.length && enlaces.length) {
+    const observer = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting) {
+          enlaces.forEach((a) => a.classList.remove('is-active'));
+          const activo = document.querySelector(`.nav__links a[href="#${entrada.target.id}"]`);
+          if (activo) activo.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    secciones.forEach((s) => observer.observe(s));
+  }
+}
+
+/* ---------------------------------------------------------
+   3) Animación de aparición al hacer scroll
+   --------------------------------------------------------- */
+function iniciarRevelado() {
+  const elementos = document.querySelectorAll('.reveal');
+  if (!elementos.length) return;
+  const observer = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add('is-visible');
+        observer.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  elementos.forEach((el) => observer.observe(el));
+}
+
+/* ---------------------------------------------------------
+   4) Fondos inmersivos: se intercalan (crossfade) según
+      la sección que esté cruzando el centro de la pantalla
+   --------------------------------------------------------- */
+function iniciarFondoInmersivo() {
+  const capas = document.querySelectorAll('.fondo-capa');
+  const secciones = document.querySelectorAll('main section[id], .portada[id]');
+  if (!capas.length || !secciones.length) return;
+
+  const mapaFondos = {
+    portada: 'hero',
+    simulador: 'universo',
+    juegos: 'videos'
+  };
+
+  const activar = (nombre) => {
+    capas.forEach((capa) => {
+      capa.classList.toggle('is-activa', capa.dataset.fondo === nombre);
+    });
+  };
+
+  // En vez de calcular "porcentaje visible" (que favorece injustamente a las
+  // secciones cortas frente a las largas), miramos directamente cual seccion
+  // ocupa el centro vertical de la pantalla en cada momento: es el metodo mas
+  // simple y el que da el resultado mas intuitivo.
+  let ultimoActivo = null;
+
+  function actualizarSegunScroll() {
+    const centro = window.innerHeight / 2;
+    let elegido = null;
+
+    secciones.forEach((s) => {
+      if (elegido) return;
+      const r = s.getBoundingClientRect();
+      if (r.top <= centro && r.bottom >= centro) elegido = s;
+    });
+
+    // Si el centro cae justo en un borde entre dos secciones, usamos la mas cercana
+    if (!elegido) {
+      let mejorDistancia = Infinity;
+      secciones.forEach((s) => {
+        const r = s.getBoundingClientRect();
+        const distancia = Math.min(Math.abs(r.top - centro), Math.abs(r.bottom - centro));
+        if (distancia < mejorDistancia) { mejorDistancia = distancia; elegido = s; }
+      });
+    }
+
+    if (elegido) {
+      const nombre = mapaFondos[elegido.id];
+      if (nombre && nombre !== ultimoActivo) {
+        ultimoActivo = nombre;
+        activar(nombre);
+      }
+    }
+  }
+
+  let tickPendiente = false;
+  window.addEventListener('scroll', () => {
+    if (tickPendiente) return;
+    tickPendiente = true;
+    requestAnimationFrame(() => { actualizarSegunScroll(); tickPendiente = false; });
+  }, { passive: true });
+
+  actualizarSegunScroll();
+}
+
+/* ---------------------------------------------------------
+   5) Juego 1: Esquiva Asteroides
+   --------------------------------------------------------- */
+function iniciarJuegoAsteroides() {
+  const canvas = document.getElementById('ea-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const overlay = document.getElementById('ea-overlay');
+  const btnIniciar = document.getElementById('ea-iniciar');
+  const elPuntaje = document.getElementById('ea-puntaje');
+  const elRecord = document.getElementById('ea-record');
+  const elPoderEscudo = document.getElementById('ea-poder-escudo');
+  const elPoderEscudoT = document.getElementById('ea-poder-escudo-t');
+  const elPoderDisparo = document.getElementById('ea-poder-disparo');
+  const elPoderDisparoT = document.getElementById('ea-poder-disparo-t');
+  const elPoderRalentizar = document.getElementById('ea-poder-ralentizar');
+  const elPoderRalentizarT = document.getElementById('ea-poder-ralentizar-t');
+  const elVida = document.getElementById('ea-vida');
+  const elDatoCurioso = document.getElementById('ea-dato-curioso');
+
+  const datosCuriosos = [
+    'Los asteroides son restos rocosos que quedaron de la formación del sistema solar, hace más de 4,600 millones de años.',
+    'La mayoría de los asteroides del sistema solar están concentrados en un cinturón entre las órbitas de Marte y Júpiter.',
+    'Un asteroide puede medir desde unos pocos metros hasta cientos de kilómetros de diámetro.',
+    'Los científicos rastrean miles de asteroides cercanos a la Tierra para vigilar que ninguno represente un riesgo real.',
+    'El cráter de Chicxulub, en México, se formó por el impacto de un asteroide hace 66 millones de años.',
+    'Algunos asteroides tienen su propia luna orbitándolos, igual que un planeta.',
+    'Ceres, el objeto más grande del cinturón de asteroides, es tan grande que se clasifica como planeta enano.',
+    'Los escudos de radiación protegen a las naves espaciales reales de partículas cargadas provenientes del Sol.',
+    'Las naves espaciales usan propulsores para acelerar y maniobrar, muy parecido a la llama de tu nave en este juego.'
+  ];
+  let indiceDatoCurioso = 0;
+  let tiempoUltimoDato = 6;
+  let temporizadorOcultarDato = null;
+
+  function mostrarDatoCurioso() {
+    elDatoCurioso.textContent = datosCuriosos[indiceDatoCurioso % datosCuriosos.length];
+    indiceDatoCurioso++;
+    elDatoCurioso.classList.remove('oculto');
+    requestAnimationFrame(() => elDatoCurioso.classList.add('visible'));
+    clearTimeout(temporizadorOcultarDato);
+    temporizadorOcultarDato = setTimeout(() => elDatoCurioso.classList.remove('visible'), 5500);
+  }
+
+  let ancho, alto;
+  let estrellas = [];
+
+  function generarEstrellas() {
+    estrellas = [];
+    const cantidad = Math.floor((ancho * alto) / 3800);
+    for (let i = 0; i < cantidad; i++) {
+      const capa = Math.random() < 0.6 ? 1 : 2;
+      estrellas.push({
+        x: Math.random() * ancho,
+        y: Math.random() * alto,
+        tamano: capa === 1 ? 0.6 + Math.random() * 0.7 : 1.2 + Math.random() * 1.3,
+        velocidad: capa === 1 ? 22 + Math.random() * 18 : 55 + Math.random() * 45,
+        brillo: 0.3 + Math.random() * 0.7
+      });
+    }
+  }
+
+  function ajustar() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    ancho = canvas.width = Math.round(rect.width);
+    alto = canvas.height = Math.round(rect.height);
+    generarEstrellas();
+  }
+  window.addEventListener('resize', ajustar);
+  ajustar();
+
+  let recordGuardado = 0;
+  try { recordGuardado = parseInt(localStorage.getItem('ea-record') || '0', 10) || 0; } catch (e) { /* almacenamiento no disponible */ }
+  elRecord.textContent = recordGuardado;
+
+  const VIDA_MAXIMA = 5;
+  let nave, asteroides, particulas, powerUps, proyectiles, puntaje;
+  let jugando = false, explotando = false, pausado = false;
+  let tiempoUltimoAsteroide, tiempoUltimoPowerUp, tiempoUltimoDisparo, velocidadBase, animId, ultimoTiempo, tiempoTranscurrido;
+  let sacudida = { tiempo: 0, intensidad: 0 };
+  const teclas = { izquierda: false, derecha: false, arriba: false, abajo: false };
+  let toqueX = null, toqueY = null;
+
+  function actualizarBarraVida() {
+    elVida.innerHTML = Array.from({ length: VIDA_MAXIMA }, (_, i) =>
+      `<span class="${i < nave.vida ? '' : 'perdida'}">🚀</span>`
+    ).join('');
+  }
+
+  function reiniciarEstado() {
+    nave = {
+      x: ancho / 2, y: alto - 70, radio: 12, velX: 0, angulo: 0,
+      escudo: 0, disparo: 0, ralentizar: 0, invulnerable: 0,
+      vida: VIDA_MAXIMA
+    };
+    asteroides = [];
+    particulas = [];
+    powerUps = [];
+    proyectiles = [];
+    puntaje = 0;
+    velocidadBase = 130;
+    tiempoUltimoAsteroide = 0;
+    tiempoUltimoPowerUp = 0;
+    tiempoUltimoDisparo = 0;
+    tiempoTranscurrido = 0;
+    tiempoUltimoDato = 6;
+    indiceDatoCurioso = 0;
+    elDatoCurioso.classList.remove('visible');
+    explotando = false;
+    pausado = false;
+    elPuntaje.textContent = '0';
+    actualizarBarraVida();
+  }
+
+  function empezar() {
+    reiniciarEstado();
+    jugando = true;
+    overlay.classList.add('oculto');
+    ultimoTiempo = performance.now();
+    animId = requestAnimationFrame(bucle);
+  }
+
+  function terminar() {
+    jugando = false;
+    cancelAnimationFrame(animId);
+    elDatoCurioso.classList.remove('visible');
+    const puntajeFinal = Math.floor(puntaje);
+    if (puntajeFinal > recordGuardado) {
+      recordGuardado = puntajeFinal;
+      elRecord.textContent = recordGuardado;
+      try { localStorage.setItem('ea-record', String(recordGuardado)); } catch (e) { /* almacenamiento no disponible */ }
+    }
+    overlay.querySelector('h4').textContent = '💥 ¡Chocaste!';
+    overlay.querySelector('p').textContent = `Sobreviviste hasta ${puntajeFinal} puntos. Intenta superar tu récord de ${recordGuardado}.`;
+    btnIniciar.textContent = 'Volver a intentar';
+    overlay.classList.remove('oculto');
+  }
+
+  function crearParticulas(x, y, cantidad, colores, velocidadMax) {
+    for (let i = 0; i < cantidad; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const vel = Math.random() * velocidadMax;
+      particulas.push({
+        x, y,
+        vx: Math.cos(ang) * vel,
+        vy: Math.sin(ang) * vel,
+        vida: 0,
+        vidaMax: 0.5 + Math.random() * 0.5,
+        tamano: 1.5 + Math.random() * 3,
+        color: colores[Math.floor(Math.random() * colores.length)]
+      });
+    }
+  }
+
+  function activarExplosion() {
+    explotando = true;
+    crearParticulas(nave.x, nave.y, 26, ['#F2B33D', '#FF7A45', '#F6F4EC'], 180);
+    sacudida.tiempo = 0.35;
+    sacudida.intensidad = 9;
+    setTimeout(() => { if (!jugando) return; terminar(); }, 480);
+  }
+
+  function bucle(t) {
+    const dt = Math.min((t - ultimoTiempo) / 1000, 0.05);
+    ultimoTiempo = t;
+
+    if (!pausado) {
+      if (!explotando) {
+        tiempoTranscurrido += dt;
+        tiempoUltimoDato += dt;
+        if (tiempoUltimoDato > 14) {
+          tiempoUltimoDato = 0;
+          mostrarDatoCurioso();
+        }
+        const velocidadNave = 260;
+        const xAnterior = nave.x;
+        if (toqueX !== null) {
+          nave.x += (toqueX - nave.x) * Math.min(dt * 8, 1);
+          if (toqueY !== null) nave.y += (toqueY - nave.y) * Math.min(dt * 8, 1);
+        } else {
+          if (teclas.izquierda) nave.x -= velocidadNave * dt;
+          if (teclas.derecha) nave.x += velocidadNave * dt;
+          if (teclas.arriba) nave.y -= velocidadNave * dt;
+          if (teclas.abajo) nave.y += velocidadNave * dt;
+        }
+        nave.x = Math.max(nave.radio, Math.min(ancho - nave.radio, nave.x));
+        nave.y = Math.max(nave.radio, Math.min(alto - nave.radio, nave.y));
+        nave.velX = (nave.x - xAnterior) / Math.max(dt, 0.001);
+        nave.angulo += ((nave.velX * -0.0022) - nave.angulo) * Math.min(dt * 10, 1);
+        if (nave.escudo > 0) nave.escudo = Math.max(0, nave.escudo - dt);
+        if (nave.disparo > 0) nave.disparo = Math.max(0, nave.disparo - dt);
+        if (nave.ralentizar > 0) nave.ralentizar = Math.max(0, nave.ralentizar - dt);
+        if (nave.invulnerable > 0) nave.invulnerable = Math.max(0, nave.invulnerable - dt);
+        elPoderEscudo.classList.toggle('oculto', nave.escudo <= 0);
+        elPoderDisparo.classList.toggle('oculto', nave.disparo <= 0);
+        elPoderRalentizar.classList.toggle('oculto', nave.ralentizar <= 0);
+        if (nave.escudo > 0) elPoderEscudoT.textContent = Math.ceil(nave.escudo);
+        if (nave.disparo > 0) elPoderDisparoT.textContent = Math.ceil(nave.disparo);
+        if (nave.ralentizar > 0) elPoderRalentizarT.textContent = Math.ceil(nave.ralentizar);
+
+        puntaje += dt * 12;
+        elPuntaje.textContent = Math.floor(puntaje);
+
+        const factorRalentizar = nave.ralentizar > 0 ? 0.45 : 1;
+        const velocidadAsteroides = (velocidadBase + puntaje * 0.9) * factorRalentizar;
+        const intervaloSpawn = Math.max(0.22, 0.75 - puntaje * 0.004);
+
+        tiempoUltimoAsteroide += dt;
+        if (tiempoUltimoAsteroide > intervaloSpawn) {
+          tiempoUltimoAsteroide = 0;
+          const radio = 10 + Math.random() * 15;
+          const crateres = [];
+          const nCrateres = 3 + Math.floor(Math.random() * 3);
+          for (let c = 0; c < nCrateres; c++) {
+            crateres.push({
+              ang: Math.random() * Math.PI * 2,
+              dist: Math.random() * radio * 0.55,
+              r: radio * (0.14 + Math.random() * 0.18)
+            });
+          }
+          asteroides.push({
+            x: Math.random() * (ancho - radio * 2) + radio,
+            y: -radio,
+            radio,
+            velocidad: velocidadAsteroides * (0.7 + Math.random() * 0.6),
+            rotacion: Math.random() * Math.PI * 2,
+            rotVel: (Math.random() - 0.5) * 2,
+            tono: 20 + Math.random() * 20,
+            crateres
+          });
+        }
+
+        // Power-ups: aparecen con más frecuencia y hay 4 tipos distintos
+        tiempoUltimoPowerUp += dt;
+        if (tiempoUltimoPowerUp > 6 && puntaje > 3) {
+          tiempoUltimoPowerUp = 0;
+          if (Math.random() < 0.85) {
+            const azar = Math.random();
+            const tipo = azar < 0.3 ? 'escudo' : azar < 0.55 ? 'disparo' : azar < 0.8 ? 'ralentizar' : 'vida';
+            powerUps.push({ x: Math.random() * (ancho - 40) + 20, y: -16, radio: 11, velocidad: 190, tipo });
+          }
+        }
+
+        // Disparo: la nave siempre puede disparar; el power-up ⚡ acelera el ritmo de fuego
+        tiempoUltimoDisparo += dt;
+        const ritmoDisparo = nave.disparo > 0 ? 0.12 : 0.45;
+        if (tiempoUltimoDisparo > ritmoDisparo) {
+          tiempoUltimoDisparo = 0;
+          proyectiles.push({ x: nave.x, y: nave.y - 14, velocidad: 420 });
+          if (nave.disparo > 0) {
+            proyectiles.push({ x: nave.x - 7, y: nave.y - 10, velocidad: 420 });
+            proyectiles.push({ x: nave.x + 7, y: nave.y - 10, velocidad: 420 });
+          }
+        }
+
+        for (let i = proyectiles.length - 1; i >= 0; i--) {
+          const p = proyectiles[i];
+          const yAnterior = p.y;
+          p.y -= p.velocidad * dt;
+          if (p.y < -10) { proyectiles.splice(i, 1); continue; }
+          for (let j = asteroides.length - 1; j >= 0; j--) {
+            const a = asteroides[j];
+            // Colisión "de trayecto": comprobamos todo el segmento que recorrió el
+            // proyectil este cuadro, no solo su posición final, para que a alta
+            // velocidad no se "salte" un asteroide entre dos cuadros
+            const yMin = Math.min(p.y, yAnterior) - a.radio;
+            const yMax = Math.max(p.y, yAnterior) + a.radio;
+            const dentroVertical = a.y >= yMin && a.y <= yMax;
+            const dentroHorizontal = Math.abs(a.x - p.x) < a.radio + 4;
+            if (dentroVertical && dentroHorizontal) {
+              crearParticulas(a.x, a.y, 10, ['#F2B33D', '#FF7A45'], 130);
+              asteroides.splice(j, 1);
+              proyectiles.splice(i, 1);
+              puntaje += 3;
+              break;
+            }
+          }
+        }
+
+        for (let i = asteroides.length - 1; i >= 0; i--) {
+          const a = asteroides[i];
+          a.y += a.velocidad * dt;
+          a.rotacion += a.rotVel * dt;
+          const dx = a.x - nave.x, dy = a.y - nave.y;
+          if (Math.sqrt(dx * dx + dy * dy) < a.radio + nave.radio - 4) {
+            if (nave.escudo > 0) {
+              crearParticulas(a.x, a.y, 12, ['#7FE0E0', '#F6F4EC'], 120);
+              asteroides.splice(i, 1);
+              puntaje += 5;
+              continue;
+            } else if (nave.invulnerable > 0) {
+              // Ya está parpadeando tras el último golpe: el asteroide se destruye
+              // igual, pero no se pierde otra vida de inmediato
+              crearParticulas(a.x, a.y, 8, ['#F2B33D', '#FF7A45'], 100);
+              asteroides.splice(i, 1);
+              continue;
+            } else {
+              nave.vida -= 1;
+              nave.invulnerable = 1.3;
+              actualizarBarraVida();
+              crearParticulas(a.x, a.y, 16, ['#F2B33D', '#FF7A45', '#F6F4EC'], 140);
+              asteroides.splice(i, 1);
+              sacudida.tiempo = 0.2;
+              sacudida.intensidad = 5;
+              if (nave.vida <= 0) {
+                activarExplosion();
+                break;
+              }
+              continue;
+            }
+          }
+          if (a.y - a.radio > alto) asteroides.splice(i, 1);
+        }
+
+        for (let i = powerUps.length - 1; i >= 0; i--) {
+          const pu = powerUps[i];
+          pu.y += pu.velocidad * dt;
+          const dx = pu.x - nave.x, dy = pu.y - nave.y;
+          if (Math.sqrt(dx * dx + dy * dy) < pu.radio + nave.radio) {
+            if (pu.tipo === 'disparo') nave.disparo = 8;
+            else if (pu.tipo === 'ralentizar') nave.ralentizar = 6;
+            else if (pu.tipo === 'vida') {
+              nave.vida = Math.min(VIDA_MAXIMA, nave.vida + 1);
+              actualizarBarraVida();
+            } else nave.escudo = 5;
+            powerUps.splice(i, 1);
+            continue;
+          }
+          if (pu.y - pu.radio > alto) powerUps.splice(i, 1);
+        }
+      }
+
+      for (let i = particulas.length - 1; i >= 0; i--) {
+        const p = particulas[i];
+        p.vida += dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.vy += 60 * dt;
+        if (p.vida > p.vidaMax) particulas.splice(i, 1);
+      }
+
+      if (sacudida.tiempo > 0) sacudida.tiempo = Math.max(0, sacudida.tiempo - dt);
+
+      estrellas.forEach((e) => {
+        e.y += e.velocidad * dt;
+        if (e.y > alto) { e.y = -2; e.x = Math.random() * ancho; }
+      });
+    }
+
+    dibujar();
+    if (jugando) animId = requestAnimationFrame(bucle);
+  }
+
+  function dibujar() {
+    ctx.clearRect(0, 0, ancho, alto);
+
+    ctx.save();
+    if (sacudida.tiempo > 0) {
+      const fuerza = sacudida.intensidad * (sacudida.tiempo / 0.35);
+      ctx.translate((Math.random() - 0.5) * fuerza, (Math.random() - 0.5) * fuerza);
+    }
+
+    // Estrellas de fondo (parallax)
+    estrellas.forEach((e) => {
+      ctx.globalAlpha = e.brillo;
+      ctx.fillStyle = '#F6F4EC';
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, e.tamano, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    // Power-ups (escudo, disparo, ralentizar o vida)
+    const coloresPu = { escudo: '#7FE0E0', disparo: '#F2B33D', ralentizar: '#8C6FE8', vida: '#FF7A9C' };
+    const iconosPu = { escudo: '🛡', disparo: '⚡', ralentizar: '🐢', vida: '❤️' };
+    powerUps.forEach((pu) => {
+      const colorPu = coloresPu[pu.tipo];
+      ctx.save();
+      ctx.translate(pu.x, pu.y);
+      const pulso = 1 + Math.sin(performance.now() * 0.006 + pu.x) * 0.12;
+      ctx.scale(pulso, pulso);
+      ctx.beginPath();
+      ctx.arc(0, 0, pu.radio, 0, Math.PI * 2);
+      ctx.fillStyle = colorPu + '2e';
+      ctx.fill();
+      ctx.strokeStyle = colorPu;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = colorPu;
+      ctx.font = '12px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(iconosPu[pu.tipo], 0, 1);
+      ctx.restore();
+    });
+
+    // Proyectiles del power-up de disparo
+    proyectiles.forEach((p) => {
+      ctx.save();
+      const grad = ctx.createLinearGradient(p.x, p.y - 9, p.x, p.y + 9);
+      grad.addColorStop(0, 'rgba(242,179,61,0)');
+      grad.addColorStop(0.5, '#FFD98A');
+      grad.addColorStop(1, 'rgba(255,122,69,0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y - 9);
+      ctx.lineTo(p.x, p.y + 9);
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    // Asteroides con sombreado e impactos (cráteres)
+    asteroides.forEach((a) => {
+      ctx.save();
+      ctx.translate(a.x, a.y);
+      ctx.rotate(a.rotacion);
+      ctx.beginPath();
+      const picos = 8;
+      for (let i = 0; i < picos; i++) {
+        const ang = (i / picos) * Math.PI * 2;
+        const r = a.radio * (i % 2 === 0 ? 1 : 0.8);
+        const px = Math.cos(ang) * r, py = Math.sin(ang) * r;
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      const grad = ctx.createRadialGradient(-a.radio * 0.3, -a.radio * 0.3, a.radio * 0.1, 0, 0, a.radio * 1.1);
+      grad.addColorStop(0, `hsl(${a.tono}, 14%, 46%)`);
+      grad.addColorStop(1, `hsl(${a.tono}, 12%, 24%)`);
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(140,111,232,0.35)';
+      ctx.stroke();
+
+      a.crateres.forEach((c) => {
+        ctx.beginPath();
+        ctx.arc(Math.cos(c.ang) * c.dist, Math.sin(c.ang) * c.dist, c.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.22)';
+        ctx.fill();
+      });
+      ctx.restore();
+    });
+
+    // Nave (oculta durante la explosión)
+    if (!explotando) {
+      ctx.save();
+      ctx.translate(nave.x, nave.y);
+      ctx.rotate(nave.angulo);
+      // Parpadeo breve de invulnerabilidad tras recibir un impacto
+      if (nave.invulnerable > 0 && Math.floor(performance.now() / 90) % 2 === 0) {
+        ctx.globalAlpha = 0.35;
+      }
+
+      // Llama del motor (parpadeo)
+      const parpadeo = 8 + Math.sin(performance.now() * 0.03) * 3 + Math.random() * 2;
+      ctx.beginPath();
+      ctx.moveTo(-5, 10);
+      ctx.lineTo(0, 10 + parpadeo);
+      ctx.lineTo(5, 10);
+      ctx.closePath();
+      const gradFlama = ctx.createLinearGradient(0, 8, 0, 10 + parpadeo);
+      gradFlama.addColorStop(0, 'rgba(255,122,69,0.9)');
+      gradFlama.addColorStop(1, 'rgba(255,122,69,0)');
+      ctx.fillStyle = gradFlama;
+      ctx.fill();
+
+      // Casco de la nave
+      ctx.beginPath();
+      ctx.moveTo(0, -14);
+      ctx.lineTo(10, 12);
+      ctx.lineTo(0, 7);
+      ctx.lineTo(-10, 12);
+      ctx.closePath();
+      const gradNave = ctx.createLinearGradient(-10, -14, 10, 12);
+      gradNave.addColorStop(0, '#FFD98A');
+      gradNave.addColorStop(1, '#F2B33D');
+      ctx.fillStyle = gradNave;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(6,5,21,0.4)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Escudo activo
+      if (nave.escudo > 0) {
+        ctx.beginPath();
+        ctx.arc(0, -2, 20, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(127,224,224,${nave.escudo < 1.5 ? 0.4 + Math.sin(performance.now() * 0.02) * 0.3 : 0.6})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      // Cañón de disparo activo: pequeño brillo pulsante en la punta de la nave
+      if (nave.disparo > 0) {
+        const brilloCanon = 3 + Math.sin(performance.now() * 0.025) * 1.4;
+        ctx.beginPath();
+        ctx.arc(0, -14, brilloCanon, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(242,179,61,${nave.disparo < 1.5 ? 0.4 + Math.sin(performance.now() * 0.02) * 0.3 : 0.9})`;
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    // Partículas (explosión / impactos de escudo)
+    particulas.forEach((p) => {
+      ctx.globalAlpha = Math.max(0, 1 - p.vida / p.vidaMax);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.tamano, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    ctx.restore();
+
+    if (pausado && jugando) {
+      ctx.fillStyle = 'rgba(6,5,21,0.55)';
+      ctx.fillRect(0, 0, ancho, alto);
+      ctx.fillStyle = '#F6F4EC';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('⏸ En pausa', ancho / 2, alto / 2);
+    }
+  }
+
+  function alternarPausa() {
+    if (!jugando || explotando) return;
+    pausado = !pausado;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (!jugando) return;
+    if (e.key === 'ArrowLeft') teclas.izquierda = true;
+    if (e.key === 'ArrowRight') teclas.derecha = true;
+    if (e.key === 'ArrowUp') teclas.arriba = true;
+    if (e.key === 'ArrowDown') teclas.abajo = true;
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) e.preventDefault();
+    if (e.key === 'p' || e.key === 'P') alternarPausa();
+  });
+  window.addEventListener('keyup', (e) => {
+    if (e.key === 'ArrowLeft') teclas.izquierda = false;
+    if (e.key === 'ArrowRight') teclas.derecha = false;
+    if (e.key === 'ArrowUp') teclas.arriba = false;
+    if (e.key === 'ArrowDown') teclas.abajo = false;
+  });
+
+  function posicionDesdeEvento(e) {
+    const rect = canvas.getBoundingClientRect();
+    const origen = e.touches ? e.touches[0] : e;
+    return { x: origen.clientX - rect.left, y: origen.clientY - rect.top };
+  }
+  canvas.addEventListener('touchstart', (e) => { const p = posicionDesdeEvento(e); toqueX = p.x; toqueY = p.y; }, { passive: true });
+  canvas.addEventListener('touchmove', (e) => { const p = posicionDesdeEvento(e); toqueX = p.x; toqueY = p.y; }, { passive: true });
+  canvas.addEventListener('touchend', () => { toqueX = null; toqueY = null; });
+  canvas.addEventListener('mousedown', (e) => { const p = posicionDesdeEvento(e); toqueX = p.x; toqueY = p.y; });
+  window.addEventListener('mousemove', (e) => { if (toqueX !== null) { const p = posicionDesdeEvento(e); toqueX = p.x; toqueY = p.y; } });
+  window.addEventListener('mouseup', () => { toqueX = null; toqueY = null; });
+  canvas.addEventListener('dblclick', alternarPausa);
+
+  btnIniciar.addEventListener('click', empezar);
+}
+
+/* ---------------------------------------------------------
+   6) Juego 2: Memoria Cósmica
+   --------------------------------------------------------- */
+function iniciarJuegoMemoria() {
+  const tablero = document.getElementById('memoria-tablero');
+  if (!tablero) return;
+  const elMovimientos = document.getElementById('mc-movimientos');
+  const elParejas = document.getElementById('mc-parejas');
+  const btnReiniciar = document.getElementById('mc-reiniciar');
+  const overlay = document.getElementById('mc-overlay');
+  const elResultado = document.getElementById('mc-resultado');
+  const btnJugarDeNuevo = document.getElementById('mc-jugar-de-nuevo');
+  const elAprendidos = document.getElementById('memoria-aprendidos');
+
+  // Cada par relaciona un término con su definición: el reto es emparejar
+  // el concepto correcto, no solo símbolos iguales
+  const pares = [
+    { termino: 'Mercurio', definicion: 'El planeta más pequeño y el más cercano al Sol', icono: '☿' },
+    { termino: 'Vía Láctea', definicion: 'El nombre de la galaxia donde vivimos', icono: '🌌' },
+    { termino: 'Agujero negro', definicion: 'Una región donde ni la luz puede escapar', icono: '🕳️' },
+    { termino: 'La Luna', definicion: 'El único satélite natural de la Tierra', icono: '🌙' },
+    { termino: 'El Sol', definicion: 'La estrella que le da luz y calor a nuestro sistema', icono: '☀️' },
+    { termino: 'Cometa', definicion: 'Una bola de hielo y polvo con una cola muy larga', icono: '☄️' },
+    { termino: 'Marte', definicion: 'Conocido como "el planeta rojo"', icono: '🔴' },
+    { termino: 'Telescopio', definicion: 'Instrumento que usamos para observar objetos lejanos', icono: '🔭' }
+  ];
+
+  let primeraCarta = null, segundaCarta = null, bloqueado = false;
+  let movimientos = 0, parejasEncontradas = 0;
+
+  function barajar(arr) {
+    const copia = [...arr];
+    for (let i = copia.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copia[i], copia[j]] = [copia[j], copia[i]];
+    }
+    return copia;
+  }
+
+  function crearTablero() {
+    overlay.classList.add('oculto');
+    tablero.innerHTML = '';
+    elAprendidos.innerHTML = '';
+    primeraCarta = null; segundaCarta = null; bloqueado = false;
+    movimientos = 0; parejasEncontradas = 0;
+    elMovimientos.textContent = '0';
+    elParejas.textContent = `0 / ${pares.length}`;
+
+    const cartasBase = [];
+    pares.forEach((par, indice) => {
+      cartasBase.push({ par: indice, tipo: 'termino', texto: par.termino, icono: par.icono });
+      cartasBase.push({ par: indice, tipo: 'definicion', texto: par.definicion, icono: par.icono });
+    });
+
+    barajar(cartasBase).forEach((datos) => {
+      const carta = document.createElement('button');
+      carta.type = 'button';
+      carta.className = 'memoria-carta';
+      carta.dataset.par = datos.par;
+      carta.setAttribute('aria-label', 'Carta oculta');
+      const claseTexto = datos.tipo === 'termino' ? 'memoria-carta__termino' : 'memoria-carta__definicion';
+      carta.innerHTML = `
+        <div class="memoria-carta__cara">
+          <div class="memoria-carta__dorso">✦</div>
+          <div class="memoria-carta__frente">
+            <span class="memoria-carta__icono">${datos.icono}</span>
+            <span class="${claseTexto}">${datos.texto}</span>
+          </div>
+        </div>`;
+      carta.addEventListener('click', () => voltear(carta));
+      tablero.appendChild(carta);
+    });
+  }
+
+  function voltear(carta) {
+    if (bloqueado) return;
+    if (carta.classList.contains('is-volteada') || carta.classList.contains('is-resuelta')) return;
+    carta.classList.add('is-volteada');
+
+    if (!primeraCarta) {
+      primeraCarta = carta;
+      return;
+    }
+    segundaCarta = carta;
+    movimientos++;
+    elMovimientos.textContent = movimientos;
+    bloqueado = true;
+
+    if (primeraCarta.dataset.par === segundaCarta.dataset.par) {
+      primeraCarta.classList.add('is-resuelta');
+      segundaCarta.classList.add('is-resuelta');
+      parejasEncontradas++;
+      elParejas.textContent = `${parejasEncontradas} / ${pares.length}`;
+
+      const par = pares[Number(primeraCarta.dataset.par)];
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${par.icono} ${par.termino}</strong> — ${par.definicion}`;
+      elAprendidos.prepend(li);
+
+      primeraCarta = null; segundaCarta = null; bloqueado = false;
+
+      if (parejasEncontradas === pares.length) {
+        setTimeout(() => {
+          elResultado.textContent = `Encontraste las ${pares.length} parejas en ${movimientos} movimientos.`;
+          overlay.classList.remove('oculto');
+        }, 400);
+      }
+    } else {
+      setTimeout(() => {
+        primeraCarta.classList.remove('is-volteada');
+        segundaCarta.classList.remove('is-volteada');
+        primeraCarta = null; segundaCarta = null; bloqueado = false;
+      }, 1100);
+    }
+  }
+
+  btnReiniciar.addEventListener('click', crearTablero);
+  btnJugarDeNuevo.addEventListener('click', crearTablero);
+  crearTablero();
+}
+
+/* ---------------------------------------------------------
+   7) Pantalla completa reutilizable (con respaldo para
+      navegadores como iOS Safari, que no soportan Fullscreen
+      API en elementos sueltos)
+   --------------------------------------------------------- */
+function iniciarPantallaCompleta() {
+  configurarPantallaCompleta('.planetario-panel', 'btn-pantalla-completa');
+  configurarPantallaCompleta('#juego-asteroides .juego-panel', 'ea-pantalla-completa');
+  configurarPantallaCompleta('#juego-memoria .juego-panel', 'mc-pantalla-completa');
+}
+
+function configurarPantallaCompleta(selectorElemento, idBoton) {
+  const elemento = document.querySelector(selectorElemento);
+  const btn = document.getElementById(idBoton);
+  if (!elemento || !btn) return;
+
+  let modoRespaldo = false;
+
+  function actualizarIcono(activo) {
+    btn.textContent = activo ? '⤫' : '⛶';
+    btn.setAttribute('aria-label', activo ? 'Salir de pantalla completa' : 'Ver en pantalla completa');
+  }
+
+  function activarRespaldo() {
+    modoRespaldo = true;
+    elemento.classList.add('pantalla-completa-fallback');
+    document.body.classList.add('bloqueo-scroll-pantalla-completa');
+    actualizarIcono(true);
+  }
+
+  function salir() {
+    if (document.fullscreenElement === elemento) {
+      document.exitFullscreen();
+    }
+    if (modoRespaldo) {
+      modoRespaldo = false;
+      elemento.classList.remove('pantalla-completa-fallback');
+      document.body.classList.remove('bloqueo-scroll-pantalla-completa');
+      actualizarIcono(false);
+    }
+  }
+
+  function entrar() {
+    if (elemento.requestFullscreen) {
+      elemento.requestFullscreen().catch(() => activarRespaldo());
+    } else {
+      activarRespaldo();
+    }
+  }
+
+  btn.addEventListener('click', () => {
+    if (document.fullscreenElement === elemento || modoRespaldo) salir();
+    else entrar();
+  });
+
+  document.addEventListener('fullscreenchange', () => {
+    if (document.fullscreenElement === elemento) actualizarIcono(true);
+    else if (!modoRespaldo) actualizarIcono(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modoRespaldo) salir();
+  });
+}
+</script>
+<!-- Planetario 3D: usa Three.js cargado desde un CDN (requiere conexión a internet) -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+/* Datos educativos del sistema solar (redactados por el equipo) */
+const datosPlanetas = [
+  {
+    id: 'sol', nombre: 'El Sol', tag: 'Estrella', color: 0xffd98a,
+    texto: 'La estrella que mantiene unido a todo el sistema solar gracias a su gravedad. Concentra más del 99% de toda la masa del sistema y su luz tarda unos 8 minutos en llegar a la Tierra.',
+    datos: [
+      ['Tipo', 'Estrella enana amarilla'],
+      ['Diámetro', '~1,392,700 km'],
+      ['Temperatura superficial', '~5,500 °C'],
+      ['Edad aproximada', '4,600 millones de años'],
+      ['Elementos principales', 'Hidrógeno y helio']
+    ]
+  },
+  {
+    id: 'mercurio', nombre: 'Mercurio', tag: 'Planeta rocoso', color: 0x9c9c94, tipo: 'rocoso',
+    distancia: 14, radio: 0.6, velocidad: 0.9,
+    texto: 'El planeta más cercano al Sol y el más pequeño del sistema solar. No tiene una atmósfera significativa, así que su temperatura cambia bruscamente entre el día y la noche.',
+    datos: [
+      ['Distancia al Sol', '57.9 millones de km (0.39 UA)'],
+      ['Duración del día', '59 días terrestres'],
+      ['Duración del año', '88 días terrestres'],
+      ['Lunas conocidas', '0'],
+      ['Gravedad', '0.38 veces la de la Tierra'],
+      ['Rango de temperatura', '-180 °C a 430 °C']
+    ]
+  },
+  {
+    id: 'venus', nombre: 'Venus', tag: 'Planeta rocoso', color: 0xe8c15e, tipo: 'rocoso',
+    distancia: 19, radio: 0.95, velocidad: 0.72,
+    texto: 'El planeta más caliente del sistema solar por su densa atmósfera de dióxido de carbono, que atrapa el calor en un efecto invernadero extremo. Además, gira en sentido contrario al resto de los planetas.',
+    datos: [
+      ['Distancia al Sol', '108.2 millones de km (0.72 UA)'],
+      ['Duración del día', '243 días terrestres'],
+      ['Duración del año', '225 días terrestres'],
+      ['Lunas conocidas', '0'],
+      ['Gravedad', '0.9 veces la de la Tierra'],
+      ['Temperatura superficial', '~465 °C, todo el tiempo']
+    ]
+  },
+  {
+    id: 'tierra', nombre: 'Tierra', tag: 'Planeta rocoso', color: 0x2f6fd6, tipo: 'tierra',
+    distancia: 25, radio: 1, velocidad: 0.6,
+    texto: 'Nuestro hogar, y el único planeta conocido con vida. Tiene grandes océanos de agua líquida y una atmósfera con el equilibrio justo de gases para sostenerla.',
+    datos: [
+      ['Distancia al Sol', '149.6 millones de km (1 UA)'],
+      ['Duración del día', '24 horas'],
+      ['Duración del año', '365 días'],
+      ['Lunas conocidas', '1'],
+      ['Gravedad', '1 (es nuestra referencia)'],
+      ['Superficie de agua', '~71% del planeta']
+    ],
+    lunas: [{ nombre: 'Luna', radio: 0.27, distancia: 1.9, velocidad: 1.4, color: 0xbfbfc2 }]
+  },
+  {
+    id: 'marte', nombre: 'Marte', tag: 'Planeta rocoso', color: 0xc1440e, tipo: 'rocoso',
+    distancia: 31, radio: 0.75, velocidad: 0.48,
+    texto: 'Conocido como el "planeta rojo" por el óxido de hierro en su superficie. Tiene el volcán más grande del sistema solar, el Monte Olimpo, casi tres veces más alto que el Everest.',
+    datos: [
+      ['Distancia al Sol', '227.9 millones de km (1.52 UA)'],
+      ['Duración del día', '24.6 horas'],
+      ['Duración del año', '687 días'],
+      ['Lunas conocidas', '2 (Fobos y Deimos)'],
+      ['Gravedad', '0.38 veces la de la Tierra'],
+      ['Monte Olimpo', '~22 km de altura']
+    ],
+    lunas: [
+      { nombre: 'Fobos', radio: 0.09, distancia: 1.35, velocidad: 2.6, color: 0x8a7f74 },
+      { nombre: 'Deimos', radio: 0.06, distancia: 1.7, velocidad: 2.0, color: 0x9c9186 }
+    ]
+  },
+  {
+    id: 'jupiter', nombre: 'Júpiter', tag: 'Gigante gaseoso', color: 0xd9a066, tipo: 'gaseoso',
+    distancia: 42, radio: 2.6, velocidad: 0.32,
+    texto: 'El planeta más grande del sistema solar: un gigante gaseoso con una tormenta, la Gran Mancha Roja, que lleva siglos activa y es más grande que la Tierra.',
+    datos: [
+      ['Distancia al Sol', '778.5 millones de km (5.2 UA)'],
+      ['Duración del día', '10 horas'],
+      ['Duración del año', '12 años terrestres'],
+      ['Lunas conocidas', '95 (mostramos las 4 más grandes)'],
+      ['Gravedad', '2.53 veces la de la Tierra'],
+      ['Composición', 'Principalmente hidrógeno y helio']
+    ],
+    lunas: [
+      { nombre: 'Ío', radio: 0.16, distancia: 3.4, velocidad: 2.1, color: 0xe8d27a },
+      { nombre: 'Europa', radio: 0.14, distancia: 4.1, velocidad: 1.7, color: 0xd9c9a8 },
+      { nombre: 'Ganímedes', radio: 0.22, distancia: 4.9, velocidad: 1.3, color: 0xa89c8a },
+      { nombre: 'Calisto', radio: 0.2, distancia: 5.7, velocidad: 1.0, color: 0x7d7267 }
+    ]
+  },
+  {
+    id: 'saturno', nombre: 'Saturno', tag: 'Gigante gaseoso', color: 0xe8d4a0, tipo: 'gaseoso', anillo: true,
+    distancia: 52, radio: 2.2, velocidad: 0.24,
+    texto: 'Famoso por su espectacular sistema de anillos, formados principalmente por hielo y roca. Es tan poco denso que, en teoría, podría flotar en un océano lo bastante grande.',
+    datos: [
+      ['Distancia al Sol', '1,434 millones de km (9.5 UA)'],
+      ['Duración del día', '10.7 horas'],
+      ['Duración del año', '29 años terrestres'],
+      ['Lunas conocidas', '146 (mostramos 4)'],
+      ['Gravedad', '1.06 veces la de la Tierra'],
+      ['Densidad', 'Menor que la del agua']
+    ],
+    lunas: [
+      { nombre: 'Titán', radio: 0.24, distancia: 4.4, velocidad: 1.1, color: 0xd9a458 },
+      { nombre: 'Rea', radio: 0.13, distancia: 3.7, velocidad: 1.4, color: 0xc9c2b8 },
+      { nombre: 'Encélado', radio: 0.09, distancia: 3.2, velocidad: 1.7, color: 0xeef3f5 },
+      { nombre: 'Mimas', radio: 0.07, distancia: 2.9, velocidad: 1.9, color: 0xb8b3ac }
+    ]
+  },
+  {
+    id: 'urano', nombre: 'Urano', tag: 'Gigante de hielo', color: 0x9fe0e0, tipo: 'gaseoso',
+    distancia: 61, radio: 1.6, velocidad: 0.17,
+    texto: 'Un gigante de hielo que gira casi de costado, con un eje de rotación inclinado más de 90 grados. Por eso sus polos reciben luz solar directa durante décadas seguidas.',
+    datos: [
+      ['Distancia al Sol', '2,871 millones de km (19.2 UA)'],
+      ['Duración del día', '17 horas'],
+      ['Duración del año', '84 años terrestres'],
+      ['Lunas conocidas', '27 (mostramos 3)'],
+      ['Gravedad', '0.89 veces la de la Tierra'],
+      ['Inclinación del eje', '~98 grados']
+    ],
+    lunas: [
+      { nombre: 'Titania', radio: 0.13, distancia: 3.1, velocidad: 1.3, color: 0xb0aaa4 },
+      { nombre: 'Oberón', radio: 0.12, distancia: 3.6, velocidad: 1.1, color: 0x9c968f },
+      { nombre: 'Miranda', radio: 0.07, distancia: 2.6, velocidad: 1.6, color: 0xc7c2bb }
+    ]
+  },
+  {
+    id: 'neptuno', nombre: 'Neptuno', tag: 'Gigante de hielo', color: 0x4361d9, tipo: 'gaseoso',
+    distancia: 69, radio: 1.55, velocidad: 0.13,
+    texto: 'El planeta más alejado del Sol, con los vientos más fuertes registrados en el sistema solar: pueden superar los 2,000 km/h.',
+    datos: [
+      ['Distancia al Sol', '4,495 millones de km (30.1 UA)'],
+      ['Duración del día', '16 horas'],
+      ['Duración del año', '165 años terrestres'],
+      ['Lunas conocidas', '16 (mostramos Tritón)'],
+      ['Gravedad', '1.14 veces la de la Tierra'],
+      ['Vientos máximos', '~2,100 km/h']
+    ],
+    lunas: [{ nombre: 'Tritón', radio: 0.15, distancia: 3.0, velocidad: -1.2, color: 0xd8e2e8 }]
+  }
+];
+
+iniciarPlanetario();
+
+function iniciarPlanetario() {
+  const contenedor = document.getElementById('contenedor-3d');
+  const carga = document.getElementById('planetario-carga');
+  if (!contenedor) return;
+
+  const escena = new THREE.Scene();
+  const camara = new THREE.PerspectiveCamera(50, 1, 0.1, 2000);
+  camara.position.set(0, 42, 92);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  contenedor.appendChild(renderer.domElement);
+
+  const controles = new OrbitControls(camara, renderer.domElement);
+  controles.enableDamping = true;
+  controles.dampingFactor = 0.08;
+  controles.minDistance = 2.5;
+  controles.maxDistance = 260;
+  controles.target.set(0, 0, 0);
+  controles.autoRotate = false;
+  controles.autoRotateSpeed = 0.35;
+
+  // "Modo presentación": si el usuario no toca la cámara por un rato, empieza
+  // a girar solo suavemente, y se detiene en cuanto el usuario interactúa de nuevo
+  let temporizadorInactividad = null;
+  function reiniciarInactividad() {
+    controles.autoRotate = false;
+    clearTimeout(temporizadorInactividad);
+    temporizadorInactividad = setTimeout(() => { controles.autoRotate = true; }, 14000);
+  }
+  controles.addEventListener('start', () => { detenerTour(); reiniciarInactividad(); });
+  controles.addEventListener('end', reiniciarInactividad);
+  reiniciarInactividad();
+
+  /* =======================================================
+     GENERADORES DE TEXTURA (todo por código, sin archivos)
+     ======================================================= */
+
+  function crearTexturaCircular(colorCentro, colorBorde) {
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = 128;
+    const cx = cv.getContext('2d');
+    const g = cx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    g.addColorStop(0, colorCentro);
+    g.addColorStop(1, colorBorde);
+    cx.fillStyle = g;
+    cx.fillRect(0, 0, 128, 128);
+    return new THREE.CanvasTexture(cv);
+  }
+
+  // Convierte un color hex (0xRRGGBB) a componentes, para mezclar variaciones
+  function aClaroOscuro(hex, factor) {
+    const c = new THREE.Color(hex);
+    if (factor >= 0) c.lerp(new THREE.Color(0xffffff), factor);
+    else c.lerp(new THREE.Color(0x000000), -factor);
+    return `rgb(${Math.round(c.r * 255)},${Math.round(c.g * 255)},${Math.round(c.b * 255)})`;
+  }
+
+  // Difumina los polos (borde superior e inferior) de una textura equirectangular
+  // hacia un tono sólido, para que no se vea "apachurrada" en los polos de la esfera
+  function difuminarPolos(cx, anchoTex, altoTex, colorSolido, fraccion = 0.22) {
+    const alturaFundido = altoTex * fraccion;
+
+    let g = cx.createLinearGradient(0, 0, 0, alturaFundido);
+    g.addColorStop(0, colorSolido);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    cx.fillStyle = g;
+    cx.fillRect(0, 0, anchoTex, alturaFundido);
+
+    g = cx.createLinearGradient(0, altoTex, 0, altoTex - alturaFundido);
+    g.addColorStop(0, colorSolido);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    cx.fillStyle = g;
+    cx.fillRect(0, altoTex - alturaFundido, anchoTex, alturaFundido);
+  }
+
+  // Dibuja una forma tres veces (izquierda, centro, derecha) para que las manchas que
+  // caen cerca del borde envuelvan perfectamente al otro lado, sin costura visible
+  function dibujarEnvolvente(anchoTex, x, dibujarFn) {
+    dibujarFn(x);
+    dibujarFn(x - anchoTex);
+    dibujarFn(x + anchoTex);
+  }
+
+  // Textura para planetas rocosos: manchas grandes de tono + cráteres con borde + grano fino
+  function crearTexturaRocosa(colorBase) {
+    const anchoTex = 1024, altoTex = 512;
+    const cv = document.createElement('canvas');
+    cv.width = anchoTex; cv.height = altoTex;
+    const cx = cv.getContext('2d');
+    cx.fillStyle = aClaroOscuro(colorBase, -0.05);
+    cx.fillRect(0, 0, anchoTex, altoTex);
+
+    // Regiones grandes de variación de tono (como continentes o llanuras)
+    for (let i = 0; i < 90; i++) {
+      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+      const r = 40 + Math.random() * 100;
+      const tono = (Math.random() - 0.5) * 0.4;
+      dibujarEnvolvente(anchoTex, x, (xd) => {
+        const g = cx.createRadialGradient(xd, y, 0, xd, y, r);
+        g.addColorStop(0, aClaroOscuro(colorBase, tono));
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        cx.fillStyle = g;
+        cx.globalAlpha = 0.5;
+        cx.beginPath();
+        cx.arc(xd, y, r, 0, Math.PI * 2);
+        cx.fill();
+      });
+    }
+    cx.globalAlpha = 1;
+
+    // Cráteres con borde claro (aro elevado)
+    for (let i = 0; i < 260; i++) {
+      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+      const r = Math.random() * 12 + 2;
+      dibujarEnvolvente(anchoTex, x, (xd) => {
+        cx.globalAlpha = 0.4 + Math.random() * 0.3;
+        cx.fillStyle = aClaroOscuro(colorBase, -0.4);
+        cx.beginPath();
+        cx.arc(xd, y, r, 0, Math.PI * 2);
+        cx.fill();
+        cx.globalAlpha = 0.3;
+        cx.strokeStyle = aClaroOscuro(colorBase, 0.4);
+        cx.lineWidth = Math.max(1, r * 0.22);
+        cx.beginPath();
+        cx.arc(xd, y, r * 1.08, 0, Math.PI * 2);
+        cx.stroke();
+      });
+    }
+    cx.globalAlpha = 1;
+
+    // Grano fino para dar textura de superficie a nivel de detalle
+    for (let i = 0; i < 1400; i++) {
+      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+      cx.globalAlpha = 0.04 + Math.random() * 0.07;
+      cx.fillStyle = Math.random() > 0.5 ? '#ffffff' : '#000000';
+      cx.fillRect(x, y, 1.3, 1.3);
+    }
+    cx.globalAlpha = 1;
+
+    difuminarPolos(cx, anchoTex, altoTex, aClaroOscuro(colorBase, -0.05), 0.22);
+
+    const t = new THREE.CanvasTexture(cv);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+
+  // Textura especial para la Tierra: océanos, continentes y casquetes polares
+  function crearTexturaTierra() {
+    const anchoTex = 1024, altoTex = 512;
+    const cv = document.createElement('canvas');
+    cv.width = anchoTex; cv.height = altoTex;
+    const cx = cv.getContext('2d');
+    cx.fillStyle = '#123a7a';
+    cx.fillRect(0, 0, anchoTex, altoTex);
+
+    // Variación oceánica (corrientes/profundidad)
+    for (let i = 0; i < 50; i++) {
+      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+      const r = 60 + Math.random() * 130;
+      dibujarEnvolvente(anchoTex, x, (xd) => {
+        const g = cx.createRadialGradient(xd, y, 0, xd, y, r);
+        g.addColorStop(0, 'rgba(70,140,220,0.35)');
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        cx.fillStyle = g;
+        cx.beginPath();
+        cx.arc(xd, y, r, 0, Math.PI * 2);
+        cx.fill();
+      });
+    }
+
+    // Continentes
+    cx.fillStyle = '#2f8f5b';
+    for (let i = 0; i < 50; i++) {
+      const x = Math.random() * anchoTex, y = 70 + Math.random() * (altoTex - 140);
+      const rx = 34 + Math.random() * 66, ry = 18 + Math.random() * 36, rot = Math.random() * Math.PI;
+      dibujarEnvolvente(anchoTex, x, (xd) => {
+        cx.beginPath();
+        cx.ellipse(xd, y, rx, ry, rot, 0, Math.PI * 2);
+        cx.fill();
+      });
+    }
+    // Relieve montañoso sutil sobre los continentes
+    for (let i = 0; i < 260; i++) {
+      cx.globalAlpha = 0.06 + Math.random() * 0.1;
+      cx.fillStyle = Math.random() > 0.5 ? '#ffffff' : '#0b3d24';
+      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+      cx.beginPath();
+      cx.arc(x, y, 3 + Math.random() * 7, 0, Math.PI * 2);
+      cx.fill();
+    }
+    cx.globalAlpha = 1;
+
+    // Casquetes polares (banda sólida + difuminado suave hacia el océano, sin costura visible)
+    cx.fillStyle = '#eef3fb';
+    cx.fillRect(0, 0, anchoTex, 16);
+    cx.fillRect(0, altoTex - 16, anchoTex, 16);
+    difuminarPolos(cx, anchoTex, altoTex, 'rgba(238,243,251,0.95)', 0.22);
+
+    const t = new THREE.CanvasTexture(cv);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+
+  // Capa de nubes translúcida para la Tierra (se anima por separado)
+  function crearTexturaNubes() {
+    const anchoTex = 1024, altoTex = 512;
+    const cv = document.createElement('canvas');
+    cv.width = anchoTex; cv.height = altoTex;
+    const cx = cv.getContext('2d');
+    for (let i = 0; i < 90; i++) {
+      const x = Math.random() * anchoTex;
+      const y = altoTex * 0.1 + Math.random() * (altoTex * 0.8); // evita concentrarse justo en los polos
+      const rx = 34 + Math.random() * 80, ry = 10 + Math.random() * 24, rot = Math.random() * Math.PI;
+      const alfa = 0.1 + Math.random() * 0.2;
+      dibujarEnvolvente(anchoTex, x, (xd) => {
+        cx.globalAlpha = alfa;
+        cx.fillStyle = '#ffffff';
+        cx.beginPath();
+        cx.ellipse(xd, y, rx, ry, rot, 0, Math.PI * 2);
+        cx.fill();
+      });
+    }
+    cx.globalAlpha = 1;
+    const t = new THREE.CanvasTexture(cv);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+
+  // Textura para gigantes gaseosos: bandas onduladas con turbulencia en varias frecuencias
+  // (las frecuencias son múltiplos exactos de 2π/ancho para que la banda "enrosque" sin costura)
+  function crearTexturaGaseosa(colorBase, conManchaRoja) {
+    const anchoTex = 1024, altoTex = 512;
+    const cv = document.createElement('canvas');
+    cv.width = anchoTex; cv.height = altoTex;
+    const cx = cv.getContext('2d');
+    cx.fillStyle = aClaroOscuro(colorBase, 0);
+    cx.fillRect(0, 0, anchoTex, altoTex);
+
+    const dosPi = Math.PI * 2;
+    const f1 = 3 * (dosPi / anchoTex);
+    const f2 = 1 * (dosPi / anchoTex);
+    const f3 = 8 * (dosPi / anchoTex);
+
+    const bandas = 20;
+    for (let i = 0; i < bandas; i++) {
+      const y = (altoTex / bandas) * i;
+      const alto = altoTex / bandas;
+      const tono = (Math.sin(i * 1.7) * 0.18) + (Math.random() - 0.5) * 0.08;
+      cx.fillStyle = aClaroOscuro(colorBase, tono);
+      cx.globalAlpha = 0.55;
+      cx.beginPath();
+      cx.moveTo(0, y);
+      for (let x = 0; x <= anchoTex; x += 12) {
+        const onda =
+          Math.sin(x * f1 + i * 1.3) * alto * 0.22 +
+          Math.sin(x * f2 + i) * alto * 0.14 +
+          Math.sin(x * f3 + i * 3.1) * alto * 0.06;
+        cx.lineTo(x, y + onda);
+      }
+      cx.lineTo(anchoTex, y + alto);
+      cx.lineTo(0, y + alto);
+      cx.closePath();
+      cx.fill();
+    }
+    cx.globalAlpha = 1;
+
+    // Vetas finas y remolinos adicionales para dar textura turbulenta
+    for (let i = 0; i < 220; i++) {
+      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+      const rx = 16 + Math.random() * 46, ry = 3 + Math.random() * 6;
+      const alfa = 0.04 + Math.random() * 0.06;
+      const color = Math.random() > 0.5 ? '#ffffff' : '#000000';
+      dibujarEnvolvente(anchoTex, x, (xd) => {
+        cx.globalAlpha = alfa;
+        cx.fillStyle = color;
+        cx.beginPath();
+        cx.ellipse(xd, y, rx, ry, 0, 0, Math.PI * 2);
+        cx.fill();
+      });
+    }
+    cx.globalAlpha = 1;
+
+    if (conManchaRoja) {
+      const x0 = anchoTex * 0.7, y0 = altoTex * 0.58;
+      const g = cx.createRadialGradient(x0, y0, 8, x0, y0, 95);
+      g.addColorStop(0, 'rgba(205,85,48,0.85)');
+      g.addColorStop(1, 'rgba(205,85,48,0)');
+      cx.fillStyle = g;
+      cx.beginPath();
+      cx.ellipse(x0, y0, 100, 48, 0, 0, Math.PI * 2);
+      cx.fill();
+    }
+
+    difuminarPolos(cx, anchoTex, altoTex, aClaroOscuro(colorBase, Math.sin(0) * 0.18), 0.22);
+
+    const t = new THREE.CanvasTexture(cv);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+
+  // Textura del Sol: superficie granulada + manchas solares + arcos de erupciones
+  function crearTexturaSol() {
+    const anchoTex = 1024;
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = anchoTex;
+    const cx = cv.getContext('2d');
+    const base = cx.createRadialGradient(anchoTex / 2, anchoTex / 2, 0, anchoTex / 2, anchoTex / 2, anchoTex / 2);
+    base.addColorStop(0, '#fff6d8');
+    base.addColorStop(0.55, '#ffd98a');
+    base.addColorStop(1, '#f2b33d');
+    cx.fillStyle = base;
+    cx.fillRect(0, 0, anchoTex, anchoTex);
+
+    // Granulación solar (miles de manchas pequeñas)
+    for (let i = 0; i < 1600; i++) {
+      const x = Math.random() * anchoTex, y = Math.random() * anchoTex;
+      cx.globalAlpha = 0.05 + Math.random() * 0.09;
+      cx.fillStyle = Math.random() > 0.5 ? '#ffffff' : '#c9720f';
+      cx.beginPath();
+      cx.arc(x, y, Math.random() * 5 + 1, 0, Math.PI * 2);
+      cx.fill();
+    }
+    cx.globalAlpha = 1;
+
+    // Manchas solares más grandes y oscuras
+    for (let i = 0; i < 10; i++) {
+      const x = Math.random() * anchoTex, y = Math.random() * anchoTex;
+      const r = 6 + Math.random() * 14;
+      cx.globalAlpha = 0.25 + Math.random() * 0.2;
+      cx.fillStyle = '#b5540f';
+      cx.beginPath();
+      cx.arc(x, y, r, 0, Math.PI * 2);
+      cx.fill();
+    }
+    cx.globalAlpha = 1;
+
+    // Arcos sutiles simulando erupciones solares
+    for (let i = 0; i < 8; i++) {
+      cx.strokeStyle = 'rgba(255,255,255,0.16)';
+      cx.lineWidth = 1.5 + Math.random() * 2.5;
+      const cx0 = Math.random() * anchoTex, cy0 = Math.random() * anchoTex;
+      cx.beginPath();
+      cx.arc(cx0, cy0, 18 + Math.random() * 46, 0, Math.PI * 1.3);
+      cx.stroke();
+    }
+
+    difuminarPolos(cx, anchoTex, anchoTex, '#f2b33d', 0.22);
+
+    const t = new THREE.CanvasTexture(cv);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+
+  // Nebulosa envolvente de fondo (esfera invertida) con nubes de color en varias capas
+  function crearTexturaNebulosa() {
+    const anchoTex = 2048, altoTex = 1024;
+    const cv = document.createElement('canvas');
+    cv.width = anchoTex; cv.height = altoTex;
+    const cx = cv.getContext('2d');
+    cx.fillStyle = '#050414';
+    cx.fillRect(0, 0, anchoTex, altoTex);
+
+    // Banda galáctica: una franja diagonal más brillante y polvorienta, como la Vía Láctea
+    cx.save();
+    cx.translate(anchoTex / 2, altoTex / 2);
+    cx.rotate(-0.26);
+    for (let i = 0; i < 26; i++) {
+      const x = (Math.random() - 0.5) * anchoTex * 1.3;
+      const anchoBanda = 90 + Math.random() * 130;
+      const g = cx.createLinearGradient(0, -anchoBanda, 0, anchoBanda);
+      g.addColorStop(0, 'rgba(180,170,210,0)');
+      g.addColorStop(0.5, `rgba(190,180,220,${0.05 + Math.random() * 0.05})`);
+      g.addColorStop(1, 'rgba(180,170,210,0)');
+      cx.fillStyle = g;
+      cx.fillRect(x, -altoTex, anchoBanda * 2, altoTex * 2);
+    }
+    cx.restore();
+
+    // Nubes de color en varias capas (nebulosas de distintos tonos, con más variedad)
+    const capasNubes = [
+      { color: 'rgba(140,111,232,0.24)', n: 14, rMin: 120, rMax: 320 },
+      { color: 'rgba(140,111,232,0.12)', n: 12, rMin: 200, rMax: 420 },
+      { color: 'rgba(255,122,69,0.13)', n: 9, rMin: 100, rMax: 260 },
+      { color: 'rgba(242,179,61,0.11)', n: 9, rMin: 100, rMax: 260 },
+      { color: 'rgba(122,31,43,0.17)', n: 9, rMin: 100, rMax: 260 },
+      { color: 'rgba(80,180,190,0.10)', n: 8, rMin: 90, rMax: 220 },
+      { color: 'rgba(200,90,190,0.08)', n: 7, rMin: 90, rMax: 240 }
+    ];
+    capasNubes.forEach(({ color, n, rMin, rMax }) => {
+      for (let i = 0; i < n; i++) {
+        const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+        const r = rMin + Math.random() * (rMax - rMin);
+        dibujarEnvolvente(anchoTex, x, (xd) => {
+          const g = cx.createRadialGradient(xd, y, 0, xd, y, r);
+          g.addColorStop(0, color);
+          g.addColorStop(1, 'rgba(0,0,0,0)');
+          cx.fillStyle = g;
+          cx.beginPath();
+          cx.arc(xd, y, r, 0, Math.PI * 2);
+          cx.fill();
+        });
+      }
+    });
+
+    // Polvo cósmico fino (grano) para dar textura fotográfica realista
+    for (let i = 0; i < 3000; i++) {
+      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+      cx.globalAlpha = Math.random() * 0.06;
+      cx.fillStyle = Math.random() > 0.5 ? '#ffffff' : '#000000';
+      cx.fillRect(x, y, 1, 1);
+    }
+    cx.globalAlpha = 1;
+
+    // Estrellas de distintos tamaños, brillos y colores
+    const colorEstrella = ['#ffffff', '#ffffff', '#ffffff', '#bfd4ff', '#ffe3b0'];
+    for (let i = 0; i < 2600; i++) {
+      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+      cx.globalAlpha = Math.random() * 0.8 + 0.2;
+      cx.fillStyle = colorEstrella[Math.floor(Math.random() * colorEstrella.length)];
+      cx.beginPath();
+      cx.arc(x, y, Math.random() * 1.2 + 0.2, 0, Math.PI * 2);
+      cx.fill();
+    }
+    // Un puñado de estrellas más brillantes con resplandor
+    for (let i = 0; i < 55; i++) {
+      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+      const r = 4 + Math.random() * 4;
+      const g = cx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, 'rgba(255,255,255,0.95)');
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+      cx.fillStyle = g;
+      cx.beginPath();
+      cx.arc(x, y, r, 0, Math.PI * 2);
+      cx.fill();
+    }
+    cx.globalAlpha = 1;
+
+    // Difumina los polos hacia el tono de fondo, de forma más amplia y gradual
+    difuminarPolos(cx, anchoTex, altoTex, '#050414', 0.22);
+
+    const textura = new THREE.CanvasTexture(cv);
+    textura.colorSpace = THREE.SRGBColorSpace;
+    return textura;
+  }
+
+  /* =======================================================
+     ILUMINACIÓN
+     ======================================================= */
+  escena.add(new THREE.AmbientLight(0xffffff, 0.5));
+  escena.add(new THREE.HemisphereLight(0xfff4e0, 0x1a1030, 0.4));
+  const luzSol = new THREE.PointLight(0xfff4e0, 3.6, 0, 0); // decay 0: sin atenuación por distancia
+  escena.add(luzSol);
+
+  /* =======================================================
+     FONDO: nebulosa envolvente + estrellas
+     ======================================================= */
+  const esferaNebulosa = new THREE.Mesh(
+    new THREE.SphereGeometry(650, 48, 48),
+    new THREE.MeshBasicMaterial({ map: crearTexturaNebulosa(), side: THREE.BackSide, depthWrite: false })
+  );
+  escena.add(esferaNebulosa);
+
+  const texturaEstrella = crearTexturaCircular('rgba(255,255,255,1)', 'rgba(255,255,255,0)');
+  const posicionesEstrellas = [];
+  const coloresEstrellas = [];
+  const colorBlanco = new THREE.Color(0xffffff);
+  const colorAzulada = new THREE.Color(0xbfd4ff);
+  const colorCalida = new THREE.Color(0xffe3b0);
+  for (let i = 0; i < 1600; i++) {
+    const r = 200 + Math.random() * 380;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(Math.random() * 2 - 1);
+    posicionesEstrellas.push(
+      r * Math.sin(phi) * Math.cos(theta),
+      r * Math.cos(phi),
+      r * Math.sin(phi) * Math.sin(theta)
+    );
+    const azar = Math.random();
+    const color = azar < 0.7 ? colorBlanco : (azar < 0.87 ? colorAzulada : colorCalida);
+    coloresEstrellas.push(color.r, color.g, color.b);
+  }
+  const geometriaEstrellas = new THREE.BufferGeometry();
+  geometriaEstrellas.setAttribute('position', new THREE.Float32BufferAttribute(posicionesEstrellas, 3));
+  geometriaEstrellas.setAttribute('color', new THREE.Float32BufferAttribute(coloresEstrellas, 3));
+  const materialEstrellas = new THREE.PointsMaterial({
+    size: 2,
+    map: texturaEstrella,
+    vertexColors: true,
+    transparent: true,
+    depthWrite: false,
+    sizeAttenuation: true
+  });
+  escena.add(new THREE.Points(geometriaEstrellas, materialEstrellas));
+
+  /* =======================================================
+     SOL (esfera con textura + resplandor en tres capas)
+     ======================================================= */
+  const glowSolInterno = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: crearTexturaCircular('rgba(255,240,200,0.95)', 'rgba(255,190,110,0)'),
+    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
+  }));
+  glowSolInterno.scale.set(13, 13, 1);
+  escena.add(glowSolInterno);
+
+  const glowSolExterno = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: crearTexturaCircular('rgba(255,180,90,0.5)', 'rgba(255,122,69,0)'),
+    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
+  }));
+  glowSolExterno.scale.set(28, 28, 1);
+  escena.add(glowSolExterno);
+
+  const glowSolCorona = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: crearTexturaCircular('rgba(255,150,80,0.22)', 'rgba(140,111,232,0)'),
+    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
+  }));
+  glowSolCorona.scale.set(48, 48, 1);
+  escena.add(glowSolCorona);
+
+  const mallaSol = new THREE.Mesh(
+    new THREE.SphereGeometry(4.2, 48, 48),
+    new THREE.MeshBasicMaterial({ map: crearTexturaSol() })
+  );
+  mallaSol.userData.id = 'sol';
+  escena.add(mallaSol);
+  luzSol.position.copy(mallaSol.position);
+
+  /* =======================================================
+     MATERIAL DE ATMÓSFERA (efecto Fresnel: brilla más en el
+     borde del planeta que se ve contra el espacio, como una
+     atmósfera real vista desde fuera)
+     ======================================================= */
+  function crearMaterialAtmosfera(color, intensidad) {
+    return new THREE.ShaderMaterial({
+      uniforms: { color: { value: color }, intensidad: { value: intensidad } },
+      vertexShader: `
+        varying float bordeVista;
+        void main() {
+          vec3 normalVista = normalize(normalMatrix * normal);
+          vec3 direccionVista = normalize((modelViewMatrix * vec4(position, 1.0)).xyz);
+          bordeVista = pow(1.0 - abs(dot(normalVista, direccionVista)), 2.5);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 color;
+        uniform float intensidad;
+        varying float bordeVista;
+        void main() {
+          gl_FragColor = vec4(color, bordeVista * intensidad);
+        }
+      `,
+      side: THREE.FrontSide,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+  }
+
+  /* =======================================================
+     PLANETAS + ÓRBITAS
+     ======================================================= */
+  const mallasClicables = [mallaSol];
+  const planetasEnEscena = {};
+
+  datosPlanetas.filter((p) => p.id !== 'sol').forEach((p) => {
+    const anilloOrbita = new THREE.Mesh(
+      new THREE.RingGeometry(p.distancia - 0.04, p.distancia + 0.04, 128),
+      new THREE.MeshBasicMaterial({ color: 0xf6f4ec, transparent: true, opacity: 0.12, side: THREE.DoubleSide })
+    );
+    anilloOrbita.rotation.x = Math.PI / 2;
+    escena.add(anilloOrbita);
+
+    let textura;
+    if (p.tipo === 'tierra') textura = crearTexturaTierra();
+    else if (p.tipo === 'gaseoso') textura = crearTexturaGaseosa(p.color, p.id === 'jupiter');
+    else textura = crearTexturaRocosa(p.color);
+
+    const esGaseoso = p.tipo === 'gaseoso';
+    const malla = new THREE.Mesh(
+      new THREE.SphereGeometry(p.radio, 48, 48),
+      new THREE.MeshStandardMaterial({
+        map: textura,
+        roughness: esGaseoso ? 0.65 : 0.9,
+        metalness: 0.04
+      })
+    );
+    malla.userData.id = p.id;
+    malla.position.set(p.distancia, 0, 0);
+    malla.rotation.z = (Math.random() - 0.5) * 0.4;
+    escena.add(malla);
+
+    if (p.anillo) {
+      const anilloPlaneta = new THREE.Mesh(
+        new THREE.RingGeometry(p.radio * 1.3, p.radio * 2.1, 64),
+        new THREE.MeshStandardMaterial({ color: 0xe8d4a0, transparent: true, opacity: 0.8, side: THREE.DoubleSide, roughness: 0.9 })
+      );
+      anilloPlaneta.rotation.x = Math.PI / 2 * 0.85;
+      malla.add(anilloPlaneta);
+    }
+
+    let nubes = null;
+    if (p.tipo === 'tierra') {
+      nubes = new THREE.Mesh(
+        new THREE.SphereGeometry(p.radio * 1.025, 48, 48),
+        new THREE.MeshStandardMaterial({ map: crearTexturaNubes(), transparent: true, opacity: 0.6, depthWrite: false, roughness: 1 })
+      );
+      malla.add(nubes);
+    }
+
+    // Halo de atmósfera: da un borde luminoso realista visto desde el espacio
+    const colorAtmosfera = new THREE.Color(p.color).lerp(new THREE.Color(0xffffff), 0.3);
+    const atmosfera = new THREE.Mesh(
+      new THREE.SphereGeometry(p.radio * 1.18, 48, 48),
+      crearMaterialAtmosfera(colorAtmosfera, esGaseoso ? 0.55 : 0.32)
+    );
+    malla.add(atmosfera);
+
+    // Lunas: se agregan a la escena (no como hijas del planeta) y cada cuadro
+    // se recalcula su posición como "planeta + órbita local", así su órbita no
+    // se ve afectada por la rotación propia del planeta sobre su propio eje
+    const lunasEnEscena = [];
+    if (p.lunas) {
+      p.lunas.forEach((l) => {
+        const mallaLuna = new THREE.Mesh(
+          new THREE.SphereGeometry(l.radio, 20, 20),
+          new THREE.MeshStandardMaterial({ color: l.color, roughness: 0.95, metalness: 0.03 })
+        );
+        mallaLuna.userData.esLuna = true;
+        escena.add(mallaLuna);
+        lunasEnEscena.push({ malla: mallaLuna, datos: l, angulo: Math.random() * Math.PI * 2 });
+      });
+    }
+
+    mallasClicables.push(malla);
+    planetasEnEscena[p.id] = { malla, nubes, lunas: lunasEnEscena, angulo: Math.random() * Math.PI * 2, datos: p };
+  });
+
+  /* =======================================================
+     CINTURÓN DE ASTEROIDES (entre Marte y Júpiter)
+     ======================================================= */
+  const cantidadAsteroides = 550;
+  const geometriaAsteroide = new THREE.DodecahedronGeometry(0.09, 0);
+  const materialAsteroide = new THREE.MeshStandardMaterial({ color: 0x8a8378, roughness: 1, metalness: 0.05 });
+  const cinturonAsteroides = new THREE.InstancedMesh(geometriaAsteroide, materialAsteroide, cantidadAsteroides);
+  const datosAsteroides = [];
+  const objetoTemporal = new THREE.Object3D();
+  for (let i = 0; i < cantidadAsteroides; i++) {
+    const distancia = 35 + Math.random() * 5.5; // entre la órbita de Marte (31) y Júpiter (42)
+    const angulo = Math.random() * Math.PI * 2;
+    const alturaY = (Math.random() - 0.5) * 1.4;
+    const escala = 0.4 + Math.random() * 1.3;
+    datosAsteroides.push({ distancia, angulo, alturaY, escala, velocidad: 0.09 + Math.random() * 0.05 });
+    objetoTemporal.position.set(Math.cos(angulo) * distancia, alturaY, Math.sin(angulo) * distancia);
+    objetoTemporal.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+    objetoTemporal.scale.setScalar(escala);
+    objetoTemporal.updateMatrix();
+    cinturonAsteroides.setMatrixAt(i, objetoTemporal.matrix);
+  }
+  escena.add(cinturonAsteroides);
+
+  /* =======================================================
+     CINTURÓN DE KUIPER (más allá de Neptuno): cuerpos helados
+     y dispersos, mucho más amplio y tenue que el de asteroides
+     ======================================================= */
+  const cantidadKuiper = 420;
+  const geometriaKuiper = new THREE.DodecahedronGeometry(0.1, 0);
+  const materialKuiper = new THREE.MeshStandardMaterial({ color: 0xcdd8e0, roughness: 1, metalness: 0.05 });
+  const cinturonKuiper = new THREE.InstancedMesh(geometriaKuiper, materialKuiper, cantidadKuiper);
+  for (let i = 0; i < cantidadKuiper; i++) {
+    const distancia = 80 + Math.random() * 45; // bien más allá de Neptuno (69)
+    const angulo = Math.random() * Math.PI * 2;
+    const alturaY = (Math.random() - 0.5) * 6;
+    const escala = 0.3 + Math.random() * 1.1;
+    objetoTemporal.position.set(Math.cos(angulo) * distancia, alturaY, Math.sin(angulo) * distancia);
+    objetoTemporal.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+    objetoTemporal.scale.setScalar(escala);
+    objetoTemporal.updateMatrix();
+    cinturonKuiper.setMatrixAt(i, objetoTemporal.matrix);
+  }
+  escena.add(cinturonKuiper);
+
+  /* Anillo indicador de selección (billboard, sigue al planeta enfocado) */
+  const anilloSeleccion = new THREE.Mesh(
+    new THREE.RingGeometry(1, 1.12, 48),
+    new THREE.MeshBasicMaterial({ color: 0xf2b33d, transparent: true, opacity: 0.85, side: THREE.DoubleSide, depthTest: false })
+  );
+  anilloSeleccion.visible = false;
+  anilloSeleccion.renderOrder = 10;
+  escena.add(anilloSeleccion);
+
+  /* --- Ajuste de tamaño según el contenedor --- */
+  function ajustarTamano() {
+    const ancho = contenedor.clientWidth || 1;
+    const alto = contenedor.clientHeight || 1;
+    camara.aspect = ancho / alto;
+    camara.updateProjectionMatrix();
+    renderer.setSize(ancho, alto);
+  }
+  new ResizeObserver(ajustarTamano).observe(contenedor);
+  ajustarTamano();
+
+  /* =======================================================
+     PANEL DE INFORMACIÓN + VUELO DE CÁMARA HACIA EL PLANETA
+     ======================================================= */
+  const botonesLista = document.querySelectorAll('.planetario-lista button');
+  const elTag = document.getElementById('info-tag');
+  const elNombre = document.getElementById('info-nombre');
+  const elTexto = document.getElementById('info-texto');
+  const elDatos = document.getElementById('info-datos');
+
+  let objetivoSeguimiento = null; // { malla, datos } del planeta enfocado actualmente
+  let transicionando = false;
+
+  function volarHacia(posicionCamaraDestino, posicionObjetivoDestino, entradaAEnfocar, duracionMs) {
+    controles.enabled = false;
+    transicionando = true;
+    anilloSeleccion.visible = !!entradaAEnfocar;
+
+    const inicioCamara = camara.position.clone();
+    const inicioObjetivo = controles.target.clone();
+    const inicioTiempo = performance.now();
+
+    function paso(ahora) {
+      const t = Math.min((ahora - inicioTiempo) / duracionMs, 1);
+      const suave = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      camara.position.lerpVectors(inicioCamara, posicionCamaraDestino, suave);
+      controles.target.lerpVectors(inicioObjetivo, posicionObjetivoDestino, suave);
+      controles.update();
+      if (t < 1) {
+        requestAnimationFrame(paso);
+      } else {
+        transicionando = false;
+        controles.enabled = true;
+        objetivoSeguimiento = entradaAEnfocar;
+      }
+    }
+    requestAnimationFrame(paso);
+  }
+
+  function seleccionarPlaneta(id) {
+    const datos = datosPlanetas.find((p) => p.id === id);
+    if (!datos) return;
+    elTag.textContent = datos.tag;
+    elNombre.textContent = datos.nombre;
+    elTexto.textContent = datos.texto;
+    elDatos.innerHTML = datos.datos.map(([clave, valor]) => `<li><span>${clave}</span><strong>${valor}</strong></li>`).join('');
+    botonesLista.forEach((b) => b.classList.toggle('is-activo', b.dataset.planeta === id));
+
+    if (id === 'sol') {
+      volarHacia(new THREE.Vector3(0, 42, 92), new THREE.Vector3(0, 0, 0), null, 1100);
+      return;
+    }
+
+    const entrada = planetasEnEscena[id];
+    if (!entrada) return;
+    const posPlaneta = entrada.malla.position.clone();
+    let direccion = camara.position.clone().sub(controles.target);
+    if (direccion.lengthSq() < 0.0001) direccion.set(0, 0.35, 1);
+    direccion.normalize();
+    const distanciaDeseada = Math.max(entrada.datos.radio * 7.5, 8.5);
+    const posCamaraDestino = posPlaneta.clone()
+      .add(direccion.multiplyScalar(distanciaDeseada))
+      .add(new THREE.Vector3(0, distanciaDeseada * 0.22, 0));
+
+    volarHacia(posCamaraDestino, posPlaneta.clone(), entrada, 1100);
+  }
+
+  botonesLista.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      detenerTour();
+      seleccionarPlaneta(btn.dataset.planeta);
+    });
+  });
+
+  /* --- Selección con clic / toque sobre los planetas --- */
+  const raycaster = new THREE.Raycaster();
+  const puntero = new THREE.Vector2();
+
+  function alClicar(evento) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    const origen = evento.changedTouches ? evento.changedTouches[0] : evento;
+    puntero.x = ((origen.clientX - rect.left) / rect.width) * 2 - 1;
+    puntero.y = -((origen.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(puntero, camara);
+    const intersecciones = raycaster.intersectObjects(mallasClicables, false);
+    if (intersecciones.length) {
+      detenerTour();
+      seleccionarPlaneta(intersecciones[0].object.userData.id);
+    }
+  }
+  renderer.domElement.addEventListener('click', alClicar);
+
+  /* --- Etiqueta flotante al pasar el mouse sobre un planeta (solo escritorio) --- */
+  const tooltip = document.getElementById('planetario-tooltip');
+  renderer.domElement.addEventListener('mousemove', (evento) => {
+    const rect = renderer.domElement.getBoundingClientRect();
+    puntero.x = ((evento.clientX - rect.left) / rect.width) * 2 - 1;
+    puntero.y = -((evento.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(puntero, camara);
+    const intersecciones = raycaster.intersectObjects(mallasClicables, false);
+    if (intersecciones.length && tooltip) {
+      const datos = datosPlanetas.find((p) => p.id === intersecciones[0].object.userData.id);
+      tooltip.textContent = datos ? datos.nombre : '';
+      tooltip.style.left = `${evento.clientX - rect.left}px`;
+      tooltip.style.top = `${evento.clientY - rect.top}px`;
+      tooltip.classList.remove('oculto');
+      renderer.domElement.style.cursor = 'pointer';
+    } else if (tooltip) {
+      tooltip.classList.add('oculto');
+      renderer.domElement.style.cursor = 'grab';
+    }
+  });
+  renderer.domElement.addEventListener('mouseleave', () => {
+    if (tooltip) tooltip.classList.add('oculto');
+  });
+
+  /* --- Controles de velocidad y pausa --- */
+  let velocidad = 1;
+  let velocidadPrevia = 1;
+  const inputVelocidad = document.getElementById('velocidad');
+  const btnPausa = document.getElementById('btn-pausa');
+
+  inputVelocidad.addEventListener('input', () => {
+    velocidad = parseFloat(inputVelocidad.value);
+    btnPausa.textContent = velocidad === 0 ? '▶' : '⏸';
+  });
+  btnPausa.addEventListener('click', () => {
+    detenerTour();
+    if (velocidad > 0) {
+      velocidadPrevia = velocidad;
+      velocidad = 0;
+      inputVelocidad.value = '0';
+      btnPausa.textContent = '▶';
+    } else {
+      velocidad = velocidadPrevia || 1;
+      inputVelocidad.value = String(velocidad);
+      btnPausa.textContent = '⏸';
+    }
+  });
+
+  /* --- Tour automático: recorre todos los planetas uno por uno --- */
+  const btnTour = document.getElementById('btn-tour');
+  const ordenTour = datosPlanetas.map((p) => p.id);
+  let tourActivo = false;
+  let indiceTour = 0;
+  let temporizadorTour = null;
+
+  function pasoTour() {
+    seleccionarPlaneta(ordenTour[indiceTour]);
+    indiceTour = (indiceTour + 1) % ordenTour.length;
+    temporizadorTour = setTimeout(pasoTour, 5200);
+  }
+
+  function iniciarTour() {
+    tourActivo = true;
+    btnTour.textContent = '⏹';
+    btnTour.setAttribute('aria-label', 'Detener recorrido automático');
+    indiceTour = 0;
+    pasoTour();
+  }
+
+  function detenerTour() {
+    if (!tourActivo) return;
+    tourActivo = false;
+    btnTour.textContent = '🚀';
+    btnTour.setAttribute('aria-label', 'Iniciar recorrido automático');
+    clearTimeout(temporizadorTour);
+  }
+
+  btnTour.addEventListener('click', () => {
+    if (tourActivo) detenerTour();
+    else iniciarTour();
+  });
+
+  /* =======================================================
+     BUCLE DE ANIMACIÓN
+     ======================================================= */
+  const reloj = new THREE.Clock();
+  let primerCuadro = true;
+
+  function animar() {
+    requestAnimationFrame(animar);
+    const dt = reloj.getDelta();
+
+    for (const id in planetasEnEscena) {
+      const p = planetasEnEscena[id];
+      p.angulo += p.datos.velocidad * dt * velocidad * 0.4;
+      p.malla.position.x = Math.cos(p.angulo) * p.datos.distancia;
+      p.malla.position.z = Math.sin(p.angulo) * p.datos.distancia;
+      p.malla.rotation.y += dt * velocidad * 0.6;
+      if (p.nubes) p.nubes.rotation.y += dt * velocidad * 0.9;
+      if (p.lunas) {
+        p.lunas.forEach((l) => {
+          l.angulo += l.datos.velocidad * dt * velocidad;
+          l.malla.position.x = p.malla.position.x + Math.cos(l.angulo) * l.datos.distancia;
+          l.malla.position.z = p.malla.position.z + Math.sin(l.angulo) * l.datos.distancia;
+          l.malla.position.y = p.malla.position.y;
+        });
+      }
+    }
+    mallaSol.rotation.y += dt * 0.04;
+    esferaNebulosa.rotation.y += dt * 0.003;
+
+    // Cinturón de asteroides: gira lentamente como conjunto alrededor del Sol
+    if (cinturonAsteroides) {
+      cinturonAsteroides.rotation.y += dt * velocidad * 0.02;
+    }
+    if (cinturonKuiper) {
+      cinturonKuiper.rotation.y += dt * velocidad * 0.008;
+    }
+
+    // El resplandor del Sol "respira" suavemente
+    const pulso = 1 + Math.sin(reloj.elapsedTime * 1.4) * 0.045;
+    glowSolInterno.scale.set(13 * pulso, 13 * pulso, 1);
+    glowSolExterno.scale.set(28 * pulso, 28 * pulso, 1);
+    glowSolCorona.scale.set(48 * (1 + Math.sin(reloj.elapsedTime * 1.4 + 1) * 0.06), 48 * (1 + Math.sin(reloj.elapsedTime * 1.4 + 1) * 0.06), 1);
+
+    // Si hay un planeta enfocado (y no estamos en pleno vuelo), la cámara lo sigue
+    if (objetivoSeguimiento && !transicionando) {
+      const posActual = objetivoSeguimiento.malla.position;
+      const delta = posActual.clone().sub(controles.target);
+      controles.target.copy(posActual);
+      camara.position.add(delta);
+    }
+
+    // Anillo de selección: sigue al planeta enfocado y siempre mira a cámara
+    if (anilloSeleccion.visible && objetivoSeguimiento) {
+      anilloSeleccion.position.copy(objetivoSeguimiento.malla.position);
+      const escalaAnillo = objetivoSeguimiento.datos.radio * 1.8;
+      anilloSeleccion.scale.set(escalaAnillo, escalaAnillo, escalaAnillo);
+      anilloSeleccion.quaternion.copy(camara.quaternion);
+    }
+
+    controles.update();
+    renderer.render(escena, camara);
+
+    if (primerCuadro) {
+      primerCuadro = false;
+      if (carga) carga.classList.add('oculto');
+    }
+  }
+  animar();
+
+  // Mostrar la información del Sol desde el inicio (sin animar la cámara la primera vez)
+  const datosIniciales = datosPlanetas.find((p) => p.id === 'sol');
+  elTag.textContent = datosIniciales.tag;
+  elNombre.textContent = datosIniciales.nombre;
+  elTexto.textContent = datosIniciales.texto;
+  elDatos.innerHTML = datosIniciales.datos.map(([clave, valor]) => `<li><span>${clave}</span><strong>${valor}</strong></li>`).join('');
+
+  /* =======================================================
+     SONIDO AMBIENTAL ESPACIAL (generado por código con la
+     Web Audio API, sin necesitar ningún archivo de audio)
+     ======================================================= */
+  const btnSonido = document.getElementById('btn-sonido');
+  let audioCtx = null;
+  let sonidoActivo = false;
+
+  function crearAmbienteSonoro() {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const ganMaestro = audioCtx.createGain();
+    ganMaestro.gain.value = 0;
+    ganMaestro.connect(audioCtx.destination);
+
+    // Dos osciladores graves en quinta, para un zumbido cósmico suave
+    const frecuencias = [55, 82.5];
+    frecuencias.forEach((frec, i) => {
+      const osc = audioCtx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = frec;
+
+      const filtro = audioCtx.createBiquadFilter();
+      filtro.type = 'lowpass';
+      filtro.frequency.value = 400;
+
+      const ganOsc = audioCtx.createGain();
+      ganOsc.gain.value = i === 0 ? 0.5 : 0.3;
+
+      // LFO lento que hace "respirar" el volumen, para que no sea un tono plano
+      const lfo = audioCtx.createOscillator();
+      lfo.frequency.value = 0.06 + i * 0.02;
+      const ganLfo = audioCtx.createGain();
+      ganLfo.gain.value = 0.15;
+      lfo.connect(ganLfo);
+      ganLfo.connect(ganOsc.gain);
+      lfo.start();
+
+      osc.connect(filtro);
+      filtro.connect(ganOsc);
+      ganOsc.connect(ganMaestro);
+      osc.start();
+    });
+
+    return ganMaestro;
+  }
+
+  let ganMaestro = null;
+  btnSonido.addEventListener('click', () => {
+    if (!audioCtx) ganMaestro = crearAmbienteSonoro();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    sonidoActivo = !sonidoActivo;
+    const ahora = audioCtx.currentTime;
+    ganMaestro.gain.cancelScheduledValues(ahora);
+    ganMaestro.gain.setValueAtTime(ganMaestro.gain.value, ahora);
+    ganMaestro.gain.linearRampToValueAtTime(sonidoActivo ? 0.35 : 0, ahora + 1.2);
+
+    btnSonido.textContent = sonidoActivo ? '🔊' : '🔇';
+    btnSonido.setAttribute('aria-label', sonidoActivo ? 'Silenciar sonido ambiental' : 'Activar sonido ambiental');
+  });
+}
+</script>
+</body>
+</html>

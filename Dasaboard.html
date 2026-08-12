@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard del Universo | Ecos del Universo</title>
+<meta name="description" content="Dashboard visual con estadísticas, tablas y diagramas sobre el sistema solar, las estrellas y otros cuerpos celestes.">
+<link rel="icon" href="assets/img/logo-ecos.png">
+<link rel="stylesheet" href="Dasboard.css">
+   <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
+</head>
+<body>
+
+<canvas id="estrellas"></canvas>
+<div class="fondo-inmersivo" aria-hidden="true">
+  <div class="fondo-capa is-activa" data-fondo="hero" style="background-image:url('assets/img/fondos/hero.jpg')"></div>
+  <div class="fondo-capa" data-fondo="proyecto" style="background-image:url('assets/img/fondos/proyecto.jpg')"></div>
+  <div class="fondo-capa" data-fondo="universo" style="background-image:url('assets/img/fondos/universo.jpg')"></div>
+  <div class="fondo-capa" data-fondo="videos" style="background-image:url('assets/img/fondos/videos.jpg')"></div>
+  <div class="fondo-capa" data-fondo="equipo" style="background-image:url('assets/img/fondos/equipo.jpg')"></div>
+</div>
+<div class="grano" aria-hidden="true"></div>
+
+<!-- ============ NAVEGACIÓN ============ -->
+<nav class="nav">
+  <div class="wrap nav__inner">
+    <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+    <ul class="nav__links">
+      <li><a href="Index.html">Inicio</a></li>
+      <li><a href="Zona Creativa.html">Zona Creativa</a></li>
+      <li><a href="Dasaboard.html" class="is-active">Dashboard</a></li>
+      <li><a href="Galeria.html">Galería</a></li>
+      <li><a href="Acerca.html">Acerca de</a></li>
+    </ul>
+
+    <div class="nav__brands">
+ <img src="Imagenes/logo_colegio-removebg-preview.png" alt="Escudo del Colegio Manuel Antonio Rueda Jara">
+      <div class="nav__divider"></div>
+      <img src="Imagenes/logo-removebg-preview.png" alt="Logotipo Ecos del Universo" class="nav__logo-ecos">
+    </div>
+  </div>
+</nav>
+<div class="nav-overlay" hidden></div>
+
+<main>
+
+  <!-- ============ PORTADA ============ -->
+  <section class="portada" id="portada">
+    <div class="wrap portada__inner">
+      <span class="eyebrow">Datos · Estadísticas · Diagramas</span>
+      <h1>Dashboard del <span class="accent">Universo</span></h1>
+      <p class="lead">Un vistazo visual a las cifras que describen el sistema solar, las estrellas y otros cuerpos celestes: cuántos son, qué tan grandes son, y qué tan lejos están.</p>
+      <div class="portada__cta">
+        <a href="#composicion" class="btn btn--solid">Ver la composición del universo</a>
+        <a href="#planetas" class="btn btn--ghost">Ir a la tabla de planetas</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INDICADORES CLAVE (KPIs) ============ -->
+  <section id="indicadores">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">En números</span>
+        <h2>El universo, a grandes rasgos</h2>
+        <p>Algunas de las cifras más citadas por la comunidad científica para describir la escala de lo que existe.</p>
+      </div>
+
+      <div class="kpi-destacados">
+        <div class="kpi-destacado reveal">
+          <span class="kpi-destacado__valor">13,800 <small>millones de años</small></span>
+          <p>Es la edad estimada del universo desde el Big Bang, calculada a partir de la radiación de fondo cósmico y la velocidad a la que se expande el espacio.</p>
+        </div>
+        <div class="kpi-destacado reveal">
+          <span class="kpi-destacado__valor">4,600 <small>millones de años</small></span>
+          <p>Es la edad del sistema solar: se formó a partir del colapso de una nube de gas y polvo, apenas un tercio de la edad del universo.</p>
+        </div>
+      </div>
+
+      <ul class="kpi-tira reveal">
+        <li><strong>8</strong><span>planetas oficiales</span></li>
+        <li><strong>290+</strong><span>lunas conocidas en el sistema solar</span></li>
+        <li><strong>~100,000 millones</strong><span>estrellas en la Vía Láctea</span></li>
+        <li><strong>~2 billones</strong><span>galaxias en el universo observable</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ COMPOSICIÓN DEL UNIVERSO ============ -->
+  <section id="composicion">
+    <div class="wrap">
+      <div class="section__head-row">
+        <div class="section__head reveal">
+          <span class="eyebrow">De qué está hecho todo</span>
+          <h2>La composición del universo</h2>
+          <p>Lo sorprendente es que casi todo lo que vemos —planetas, estrellas, galaxias— es apenas una fracción pequeña de lo que existe. El resto es materia y energía que no emiten luz y que solo detectamos por sus efectos gravitacionales.</p>
+        </div>
+        <svg class="constelacion reveal" viewBox="0 0 220 160" aria-hidden="true">
+          <g stroke="rgba(185,169,255,0.45)" stroke-width="1">
+            <line x1="20" y1="120" x2="60" y2="60"/>
+            <line x1="60" y1="60" x2="115" y2="80"/>
+            <line x1="115" y1="80" x2="160" y2="30"/>
+          </g>
+          <g fill="#F6F4EC">
+            <circle cx="20" cy="120" r="2.4"/>
+            <circle cx="60" cy="60" r="3.2"/>
+            <circle cx="115" cy="80" r="2.8"/>
+            <circle cx="160" cy="30" r="3.6"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="dona-panel reveal">
+        <div class="dona" style="--p1:68; --p2:27; --p3:5;" role="img" aria-label="Gráfico de dona: 68% energía oscura, 27% materia oscura, 5% materia ordinaria">
+          <div class="dona__centro">
+            <strong>100%</strong>
+            <span>del universo</span>
+          </div>
+        </div>
+        <ul class="dona-leyenda">
+          <li><span class="dona-leyenda__punto" style="background:var(--nebula);"></span><strong>68%</strong> Energía oscura <em>— acelera la expansión del universo</em></li>
+          <li><span class="dona-leyenda__punto" style="background:var(--wine);"></span><strong>27%</strong> Materia oscura <em>— no emite luz, solo se detecta por su gravedad</em></li>
+          <li><span class="dona-leyenda__punto" style="background:var(--gold);"></span><strong>5%</strong> Materia ordinaria <em>— todo lo que vemos: planetas, estrellas, tú y yo</em></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TABLA DE PLANETAS ============ -->
+  <section id="planetas">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Sistema solar en cifras</span>
+        <h2>Comparación entre los 8 planetas</h2>
+        <p>Cada barra muestra el diámetro del planeta en proporción al más grande, Júpiter. Desliza la tabla en pantallas pequeñas para ver todas las columnas.</p>
+      </div>
+
+      <div class="tabla-wrap reveal">
+        <table class="tabla-planetas">
+          <thead>
+            <tr>
+              <th>Planeta</th>
+              <th>Tipo</th>
+              <th>Distancia al Sol</th>
+              <th>Tamaño relativo</th>
+              <th>Lunas</th>
+              <th>Día</th>
+              <th>Año</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#9c9c94"></span>Mercurio</td>
+              <td>Rocoso</td>
+              <td>0.39 UA</td>
+              <td><div class="barra-tamano"><div class="barra-tamano__relleno" style="width:3.5%; background:#9c9c94"></div></div></td>
+              <td>0</td>
+              <td>59 d</td>
+              <td>88 d</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#e8c15e"></span>Venus</td>
+              <td>Rocoso</td>
+              <td>0.72 UA</td>
+              <td><div class="barra-tamano"><div class="barra-tamano__relleno" style="width:8.7%; background:#e8c15e"></div></div></td>
+              <td>0</td>
+              <td>243 d</td>
+              <td>225 d</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#2f6fd6"></span>Tierra</td>
+              <td>Rocoso</td>
+              <td>1.00 UA</td>
+              <td><div class="barra-tamano"><div class="barra-tamano__relleno" style="width:9.1%; background:#2f6fd6"></div></div></td>
+              <td>1</td>
+              <td>24 h</td>
+              <td>365 d</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#c1440e"></span>Marte</td>
+              <td>Rocoso</td>
+              <td>1.52 UA</td>
+              <td><div class="barra-tamano"><div class="barra-tamano__relleno" style="width:4.8%; background:#c1440e"></div></div></td>
+              <td>2</td>
+              <td>24.6 h</td>
+              <td>687 d</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#d9a066"></span>Júpiter</td>
+              <td>Gaseoso</td>
+              <td>5.20 UA</td>
+              <td><div class="barra-tamano"><div class="barra-tamano__relleno" style="width:100%; background:#d9a066"></div></div></td>
+              <td>95</td>
+              <td>10 h</td>
+              <td>12 años</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#e8d4a0"></span>Saturno</td>
+              <td>Gaseoso</td>
+              <td>9.58 UA</td>
+              <td><div class="barra-tamano"><div class="barra-tamano__relleno" style="width:83.3%; background:#e8d4a0"></div></div></td>
+              <td>146</td>
+              <td>10.7 h</td>
+              <td>29 años</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#9fe0e0"></span>Urano</td>
+              <td>Gigante de hielo</td>
+              <td>19.2 UA</td>
+              <td><div class="barra-tamano"><div class="barra-tamano__relleno" style="width:36.3%; background:#9fe0e0"></div></div></td>
+              <td>27</td>
+              <td>17 h</td>
+              <td>84 años</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#4361d9"></span>Neptuno</td>
+              <td>Gigante de hielo</td>
+              <td>30.1 UA</td>
+              <td><div class="barra-tamano"><div class="barra-tamano__relleno" style="width:35.2%; background:#4361d9"></div></div></td>
+              <td>16</td>
+              <td>16 h</td>
+              <td>165 años</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tabla-nota">UA = Unidad Astronómica (la distancia entre la Tierra y el Sol, ~149.6 millones de km).</p>
+    </div>
+  </section>
+
+  <!-- ============ CLASIFICACIÓN ESTELAR ============ -->
+  <section id="clasificacion-estelar">
+    <div class="wrap">
+      <div class="section__head-row">
+        <div class="section__head reveal">
+          <span class="eyebrow">No todas las estrellas son iguales</span>
+          <h2>Clasificación estelar por temperatura</h2>
+          <p>Los astrónomos ordenan las estrellas en 7 tipos según su color y temperatura superficial, de las más calientes y azules a las más frías y rojas. Nuestro Sol es una estrella de tipo G, bastante promedio — y las enanas rojas de tipo M son, por mucho, las más comunes de la galaxia.</p>
+        </div>
+        <svg class="ondas reveal" viewBox="0 0 200 80" aria-hidden="true">
+          <g fill="rgba(255,122,69,0.6)">
+            <rect class="onda-barra" x="6" y="30" width="6" height="20" rx="3" style="animation-delay:0s"/>
+            <rect class="onda-barra" x="26" y="20" width="6" height="40" rx="3" style="animation-delay:0.15s"/>
+            <rect class="onda-barra" x="46" y="26" width="6" height="28" rx="3" style="animation-delay:0.3s"/>
+            <rect class="onda-barra" x="66" y="14" width="6" height="52" rx="3" style="animation-delay:0.45s"/>
+            <rect class="onda-barra" x="86" y="24" width="6" height="32" rx="3" style="animation-delay:0.2s"/>
+            <rect class="onda-barra" x="106" y="10" width="6" height="60" rx="3" style="animation-delay:0.5s"/>
+            <rect class="onda-barra" x="126" y="22" width="6" height="36" rx="3" style="animation-delay:0.1s"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Diagrama de secuencia espectral -->
+      <div class="espectro reveal">
+        <div class="espectro__barra">
+          <span style="--c:#9bb0ff; flex-grow:1;"></span>
+          <span style="--c:#aec2ff; flex-grow:1.3;"></span>
+          <span style="--c:#f6f4ec; flex-grow:1.6;"></span>
+          <span style="--c:#fff3c9; flex-grow:2;"></span>
+          <span style="--c:#ffd98a; flex-grow:2.4;"></span>
+          <span style="--c:#f2b33d; flex-grow:2.4;"></span>
+          <span style="--c:#ff7a45; flex-grow:3;"></span>
+        </div>
+        <div class="espectro__ejes">
+          <span>Más caliente · &gt;30,000 °C</span>
+          <span>Más fría · &lt;3,700 °C</span>
+        </div>
+      </div>
+
+      <div class="tabla-wrap reveal">
+        <table class="tabla-planetas">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Temperatura</th>
+              <th>Color</th>
+              <th>Ejemplo conocido</th>
+              <th>% de las estrellas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#9bb0ff"></span>O</td>
+              <td>Más de 30,000 °C</td><td>Azul</td><td>Estrellas del Cinturón de Orión</td><td>~0.00003%</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#aec2ff"></span>B</td>
+              <td>10,000 – 30,000 °C</td><td>Azul blancuzco</td><td>Rigel</td><td>~0.13%</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#f6f4ec"></span>A</td>
+              <td>7,500 – 10,000 °C</td><td>Blanca</td><td>Sirio</td><td>~0.6%</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#fff3c9"></span>F</td>
+              <td>6,000 – 7,500 °C</td><td>Blanco amarillenta</td><td>Procyon</td><td>~3%</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#ffd98a"></span>G</td>
+              <td>5,200 – 6,000 °C</td><td>Amarilla</td><td>El Sol</td><td>~7.6%</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#f2b33d"></span>K</td>
+              <td>3,700 – 5,200 °C</td><td>Naranja</td><td>Alfa Centauri B</td><td>~12%</td>
+            </tr>
+            <tr>
+              <td class="tabla-planetas__nombre"><span class="punto" style="background:#ff7a45"></span>M</td>
+              <td>Menos de 3,700 °C</td><td>Roja</td><td>Próxima Centauri</td><td>~76%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tabla-nota">Porcentajes aproximados sobre el total de estrellas de secuencia principal en la Vía Láctea.</p>
+    </div>
+  </section>
+
+  <!-- ============ ESTRELLAS MÁS CERCANAS ============ -->
+  <section id="estrellas-cercanas">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Nuestras vecinas más próximas</span>
+        <h2>Las estrellas más cercanas al Sol</h2>
+        <p>Incluso la estrella más cercana está a una distancia difícil de imaginar: la luz de Próxima Centauri, viajando a 300,000 km por segundo, tarda más de 4 años en llegar hasta nosotros.</p>
+      </div>
+
+      <div class="tabla-wrap reveal">
+        <table class="tabla-planetas">
+          <thead>
+            <tr><th>Estrella</th><th>Distancia</th><th>Tipo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="tabla-planetas__nombre">Próxima Centauri</td><td>4.24 años luz</td><td>M (enana roja)</td></tr>
+            <tr><td class="tabla-planetas__nombre">Alfa Centauri A</td><td>4.37 años luz</td><td>G</td></tr>
+            <tr><td class="tabla-planetas__nombre">Alfa Centauri B</td><td>4.37 años luz</td><td>K</td></tr>
+            <tr><td class="tabla-planetas__nombre">Estrella de Barnard</td><td>5.96 años luz</td><td>M (enana roja)</td></tr>
+            <tr><td class="tabla-planetas__nombre">Wolf 359</td><td>7.86 años luz</td><td>M (enana roja)</td></tr>
+            <tr><td class="tabla-planetas__nombre">Sirio A</td><td>8.6 años luz</td><td>A</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tabla-nota">Un año luz equivale a la distancia que recorre la luz en un año: cerca de 9.46 billones de km.</p>
+    </div>
+  </section>
+
+  <!-- ============ TIPOS DE CUERPOS CELESTES ============ -->
+  <section id="cuerpos-celestes">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Todo lo que hay allá afuera</span>
+        <h2>Categorías de cuerpos celestes</h2>
+        <p>"Universo" incluye muchas cosas distintas entre sí. Esta tabla resume las categorías más comunes, qué las distingue, y un ejemplo de cada una.</p>
+      </div>
+
+      <div class="tabla-wrap reveal">
+        <table class="tabla-planetas">
+          <thead>
+            <tr><th>Categoría</th><th>Qué la distingue</th><th>Cantidad conocida</th><th>Ejemplo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="tabla-planetas__nombre">Planetas</td><td>Orbitan una estrella y su gravedad "limpió" el vecindario de su órbita</td><td>8 en el sistema solar</td><td>Tierra</td></tr>
+            <tr><td class="tabla-planetas__nombre">Planetas enanos</td><td>Parecidos a un planeta, pero comparten su órbita con otros objetos</td><td>5 reconocidos oficialmente</td><td>Plutón</td></tr>
+            <tr><td class="tabla-planetas__nombre">Lunas</td><td>Orbitan un planeta u otro cuerpo, no directamente al Sol</td><td>290+ solo en el sistema solar</td><td>La Luna</td></tr>
+            <tr><td class="tabla-planetas__nombre">Asteroides</td><td>Cuerpos rocosos más pequeños que un planeta, mayormente entre Marte y Júpiter</td><td>más de 1.3 millones catalogados</td><td>Vesta</td></tr>
+            <tr><td class="tabla-planetas__nombre">Cometas</td><td>Hielo y polvo con una órbita muy alargada alrededor del Sol</td><td>miles catalogados</td><td>Halley</td></tr>
+            <tr><td class="tabla-planetas__nombre">Estrellas</td><td>Esferas de gas que generan su propia luz por fusión nuclear</td><td>~100,000 millones en la Vía Láctea</td><td>El Sol</td></tr>
+            <tr><td class="tabla-planetas__nombre">Galaxias</td><td>Enormes conjuntos de estrellas, gas y polvo unidos por gravedad</td><td>~2 billones en el universo observable</td><td>La Vía Láctea</td></tr>
+            <tr><td class="tabla-planetas__nombre">Agujeros negros</td><td>Regiones donde la gravedad es tan intensa que ni la luz escapa</td><td>se han detectado miles</td><td>Sagitario A*</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LÍNEA DE TIEMPO CÓSMICA ============ -->
+  <section id="linea-tiempo">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">13,800 millones de años en una línea</span>
+        <h2>Una breve historia del todo</h2>
+        <p>Los momentos más importantes de la historia del universo, desde su origen hasta nuestros días.</p>
+      </div>
+
+      <ol class="linea-tiempo reveal">
+        <li>
+          <span class="linea-tiempo__punto"></span>
+          <span class="linea-tiempo__cuando">Hace 13,800 millones de años</span>
+          <h3>El Big Bang</h3>
+          <p>El universo comienza a expandirse desde un estado extremadamente denso y caliente.</p>
+        </li>
+        <li>
+          <span class="linea-tiempo__punto"></span>
+          <span class="linea-tiempo__cuando">Hace ~13,600 millones de años</span>
+          <h3>Primeras estrellas y galaxias</h3>
+          <p>La materia se agrupa por gravedad y se encienden las primeras estrellas del universo.</p>
+        </li>
+        <li>
+          <span class="linea-tiempo__punto"></span>
+          <span class="linea-tiempo__cuando">Hace 4,600 millones de años</span>
+          <h3>Nace el sistema solar</h3>
+          <p>Una nube de gas y polvo colapsa para formar el Sol y, poco después, los planetas.</p>
+        </li>
+        <li>
+          <span class="linea-tiempo__punto"></span>
+          <span class="linea-tiempo__cuando">Hace ~3,800 millones de años</span>
+          <h3>Primeras formas de vida</h3>
+          <p>Aparecen los primeros organismos microscópicos en los océanos de la Tierra.</p>
+        </li>
+        <li>
+          <span class="linea-tiempo__punto"></span>
+          <span class="linea-tiempo__cuando">Hace ~300,000 años</span>
+          <h3>Aparece el Homo sapiens</h3>
+          <p>Nuestra especie surge en África, apenas un instante en la escala de tiempo cósmica.</p>
+        </li>
+        <li>
+          <span class="linea-tiempo__punto linea-tiempo__punto--activo"></span>
+          <span class="linea-tiempo__cuando">Hoy</span>
+          <h3>Seguimos explorando</h3>
+          <p>Telescopios, sondas y proyectos como este siguen ampliando lo que sabemos del universo.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ PIE DE PÁGINA ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+   <img src="Imagenes/images-removebg-preview.png" alt="Escudo del colegio">s
+        <div class="sep"></div>
+        <div>
+          <strong>Ecos del Universo</strong><br>
+          <small>Técnico en Integración de Contenidos Digitales</small>
+        </div>
+      </div>
+
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h4>En esta página</h4>
+          <ul>
+            <li><a href="#indicadores">Indicadores</a></li>
+            <li><a href="#composicion">Composición</a></li>
+            <li><a href="#planetas">Planetas</a></li>
+            <li><a href="#clasificacion-estelar">Estrellas</a></li>
+            <li><a href="#cuerpos-celestes">Cuerpos celestes</a></li>
+            <li><a href="#linea-tiempo">Línea de tiempo</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>El sitio completo</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="zona-creativa.html">Zona Creativa</a></li>
+            <li><a href="galeria.html">Galería</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Institución</h4>
+          <ul>
+            <li>Colegio Manuel Antonio Rueda Jara</li>
+            <li>Villa del Rosario</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="anio-actual"></span> Ecos del Universo. Proyecto de fin de año.</span>
+      <span>Hecho con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  iniciarFondoEstrellas();
+  iniciarNav();
+  iniciarRevelado();
+  iniciarFondoInmersivo();
+  document.getElementById('anio-actual').textContent = new Date().getFullYear();
+});
+
+/* ---------------------------------------------------------
+   1) Fondo animado de estrellas + polvo cósmico (canvas)
+   --------------------------------------------------------- */
+function iniciarFondoEstrellas() {
+  const canvas = document.getElementById('estrellas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const prefiereReducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let ancho, alto, estrellas;
+
+  function crearEstrellas() {
+    const cantidad = Math.floor((ancho * alto) / 9000);
+    estrellas = Array.from({ length: cantidad }, () => ({
+      x: Math.random() * ancho,
+      y: Math.random() * alto,
+      radio: Math.random() * 1.3 + 0.2,
+      fase: Math.random() * Math.PI * 2,
+      velocidad: Math.random() * 0.015 + 0.004,
+      deriva: Math.random() * 0.15 + 0.02
+    }));
+  }
+
+  function ajustarTamano() {
+    ancho = canvas.width = window.innerWidth;
+    alto = canvas.height = window.innerHeight;
+    crearEstrellas();
+  }
+
+  function dibujar(t) {
+    ctx.clearRect(0, 0, ancho, alto);
+    for (const e of estrellas) {
+      const brillo = 0.55 + Math.sin(t * e.velocidad + e.fase) * 0.45;
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, e.radio, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(246,244,236,${Math.max(brillo, 0.08)})`;
+      ctx.fill();
+      if (!prefiereReducido) {
+        e.y += e.deriva * 0.05;
+        if (e.y > alto) e.y = 0;
+      }
+    }
+    requestAnimationFrame(dibujar);
+  }
+
+  window.addEventListener('resize', ajustarTamano);
+  ajustarTamano();
+  requestAnimationFrame(dibujar);
+}
+
+/* ---------------------------------------------------------
+   2) Navegación: fondo sólido al hacer scroll + menú móvil
+   --------------------------------------------------------- */
+function iniciarNav() {
+  const nav = document.querySelector('.nav');
+  const toggle = document.querySelector('.nav__toggle');
+  const links = document.querySelector('.nav__links');
+  const overlay = document.querySelector('.nav-overlay');
+  if (!nav) return;
+
+  const marcarSolido = () => {
+    nav.classList.toggle('nav--solid', window.scrollY > 40);
+  };
+  marcarSolido();
+  window.addEventListener('scroll', marcarSolido, { passive: true });
+
+  if (toggle && links && overlay) {
+    const abrirMenu = () => {
+      links.classList.add('is-open');
+      overlay.hidden = false;
+      requestAnimationFrame(() => overlay.classList.add('is-open'));
+      toggle.textContent = '✕';
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('menu-abierto');
+    };
+
+    const cerrarMenu = () => {
+      links.classList.remove('is-open');
+      overlay.classList.remove('is-open');
+      toggle.textContent = '☰';
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-abierto');
+      setTimeout(() => { if (!overlay.classList.contains('is-open')) overlay.hidden = true; }, 300);
+    };
+
+    toggle.addEventListener('click', () => {
+      const yaAbierto = links.classList.contains('is-open');
+      yaAbierto ? cerrarMenu() : abrirMenu();
+    });
+
+    overlay.addEventListener('click', cerrarMenu);
+
+    links.querySelectorAll('a').forEach((enlace) => {
+      enlace.addEventListener('click', cerrarMenu);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && links.classList.contains('is-open')) cerrarMenu();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980 && links.classList.contains('is-open')) cerrarMenu();
+    });
+  }
+
+  const secciones = document.querySelectorAll('main section[id]');
+  const enlaces = document.querySelectorAll('.nav__links a[href^="#"]');
+  if (secciones.length && enlaces.length) {
+    const observer = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting) {
+          enlaces.forEach((a) => a.classList.remove('is-active'));
+          const activo = document.querySelector(`.nav__links a[href="#${entrada.target.id}"]`);
+          if (activo) activo.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    secciones.forEach((s) => observer.observe(s));
+  }
+}
+
+/* ---------------------------------------------------------
+   3) Animación de aparición al hacer scroll
+   --------------------------------------------------------- */
+function iniciarRevelado() {
+  const elementos = document.querySelectorAll('.reveal');
+  if (!elementos.length) return;
+  const observer = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add('is-visible');
+        observer.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  elementos.forEach((el) => observer.observe(el));
+}
+
+/* ---------------------------------------------------------
+   4) Fondos inmersivos: se intercalan (crossfade) según
+      la sección que esté cruzando el centro de la pantalla
+   --------------------------------------------------------- */
+function iniciarFondoInmersivo() {
+  const capas = document.querySelectorAll('.fondo-capa');
+  const secciones = document.querySelectorAll('main section[id], .portada[id]');
+  if (!capas.length || !secciones.length) return;
+
+  const mapaFondos = {
+    portada: 'hero',
+    composicion: 'universo',
+    planetas: 'proyecto',
+    'clasificacion-estelar': 'videos',
+    'estrellas-cercanas': 'videos',
+    'cuerpos-celestes': 'proyecto',
+    'linea-tiempo': 'equipo'
+  };
+
+  const activar = (nombre) => {
+    capas.forEach((capa) => {
+      capa.classList.toggle('is-activa', capa.dataset.fondo === nombre);
+    });
+  };
+
+  // En vez de calcular "porcentaje visible" (que favorece injustamente a las
+  // secciones cortas frente a las largas), miramos directamente cual seccion
+  // ocupa el centro vertical de la pantalla en cada momento: es el metodo mas
+  // simple y el que da el resultado mas intuitivo.
+  let ultimoActivo = null;
+
+  function actualizarSegunScroll() {
+    const centro = window.innerHeight / 2;
+    let elegido = null;
+
+    secciones.forEach((s) => {
+      if (elegido) return;
+      const r = s.getBoundingClientRect();
+      if (r.top <= centro && r.bottom >= centro) elegido = s;
+    });
+
+    // Si el centro cae justo en un borde entre dos secciones, usamos la mas cercana
+    if (!elegido) {
+      let mejorDistancia = Infinity;
+      secciones.forEach((s) => {
+        const r = s.getBoundingClientRect();
+        const distancia = Math.min(Math.abs(r.top - centro), Math.abs(r.bottom - centro));
+        if (distancia < mejorDistancia) { mejorDistancia = distancia; elegido = s; }
+      });
+    }
+
+    if (elegido) {
+      const nombre = mapaFondos[elegido.id];
+      if (nombre && nombre !== ultimoActivo) {
+        ultimoActivo = nombre;
+        activar(nombre);
+      }
+    }
+  }
+
+  let tickPendiente = false;
+  window.addEventListener('scroll', () => {
+    if (tickPendiente) return;
+    tickPendiente = true;
+    requestAnimationFrame(() => { actualizarSegunScroll(); tickPendiente = false; });
+  }, { passive: true });
+
+  actualizarSegunScroll();
+}
+</script>
+</body>
+</html>

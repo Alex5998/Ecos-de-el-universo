@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecos del Universo | Exploración Digital del Cosmos</title>
+<meta name="description" content="Ecos del Universo: plataforma educativa interactiva para explorar galaxias, agujeros negros y el sistema solar. Proyecto del Colegio Manuel Antonio Rueda Jara.">
+<link rel="icon" href="Imagenes/logo-removebg-preview.png">
+<link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
+</head>
+<body>
+
+<canvas id="estrellas"></canvas>
+<div class="fondo-inmersivo" aria-hidden="true">
+  <div class="fondo-capa is-activa" data-fondo="hero" style="background-image:url('Imagenes/nasa1.jpg')"></div>
+  <div class="fondo-capa" data-fondo="proyecto" style="background-image:url('Imagenes/nasa2.jpg')"></div>
+  <div class="fondo-capa" data-fondo="universo" style="background-image:url('Imagenes/nasa3.jpg')"></div>
+  <div class="fondo-capa" data-fondo="videos" style="background-image:url('Imagenes/nasa4.jpg')"></div>
+  <div class="fondo-capa" data-fondo="equipo" style="background-image:url('Imagenes/nasa5.webp')"></div>
+</div>
+<div class="grano" aria-hidden="true"></div>
+
+<!-- ============ NAVEGACIÓN ============ -->
+<nav class="nav">
+  <div class="wrap nav__inner">
+    <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+    <ul class="nav__links">
+      <li><a href="index.html" class="is-active">Inicio</a></li>
+      <li><a href="Zona Creativa.html">Zona Creativa</a></li>
+      <li><a href="Dasaboard.html">Dashboard</a></li>
+      <li><a href="Galeria.html">Galería</a></li>
+      <li><a href="Acerca.html">Acerca de</a></li>
+    </ul>
+
+    <div class="nav__brands">
+      <img src="Imagenes/logo_colegio-removebg-preview.png" alt="Escudo del Colegio Manuel Antonio Rueda Jara">
+      <div class="nav__divider"></div>
+      <img src="Imagenes/logo-removebg-preview.png" alt="Logotipo Ecos del Universo" class="nav__logo-ecos">
+    </div>
+  </div>
+</nav>
+<div class="nav-overlay" hidden></div>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="inicio">
+    <div class="wrap hero__inner">
+      <div class="hero__texto">
+        <span class="eyebrow">Técnico en Integración de Contenidos Digitales</span>
+        <h1>Ecos del<br><span class="accent">Universo</span></h1>
+        <p class="hero__eslogan">"Descubre lo invisible, escucha el universo."</p>
+        <p class="lead">Una plataforma digital interactiva creada para explorar agujeros negros, galaxias, estrellas y el sistema solar a través de simulaciones, animaciones y contenido audiovisual original de nuestro equipo.</p>
+        <div class="hero__cta">
+          <a href="#universo" class="btn btn--solid">Explorar el cosmos</a>
+          <a href="#videos" class="btn btn--ghost">Ver videos del equipo</a>
+        </div>
+
+        <div class="hero__insignia">
+          <img src="Imagenes/logo_colegio-removebg-preview.png" alt="Escudo del Colegio Manuel Antonio Rueda Jara">
+          <span>Un proyecto del <strong>Colegio Manuel Antonio Rueda Jara</strong> — Villa del Rosario</span>
+        </div>
+      </div>
+
+      <div class="hero__stage">
+        <svg class="sistema-solar" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="gradSol" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#FFFBEF"/>
+              <stop offset="35%" stop-color="#FFD98A"/>
+              <stop offset="70%" stop-color="#F2B33D"/>
+              <stop offset="100%" stop-color="#FF7A45"/>
+            </radialGradient>
+            <radialGradient id="gradPlaneta1" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#D9CEFF"/>
+              <stop offset="100%" stop-color="#8C6FE8"/>
+            </radialGradient>
+            <radialGradient id="gradPlaneta2" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#FFDCC2"/>
+              <stop offset="100%" stop-color="#FF7A45"/>
+            </radialGradient>
+            <radialGradient id="gradPlaneta3" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#C9F5E3"/>
+              <stop offset="100%" stop-color="#3FBF8F"/>
+            </radialGradient>
+            <radialGradient id="gradPlaneta4" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#FFF1C2"/>
+              <stop offset="100%" stop-color="#E8C15E"/>
+            </radialGradient>
+            <filter id="brilloSol" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="9" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Órbitas guía -->
+          <circle cx="200" cy="200" r="66" class="orbita-guia"/>
+          <circle cx="200" cy="200" r="104" class="orbita-guia"/>
+          <circle cx="200" cy="200" r="142" class="orbita-guia"/>
+          <circle cx="200" cy="200" r="180" class="orbita-guia"/>
+
+          <!-- Sol -->
+          <circle cx="200" cy="200" r="32" fill="url(#gradSol)" class="sol" filter="url(#brilloSol)"/>
+
+          <!-- Planetas orbitando (cada grupo gira a su propia velocidad) -->
+          <g class="orbita orbita--1">
+            <circle cx="266" cy="200" r="8" fill="url(#gradPlaneta1)"/>
+          </g>
+          <g class="orbita orbita--2">
+            <circle cx="304" cy="200" r="12" fill="url(#gradPlaneta2)"/>
+          </g>
+          <g class="orbita orbita--3">
+            <circle cx="342" cy="200" r="9" fill="url(#gradPlaneta3)"/>
+            <circle cx="342" cy="182" r="3" fill="#F6F4EC" opacity="0.85"/>
+          </g>
+          <g class="orbita orbita--4">
+            <circle cx="380" cy="200" r="6" fill="url(#gradPlaneta4)"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="scrollcue">
+      <span>Desliza</span>
+      <div class="scrollcue__line"></div>
+    </div>
+  </section>
+
+  <!-- ============ DIVISOR ORBITAL ============ -->
+  <div class="orbita-divisor" aria-hidden="true">
+    <svg viewBox="0 0 480 120" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="240" cy="60" rx="200" ry="30" fill="none" stroke="rgba(246,244,236,0.15)" stroke-width="1" stroke-dasharray="3 7"/>
+      <g class="punto">
+        <circle cx="440" cy="60" r="5" fill="#F2B33D"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ============ SOBRE EL PROYECTO ============ -->
+  <section id="proyecto">
+    <div class="wrap">
+      <div class="section__head-row">
+        <div class="section__head reveal">
+          <span class="eyebrow">Identidad de la marca</span>
+          <h2>Ciencia, tecnología y curiosidad en una sola órbita</h2>
+          <p>Ecos del Universo nace para acercar la astronomía a estudiantes y curiosos por medio de una plataforma web pensada, diseñada y construida por completo por nuestro equipo.</p>
+        </div>
+
+        <div class="sello reveal">
+          <svg class="sello__anillo" viewBox="0 0 160 160" aria-hidden="true">
+            <circle cx="80" cy="80" r="76" fill="none" stroke="rgba(242,179,61,0.35)" stroke-width="1" stroke-dasharray="2 6"/>
+            <circle cx="80" cy="80" r="64" fill="none" stroke="rgba(246,244,236,0.12)" stroke-width="1"/>
+          </svg>
+          <div class="sello__logos">
+            <img src="Imagenes/images-removebg-preview.png" alt="Escudo del Colegio Manuel Antonio Rueda Jara">
+            <span class="sello__mas">+</span>
+            <img src="Imagenes/logo-removebg-preview.png" alt="Logotipo Ecos del Universo" class="sello__ecos">
+          </div>
+          <span class="sello__texto">Proyecto oficial · Técnico en Integración de Contenidos Digitales</span>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <h3>Misión</h3>
+          <p>Desarrollar una plataforma web interactiva que facilite el aprendizaje y la exploración del universo mediante contenidos digitales innovadores, simulaciones y experiencias inmersivas.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3>Visión</h3>
+          <p>Ser una plataforma educativa reconocida por integrar tecnología, creatividad y ciencia para acercar el conocimiento astronómico a jóvenes y estudiantes de nuestra región.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 2 2.9 6.3L21 9.3l-4.7 4.3L17.4 20 12 16.8 6.6 20l1.1-6.4L3 9.3l6.1-1z"/></svg>
+          </div>
+          <h3>Valores</h3>
+          <p>Los principios que guían cada decisión de diseño y desarrollo del proyecto.</p>
+          <ul class="valores-lista">
+            <li>Innovación</li><li>Creatividad</li><li>Calidad</li><li>Responsabilidad</li><li>Inclusión</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DATOS DEL UNIVERSO ============ -->
+  <section id="universo">
+    <div class="wrap">
+      <div class="section__head-row">
+        <div class="section__head reveal">
+          <span class="eyebrow">Frecuencias del cosmos</span>
+          <h2>Algunas señales que nos llegan del universo</h2>
+          <p>Una pequeña selección de fenómenos astronómicos que inspiraron este proyecto, redactada por nuestro equipo como punto de partida para explorar el resto de la plataforma.</p>
+        </div>
+
+        <svg class="constelacion reveal" viewBox="0 0 220 160" aria-hidden="true">
+          <g stroke="rgba(185,169,255,0.45)" stroke-width="1">
+            <line x1="20" y1="120" x2="60" y2="60"/>
+            <line x1="60" y1="60" x2="115" y2="80"/>
+            <line x1="115" y1="80" x2="160" y2="30"/>
+            <line x1="115" y1="80" x2="150" y2="130"/>
+            <line x1="60" y1="60" x2="30" y2="30"/>
+          </g>
+          <g fill="#F6F4EC">
+            <circle cx="20" cy="120" r="2.4"/>
+            <circle cx="60" cy="60" r="3.2"/>
+            <circle cx="115" cy="80" r="2.8"/>
+            <circle cx="160" cy="30" r="3.6"/>
+            <circle cx="150" cy="130" r="2.4"/>
+            <circle cx="30" cy="30" r="2"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="grid-datos">
+        <article class="dato reveal">
+          <div class="dato__icono">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>
+          </div>
+          <span class="dato__num">Escala · 01</span>
+          <div>
+            <h3>Agujeros negros</h3>
+            <p>Son regiones donde la gravedad es tan intensa que ni siquiera la luz logra escapar. No los "vemos" directamente: los detectamos por cómo deforman la luz y el movimiento de las estrellas que los rodean.</p>
+          </div>
+        </article>
+
+        <article class="dato reveal">
+          <div class="dato__icono">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a9 9 0 1 0 8.5 6M12 3v4M12 3a5 5 0 0 1 4 2"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <span class="dato__num">Escala · 02</span>
+          <div>
+            <h3>Galaxias</h3>
+            <p>Nuestra galaxia, la Vía Láctea, agrupa cientos de miles de millones de estrellas. Y aun así es solo una entre los cientos de miles de millones de galaxias que existen en el universo observable.</p>
+          </div>
+        </article>
+
+        <article class="dato reveal">
+          <div class="dato__icono">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="10"/><circle cx="18" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <span class="dato__num">Escala · 03</span>
+          <div>
+            <h3>Sistema solar</h3>
+            <p>Ocho planetas, decenas de lunas y un sinfín de asteroides orbitan alrededor de una única estrella: el Sol, que concentra por sí solo más del 99% de toda la masa del sistema.</p>
+          </div>
+        </article>
+
+        <article class="dato reveal">
+          <div class="dato__icono">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/><path d="M12 12 4 6M12 12l9-4M12 12l-8 8M12 12l7 9"/></svg>
+          </div>
+          <span class="dato__num">Escala · 04</span>
+          <div>
+            <h3>Un universo en expansión</h3>
+            <p>Las galaxias se alejan unas de otras a medida que el espacio mismo se expande. Cuanto más lejos está una galaxia, más rápido parece alejarse de nosotros.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VIDEOS EXPLICATIVOS ============ -->
+  <section id="videos">
+    <div class="wrap">
+      <div class="section__head-row">
+        <div class="section__head reveal">
+          <span class="eyebrow">Transmisiones del equipo</span>
+          <h2>Lo explicamos con nuestra propia voz</h2>
+          <p>Cada pestaña abre un video corto, grabado y editado por nuestro equipo, con explicaciones sobre el universo y sobre cómo construimos esta plataforma.</p>
+        </div>
+
+        <svg class="ondas reveal" viewBox="0 0 200 80" aria-hidden="true">
+          <g fill="rgba(255,122,69,0.6)">
+            <rect class="onda-barra" x="6"   y="30" width="6" height="20" rx="3" style="animation-delay:0s"/>
+            <rect class="onda-barra" x="26"  y="20" width="6" height="40" rx="3" style="animation-delay:0.15s"/>
+            <rect class="onda-barra" x="46"  y="26" width="6" height="28" rx="3" style="animation-delay:0.3s"/>
+            <rect class="onda-barra" x="66"  y="14" width="6" height="52" rx="3" style="animation-delay:0.45s"/>
+            <rect class="onda-barra" x="86"  y="24" width="6" height="32" rx="3" style="animation-delay:0.2s"/>
+            <rect class="onda-barra" x="106" y="10" width="6" height="60" rx="3" style="animation-delay:0.5s"/>
+            <rect class="onda-barra" x="126" y="22" width="6" height="36" rx="3" style="animation-delay:0.1s"/>
+            <rect class="onda-barra" x="146" y="28" width="6" height="24" rx="3" style="animation-delay:0.35s"/>
+            <rect class="onda-barra" x="166" y="18" width="6" height="44" rx="3" style="animation-delay:0.25s"/>
+            <rect class="onda-barra" x="186" y="26" width="6" height="28" rx="3" style="animation-delay:0.4s"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="video-panel reveal">
+        <ul class="video-tabs">
+          <li>
+            <button
+              class="is-active"
+              data-titulo="Cómo construimos Ecos del Universo"
+              data-descripcion="Nuestro equipo explica las herramientas, el proceso de diseño y las decisiones detrás de la plataforma."
+              data-src="Imagenes/WhatsApp Video 2026-08-11 at 10.46.21 AM.mp4"
+              data-poster="Imagenes/logo-removebg-preview.png">
+              <small>Detrás de escena</small>
+              Cómo hicimos esta página
+            </button>
+          </li>
+          <li>
+            <button
+              data-titulo="El sistema solar, explicado por el equipo"
+              data-descripcion="Un recorrido corto por los planetas, sus órbitas y las curiosidades que más nos sorprendieron al investigar."
+              data-src="Imagenes/WhatsApp Video 2026-08-11 at 10.46.30 AM (1).mp4"
+              data-poster="Imagenes/logo-removebg-preview.png">
+              <small>Ciencia</small>
+              El sistema solar
+            </button>
+          </li>
+          <li>
+            <button
+              data-titulo="Agujeros negros: lo que sabemos hasta hoy"
+              data-descripcion="Explicamos, con nuestras propias palabras, qué son los agujeros negros y por qué son tan difíciles de observar."
+              data-src="Imagenes/WhatsApp Video 2026-08-11 at 10.46.30 AM.mp4"
+              data-poster="Imagenes/logo-removebg-preview.png">
+              <small>Ciencia</small>
+              Agujeros negros
+            </button>
+          </li>
+        </ul>
+
+        <div class="video-stage">
+          <div class="video-frame">
+            <div class="video-placeholder">
+              <strong>Video pendiente de cargar</strong>
+              <span>Reemplaza <code>assets/video/video-equipo.mp4</code> por el archivo real de tu equipo.</span>
+            </div>
+          </div>
+          <div class="video-caption">
+            <h3>Cómo construimos Ecos del Universo</h3>
+            <p>Nuestro equipo explica las herramientas, el proceso de diseño y las decisiones detrás de la plataforma.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EQUIPO ============ -->
+  <section id="equipo">
+    <div class="wrap">
+      <img class="equipo__marca-agua" src="assets/img/logo-colegio.png" alt="" aria-hidden="true">
+      <div class="section__head reveal">
+        <span class="eyebrow">Quiénes hacen este proyecto</span>
+        <h2>Un proyecto, un equipo</h2>
+        <p>Las personas detrás del diseño, el desarrollo y el contenido de Ecos del Universo.</p>
+      </div>
+
+      <div class="equipo-grid">
+        <article class="equipo-card reveal">
+          <div class="equipo-card__foto">
+            <img src="assets/img/equipo/jhon-parada.jpg" onerror="this.src='assets/img/equipo/placeholder.png'" alt="Foto de Jhon Alexander Parada Ruiz">
+          </div>
+          <h3>Jhon Alexander Parada Ruiz</h3>
+          <span class="equipo-card__rol">Desarrollo e integración digital</span>
+        </article>
+
+        <article class="equipo-card reveal">
+          <div class="equipo-card__foto">
+            <img src="assets/img/equipo/juan-rincon.jpg" onerror="this.src='assets/img/equipo/placeholder.png'" alt="Foto de Juan Sebastián Rincón Gómez">
+          </div>
+          <h3>Juan Sebastián Rincón Gómez</h3>
+          <span class="equipo-card__rol">Diseñador 3D</span>
+        </article>
+
+        <article class="equipo-card reveal">
+          <div class="equipo-card__foto">
+            <img src="assets/img/equipo/dulce-hernandez.jpg" onerror="this.src='assets/img/equipo/placeholder.png'" alt="Foto de Dulce Hernández">
+          </div>
+          <h3>Dulce Hernández</h3>
+          <span class="equipo-card__rol">Diseñadora</span>
+        </article>
+
+        <article class="equipo-card reveal">
+          <div class="equipo-card__foto">
+            <img src="assets/img/equipo/yulian-reyes.jpg" onerror="this.src='assets/img/equipo/placeholder.png'" alt="Foto de Yulian Reyes">
+          </div>
+          <h3>Yulian Reyes</h3>
+          <span class="equipo-card__rol">Diseñador</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPLORA EL SITIO ============ -->
+  <section id="explora">
+    <div class="wrap">
+      <div class="section__head-row">
+        <div class="section__head reveal">
+          <span class="eyebrow">El resto del viaje</span>
+          <h2>Esto apenas comienza</h2>
+          <p>Ecos del Universo tiene más zonas por explorar. Están en construcción, pero aquí te contamos qué vas a encontrar en cada una.</p>
+        </div>
+
+        <svg class="trayectoria reveal" viewBox="0 0 200 120" aria-hidden="true">
+          <path d="M10 100 C 60 100, 70 30, 130 30 S 180 60, 190 20" fill="none" stroke="rgba(242,179,61,0.4)" stroke-width="1.5" stroke-dasharray="3 6"/>
+          <circle cx="10" cy="100" r="3" fill="var(--nebula-soft)"/>
+          <g transform="translate(178,10) rotate(35)">
+            <path d="M0 10 L4 0 L8 10 L4 7 Z" fill="url(#gradPlaneta2)"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="grid-explora">
+        <a href="zona-creativa.html" class="explora-card reveal">
+          <div class="explora-card__icono">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          </div>
+          <span class="explora-card__tag">Juega</span>
+          <h3>Zona Creativa</h3>
+          <p>Un simulador del universo y dos juegos hechos por nosotros para explorar el cosmos jugando.</p>
+          <span class="explora-card__ir">Entrar →</span>
+        </a>
+
+        <a href="galeria.html" class="explora-card reveal">
+          <div class="explora-card__icono">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="15" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 19"/></svg>
+          </div>
+          <span class="explora-card__tag">Mira</span>
+          <h3>Galería</h3>
+          <p>Imágenes y videos libres de derechos de autor con explicaciones a fondo sobre el universo.</p>
+          <span class="explora-card__ir">Entrar →</span>
+        </a>
+
+        <a href="Dasaboard.html" class="explora-card reveal">
+          <div class="explora-card__icono">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+          </div>
+          <span class="explora-card__tag">Lee</span>
+          <h3>Acerca de</h3>
+          <p>indice estadistico sobre el universo </p>
+          <span class="explora-card__ir">Entrar →</span>
+        </a>
+
+        <a href="acerca.html#contacto" class="explora-card reveal">
+          <div class="explora-card__icono">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v13H7l-3 3V4Z"/><path d="M7.5 9h9M7.5 12.5h6"/></svg>
+          </div>
+          <span class="explora-card__tag">Escríbenos</span>
+          <h3>Contacto</h3>
+          <p>Quiénes somos cada uno del equipo y cómo ponerte en contacto con nosotros.</p>
+          <span class="explora-card__ir">Entrar →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ PIE DE PÁGINA ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="Imagenes/images-removebg-preview.png" alt="Escudo del colegio">
+        <div class="sep"></div>
+        <div>
+          <strong>Ecos del Universo</strong><br>
+          <small>Técnico en Integración de Contenidos Digitales</small>
+        </div>
+      </div>
+
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h4>En esta página</h4>
+          <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#proyecto">El proyecto</a></li>
+            <li><a href="#universo">Universo</a></li>
+            <li><a href="#videos">Videos</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>El sitio completo</h4>
+          <ul>
+            <li><a href="zona-creativa.html">Zona Creativa</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="galeria.html">Galería</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+            <li><a href="acerca.html#contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Institución</h4>
+          <ul>
+            <li>Colegio Manuel Antonio Rueda Jara</li>
+            <li>Villa del Rosario</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="anio-actual"></span> Ecos del Universo. Proyecto de fin de año.</span>
+      <span>Hecho con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   ECOS DEL UNIVERSO — JavaScript
+   Comportamiento compartido por todas las páginas del sitio.
+   ========================================================= */
+
+document.addEventListener('DOMContentLoaded', () => {
+  iniciarFondoEstrellas();
+  iniciarNav();
+  iniciarRevelado();
+  iniciarPestanasVideo();
+  iniciarFondoInmersivo();
+  document.getElementById('anio-actual').textContent = new Date().getFullYear();
+});
+
+/* ---------------------------------------------------------
+   1) Fondo animado de estrellas + polvo cósmico (canvas)
+   --------------------------------------------------------- */
+function iniciarFondoEstrellas() {
+  const canvas = document.getElementById('estrellas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const prefiereReducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let ancho, alto, estrellas;
+
+  function crearEstrellas() {
+    const cantidad = Math.floor((ancho * alto) / 9000);
+    estrellas = Array.from({ length: cantidad }, () => ({
+      x: Math.random() * ancho,
+      y: Math.random() * alto,
+      radio: Math.random() * 1.3 + 0.2,
+      fase: Math.random() * Math.PI * 2,
+      velocidad: Math.random() * 0.015 + 0.004,
+      deriva: Math.random() * 0.15 + 0.02
+    }));
+  }
+
+  function ajustarTamano() {
+    ancho = canvas.width = window.innerWidth;
+    alto = canvas.height = window.innerHeight;
+    crearEstrellas();
+  }
+
+  function dibujar(t) {
+    ctx.clearRect(0, 0, ancho, alto);
+    for (const e of estrellas) {
+      const brillo = 0.55 + Math.sin(t * e.velocidad + e.fase) * 0.45;
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, e.radio, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(246,244,236,${Math.max(brillo, 0.08)})`;
+      ctx.fill();
+      if (!prefiereReducido) {
+        e.y += e.deriva * 0.05;
+        if (e.y > alto) e.y = 0;
+      }
+    }
+    requestAnimationFrame(dibujar);
+  }
+
+  window.addEventListener('resize', ajustarTamano);
+  ajustarTamano();
+  requestAnimationFrame(dibujar);
+}
+
+/* ---------------------------------------------------------
+   2) Navegación: fondo sólido al hacer scroll + menú móvil
+   --------------------------------------------------------- */
+function iniciarNav() {
+  const nav = document.querySelector('.nav');
+  const toggle = document.querySelector('.nav__toggle');
+  const links = document.querySelector('.nav__links');
+  const overlay = document.querySelector('.nav-overlay');
+  if (!nav) return;
+
+  const marcarSolido = () => {
+    nav.classList.toggle('nav--solid', window.scrollY > 40);
+  };
+  marcarSolido();
+  window.addEventListener('scroll', marcarSolido, { passive: true });
+
+  if (toggle && links && overlay) {
+    const abrirMenu = () => {
+      links.classList.add('is-open');
+      overlay.hidden = false;
+      requestAnimationFrame(() => overlay.classList.add('is-open'));
+      toggle.textContent = '✕';
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('menu-abierto');
+    };
+
+    const cerrarMenu = () => {
+      links.classList.remove('is-open');
+      overlay.classList.remove('is-open');
+      toggle.textContent = '☰';
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-abierto');
+      setTimeout(() => { if (!overlay.classList.contains('is-open')) overlay.hidden = true; }, 300);
+    };
+
+    toggle.addEventListener('click', () => {
+      const yaAbierto = links.classList.contains('is-open');
+      yaAbierto ? cerrarMenu() : abrirMenu();
+    });
+
+    // Cierra al tocar el fondo oscuro
+    overlay.addEventListener('click', cerrarMenu);
+
+    // Cierra al tocar un enlace
+    links.querySelectorAll('a').forEach((enlace) => {
+      enlace.addEventListener('click', cerrarMenu);
+    });
+
+    // Cierra con la tecla Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && links.classList.contains('is-open')) cerrarMenu();
+    });
+
+    // Si la ventana crece a tamaño de escritorio, cierra el menú móvil
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980 && links.classList.contains('is-open')) cerrarMenu();
+    });
+  }
+
+  // Resalta el enlace de la sección visible (solo aplica en páginas con anclas)
+  const secciones = document.querySelectorAll('main section[id]');
+  const enlaces = document.querySelectorAll('.nav__links a[href^="#"]');
+  if (secciones.length && enlaces.length) {
+    const observer = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting) {
+          enlaces.forEach((a) => a.classList.remove('is-active'));
+          const activo = document.querySelector(`.nav__links a[href="#${entrada.target.id}"]`);
+          if (activo) activo.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    secciones.forEach((s) => observer.observe(s));
+  }
+}
+
+/* ---------------------------------------------------------
+   3) Animación de aparición al hacer scroll
+   --------------------------------------------------------- */
+function iniciarRevelado() {
+  const elementos = document.querySelectorAll('.reveal');
+  if (!elementos.length) return;
+  const observer = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add('is-visible');
+        observer.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  elementos.forEach((el) => observer.observe(el));
+}
+
+/* ---------------------------------------------------------
+   4) Pestañas de la sección de videos explicativos
+   --------------------------------------------------------- */
+function iniciarPestanasVideo() {
+  const botones = document.querySelectorAll('.video-tabs button');
+  const marco = document.querySelector('.video-frame');
+  const titulo = document.querySelector('.video-caption h3');
+  const texto = document.querySelector('.video-caption p');
+  if (!botones.length || !marco) return;
+
+  botones.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      botones.forEach((b) => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      const src = btn.dataset.src;
+      const tituloVideo = btn.dataset.titulo;
+      const descripcion = btn.dataset.descripcion;
+
+      marco.innerHTML = `
+        <video controls poster="${btn.dataset.poster || ''}">
+          <source src="${src}" type="video/mp4">
+          Tu navegador no soporta el video. <a href="${src}">Descárgalo aquí</a>.
+        </video>`;
+      if (titulo) titulo.textContent = tituloVideo;
+      if (texto) texto.textContent = descripcion;
+    });
+  });
+}
+/* ---------------------------------------------------------
+   5) Fondos inmersivos: se intercalan (crossfade) según
+      la sección que esté cruzando el centro de la pantalla
+   --------------------------------------------------------- */
+function iniciarFondoInmersivo() {
+  const capas = document.querySelectorAll('.fondo-capa');
+  const secciones = document.querySelectorAll('main section[id], .hero[id]');
+  if (!capas.length || !secciones.length) return;
+
+  // Relaciona el id de cada sección con el fondo que le corresponde
+  const mapaFondos = {
+    inicio: 'hero',
+    proyecto: 'proyecto',
+    universo: 'universo',
+    videos: 'videos',
+    equipo: 'equipo'
+  };
+
+  const activar = (nombre) => {
+    capas.forEach((capa) => {
+      capa.classList.toggle('is-activa', capa.dataset.fondo === nombre);
+    });
+  };
+
+  // En vez de calcular "porcentaje visible" (que favorece injustamente a las
+  // secciones cortas frente a las largas), miramos directamente cual seccion
+  // ocupa el centro vertical de la pantalla en cada momento: es el metodo mas
+  // simple y el que da el resultado mas intuitivo.
+  let ultimoActivo = null;
+
+  function actualizarSegunScroll() {
+    const centro = window.innerHeight / 2;
+    let elegido = null;
+
+    secciones.forEach((s) => {
+      if (elegido) return;
+      const r = s.getBoundingClientRect();
+      if (r.top <= centro && r.bottom >= centro) elegido = s;
+    });
+
+    // Si el centro cae justo en un borde entre dos secciones, usamos la mas cercana
+    if (!elegido) {
+      let mejorDistancia = Infinity;
+      secciones.forEach((s) => {
+        const r = s.getBoundingClientRect();
+        const distancia = Math.min(Math.abs(r.top - centro), Math.abs(r.bottom - centro));
+        if (distancia < mejorDistancia) { mejorDistancia = distancia; elegido = s; }
+      });
+    }
+
+    if (elegido) {
+      const nombre = mapaFondos[elegido.id];
+      if (nombre && nombre !== ultimoActivo) {
+        ultimoActivo = nombre;
+        activar(nombre);
+      }
+    }
+  }
+
+  let tickPendiente = false;
+  window.addEventListener('scroll', () => {
+    if (tickPendiente) return;
+    tickPendiente = true;
+    requestAnimationFrame(() => { actualizarSegunScroll(); tickPendiente = false; });
+  }, { passive: true });
+
+  actualizarSegunScroll();
+}
+</script>
+</body>
+</html>

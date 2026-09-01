@@ -6,7 +6,7 @@
 <title>Zona Creativa | Ecos del Universo</title>
 <meta name="description" content="Explora un planetario 3D interactivo del sistema solar y juega dos minijuegos originales sobre el universo, hechos por el equipo de Ecos del Universo.">
 <link rel="icon" href="assets/img/logo-ecos.png">
-<link rel="stylesheet" href="zona creativa.css">
+<link rel="stylesheet" href="zona_creativa.css">
    <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
 </head>
 <body>
@@ -17,11 +17,42 @@
 <!-- ============ NAVEGACIÓN ============ -->
 <nav class="nav">
   <div class="wrap nav__inner">
+    <!-- Menú de escritorio: botón orbital -->
+    <div class="nav__orbital">
+      <button class="nav__orb" id="navOrb" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="navRadial">
+        <span class="nav__orb-core"></span>
+        <span class="nav__orb-sat"></span>
+      </button>
+      <div class="nav__radial" id="navRadial">
+        <a href="index.html" class="nav__radial-item" style="--i:0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9h14v-9"/><path d="M9.5 19v-5.5h5V19"/></svg>
+          <span>Inicio</span>
+        </a>
+        <a href="Zona_Creativa.html" class="nav__radial-item is-active" style="--i:1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9c0-1-.8-1.6-1.8-1.6h-2.1A2.1 2.1 0 0 1 15 8.3V7c0-1.5-1.3-2.6-3-4Z"/><circle cx="8.2" cy="11" r="1"/><circle cx="12" cy="7.8" r="1"/><circle cx="15.5" cy="12" r="1"/><circle cx="9.3" cy="15" r="1"/></svg>
+          <span>Zona Creativa</span>
+        </a>
+        <a href="Dasaboard.html" class="nav__radial-item" style="--i:2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="Galeria.html" class="nav__radial-item" style="--i:3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m5 17 4.5-5 3 3 3.5-4.5L20 16"/></svg>
+          <span>Galería</span>
+        </a>
+        <a href="Acerca.html" class="nav__radial-item" style="--i:4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 8v.01"/></svg>
+          <span>Acerca de</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Menú de celular: botón hamburguesa -->
     <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
 
-    <ul class="nav__links">
+    <ul class="nav__links" id="navLinks">
       <li><a href="index.html">Inicio</a></li>
-      <li><a href="Zona Creativa.html" class="is-active">Zona Creativa</a></li>
+      <li><a href="Zona_Creativa.html" class="is-active">Zona Creativa</a></li>
       <li><a href="Dasaboard.html">Dashboard</a></li>
       <li><a href="Galeria.html">Galería</a></li>
       <li><a href="Acerca.html">Acerca de</a></li>
@@ -236,9 +267,9 @@
           <h4>El sitio completo</h4>
           <ul>
             <li><a href="index.html">Inicio</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="galeria.html">Galería</a></li>
-            <li><a href="acerca.html">Acerca de</a></li>
+            <li><a href="Dasaboard.html">Dashboard</a></li>
+            <li><a href="Galeria.html">Galería</a></li>
+            <li><a href="Acerca.html">Acerca de</a></li>
             <li><a href="acerca.html#contacto">Contacto</a></li>
           </ul>
         </div>
@@ -268,6 +299,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   iniciarFondoEstrellas();
   iniciarNav();
+  iniciarMenuOrbital();
   iniciarRevelado();
   iniciarFondoInmersivo();
   iniciarJuegoAsteroides();
@@ -395,6 +427,87 @@ function iniciarNav() {
     }, { rootMargin: '-45% 0px -45% 0px' });
     secciones.forEach((s) => observer.observe(s));
   }
+}
+
+/* ---------------------------------------------------------
+   Menú orbital de escritorio: botón central que despliega
+   los enlaces en abanico a su alrededor
+   --------------------------------------------------------- */
+function iniciarMenuOrbital() {
+  const orb = document.getElementById('navOrb');
+  const radial = document.getElementById('navRadial');
+  if (!orb || !radial) return;
+
+  const items = radial.querySelectorAll('.nav__radial-item');
+  // Ángulos en grados (0° = derecha, 90° = abajo): abanico hacia abajo-derecha,
+  // con más separación entre ellos para que no se encimen los círculos
+  const angulos = [0, 27, 54, 81, 108];
+  const radio = 120;
+  const radioItem = 23; // la mitad de 46px (ancho/alto de cada círculo)
+  const margen = 10;
+
+  function calcularPosiciones() {
+    const rectOrb = orb.getBoundingClientRect();
+    const centroX = rectOrb.left + rectOrb.width / 2;
+    const centroY = rectOrb.top + rectOrb.height / 2;
+
+    items.forEach((item, i) => {
+      const rad = (angulos[i] ?? (i * 27)) * Math.PI / 180;
+      let tx = Math.cos(rad) * radio;
+      let ty = Math.sin(rad) * radio;
+
+      // Evita que el abanico se salga de la pantalla en ventanas angostas
+      const minX = radioItem + margen;
+      const maxX = window.innerWidth - radioItem - margen;
+      const minY = radioItem + margen;
+      const maxY = window.innerHeight - radioItem - margen;
+      const x = Math.min(Math.max(centroX + tx, minX), maxX);
+      const y = Math.min(Math.max(centroY + ty, minY), maxY);
+      tx = x - centroX;
+      ty = y - centroY;
+
+      item.style.setProperty('--tx', `${tx}px`);
+      item.style.setProperty('--ty', `${ty}px`);
+      if (!item.style.getPropertyValue('--i')) item.style.setProperty('--i', i);
+    });
+  }
+
+  calcularPosiciones();
+  window.addEventListener('resize', calcularPosiciones);
+
+  const abrir = () => {
+    radial.classList.add('is-open');
+    orb.setAttribute('aria-expanded', 'true');
+  };
+  const cerrar = () => {
+    radial.classList.remove('is-open');
+    orb.setAttribute('aria-expanded', 'false');
+  };
+
+  orb.addEventListener('click', (e) => {
+    e.stopPropagation();
+    radial.classList.contains('is-open') ? cerrar() : abrir();
+  });
+
+  // Cierra al tocar fuera del menú
+  document.addEventListener('click', (e) => {
+    if (radial.classList.contains('is-open') && !radial.contains(e.target) && e.target !== orb) {
+      cerrar();
+    }
+  });
+
+  // Cierra con Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && radial.classList.contains('is-open')) cerrar();
+  });
+
+  // Cierra al elegir una opción
+  items.forEach((item) => item.addEventListener('click', cerrar));
+
+  // Si la ventana baja a tamaño de celular, cierra el menú orbital
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= 980 && radial.classList.contains('is-open')) cerrar();
+  });
 }
 
 /* ---------------------------------------------------------
@@ -1183,6 +1296,17 @@ function configurarPantallaCompleta(selectorElemento, idBoton) {
 
   let modoRespaldo = false;
 
+  // El canvas de los juegos (ej. Esquiva Asteroides) solo recalcula su
+  // tamaño cuando la VENTANA cambia de tamaño. Al entrar/salir de pantalla
+  // completa la ventana no cambia, así que el canvas se queda con la
+  // resolución vieja mientras el CSS lo estira: por eso el juego se ve
+  // "mal puesto". Forzamos aquí un evento resize para que se recalcule.
+  function notificarCambioDeTamano() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+    });
+  }
+
   function actualizarIcono(activo) {
     btn.textContent = activo ? '⤫' : '⛶';
     btn.setAttribute('aria-label', activo ? 'Salir de pantalla completa' : 'Ver en pantalla completa');
@@ -1193,6 +1317,7 @@ function configurarPantallaCompleta(selectorElemento, idBoton) {
     elemento.classList.add('pantalla-completa-fallback');
     document.body.classList.add('bloqueo-scroll-pantalla-completa');
     actualizarIcono(true);
+    notificarCambioDeTamano();
   }
 
   function salir() {
@@ -1204,6 +1329,7 @@ function configurarPantallaCompleta(selectorElemento, idBoton) {
       elemento.classList.remove('pantalla-completa-fallback');
       document.body.classList.remove('bloqueo-scroll-pantalla-completa');
       actualizarIcono(false);
+      notificarCambioDeTamano();
     }
   }
 
@@ -1223,6 +1349,7 @@ function configurarPantallaCompleta(selectorElemento, idBoton) {
   document.addEventListener('fullscreenchange', () => {
     if (document.fullscreenElement === elemento) actualizarIcono(true);
     else if (!modoRespaldo) actualizarIcono(false);
+    notificarCambioDeTamano();
   });
 
   document.addEventListener('keydown', (e) => {

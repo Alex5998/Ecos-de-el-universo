@@ -37,7 +37,7 @@
   --radius-lg:      28px;
   --edge:           1px solid rgba(246,244,236,0.08);
 
-  --maxw:           1180px;
+  --maxw:           1400px;
 }
 
 *, *::before, *::after{ box-sizing: border-box; }
@@ -228,44 +228,174 @@ body::after{
 }
 .nav__title span{ color: var(--gold-soft); }
 
+/* ---------- Menú de escritorio: botón orbital ---------- */
+.nav__orbital{
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.nav__orb{
+  position: relative;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 1px solid rgba(242,179,61,0.35);
+  background: rgba(16,16,43,0.55);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: 0 8px 24px -10px rgba(0,0,0,0.55);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.35s ease, border-color 0.35s ease;
+  z-index: 120;
+}
+.nav__orb:hover{ border-color: rgba(242,179,61,0.65); }
+.nav__orb:focus-visible{ outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+.nav__orb-core{
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  box-shadow: 0 0 10px 2px rgba(255,217,138,0.7);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.nav__orb-sat{
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(246,244,236,0.25);
+  animation: nav-orb-rotar 9s linear infinite;
+}
+.nav__orb-sat::before{
+  content: "";
+  position: absolute;
+  top: -2.5px; left: 50%;
+  width: 5px; height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: var(--nebula-soft);
+  box-shadow: 0 0 6px 1px rgba(185,169,255,0.85);
+}
+@keyframes nav-orb-rotar{ to{ transform: rotate(360deg); } }
+.nav__orb[aria-expanded="true"]{
+  border-color: var(--gold-soft);
+  box-shadow: 0 8px 26px -8px rgba(0,0,0,0.55), 0 0 0 6px rgba(242,179,61,0.14);
+}
+.nav__orb[aria-expanded="true"] .nav__orb-core{
+  transform: scale(1.35);
+  background: var(--ember);
+}
+
+.nav__radial{
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  pointer-events: none;
+}
+.nav__radial-item{
+  position: absolute;
+  top: 0; left: 0;
+  width: 46px; height: 46px;
+  margin: -23px 0 0 -23px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16,16,43,0.88);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(246,244,236,0.16);
+  color: var(--ink-70);
+  opacity: 0;
+  transform: translate(0,0) scale(0.3);
+  transition: transform 0.45s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  pointer-events: none;
+}
+.nav__radial-item svg{ width: 19px; height: 19px; }
+.nav__radial-item span{
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  letter-spacing: 0.03em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(6,5,21,0.92);
+  border: 1px solid rgba(246,244,236,0.12);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.nav__radial-item:hover span,
+.nav__radial-item:focus-visible span{ opacity: 1; }
+.nav__radial-item:hover,
+.nav__radial-item:focus-visible{
+  border-color: rgba(242,179,61,0.6);
+  color: var(--gold-soft);
+  background: rgba(16,16,43,0.98);
+}
+.nav__radial-item.is-active{
+  border-color: var(--gold-soft);
+  color: var(--gold-soft);
+  box-shadow: 0 0 0 3px rgba(242,179,61,0.15);
+}
+.nav__radial.is-open .nav__radial-item{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(var(--tx), var(--ty)) scale(1);
+  transition-delay: calc(var(--i) * 0.05s);
+}
+.nav__radial:not(.is-open) .nav__radial-item{
+  transition-delay: calc((4 - var(--i)) * 0.04s);
+}
+
+/* ---------- Menú de celular: panel lateral (drawer) ---------- */
 .nav__links{
   list-style: none;
   margin: 0;
-  padding: 1.2rem 1.5rem 1.4rem;
+  padding: 5.5rem 1.6rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.35rem;
+  gap: 0.3rem;
 
-  position: absolute;
-  top: calc(100% + 10px);
-  left: clamp(1rem, 4vw, 2.5rem);
-  width: min(240px, calc(100vw - 2.5rem));
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: min(78vw, 320px);
   background: rgba(6,5,21,0.98);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(246,244,236,0.1);
-  border-radius: var(--radius-md);
-  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6);
-  transform: translateY(-12px);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  backdrop-filter: blur(16px);
+  border-left: 1px solid rgba(246,244,236,0.1);
+  box-shadow: -20px 0 40px -20px rgba(0,0,0,0.6);
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+  z-index: 105;
+  overflow-y: auto;
 }
 .nav__links.is-open{
-  opacity: 1;
-  transform: translateY(0);
-  visibility: visible;
-  pointer-events: auto;
+  transform: translateX(0);
 }
 .nav__links a{
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--ink-70);
   position: relative;
-  padding: 0.35rem 0;
+  padding: 0.6rem 0;
   width: 100%;
+  opacity: 0;
+  transform: translateX(14px);
+  transition: opacity 0.35s ease, transform 0.35s ease, color 0.2s ease;
 }
+.nav__links.is-open a{ opacity: 1; transform: translateX(0); }
+.nav__links li:nth-child(1) a{ transition-delay: .05s; }
+.nav__links li:nth-child(2) a{ transition-delay: .10s; }
+.nav__links li:nth-child(3) a{ transition-delay: .15s; }
+.nav__links li:nth-child(4) a{ transition-delay: .20s; }
+.nav__links li:nth-child(5) a{ transition-delay: .25s; }
 .nav__links a:hover{ color: var(--ink-100); }
 .nav__links a::after{
   content: "";
@@ -304,7 +434,17 @@ body::after{
 }
 .nav-overlay.is-open{ opacity: 1; }
 
+/* En escritorio se usa el menú orbital; en celular, el panel lateral */
+@media (min-width: 981px){
+  .nav__toggle{ display: none; }
+  .nav__links{ display: none; }
+}
+@media (max-width: 980px){
+  .nav__orbital{ display: none; }
+}
+
 body.menu-abierto{ overflow: hidden; }
+
 
 /* ---------- Portada (páginas internas, ej. Zona Creativa) ---------- */
 .portada{

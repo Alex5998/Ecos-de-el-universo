@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard del Universo | Ecos del Universo</title>
 <meta name="description" content="Dashboard visual con estadísticas, tablas y diagramas sobre el sistema solar, las estrellas y otros cuerpos celestes.">
-<link rel="icon" href="assets/img/logo-ecos.png">
 <link rel="stylesheet" href="Dasboard.css">
    <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
 </head>
@@ -13,11 +12,11 @@
 
 <canvas id="estrellas"></canvas>
 <div class="fondo-inmersivo" aria-hidden="true">
-  <div class="fondo-capa is-activa" data-fondo="hero" style="background-image:url('assets/img/fondos/hero.jpg')"></div>
-  <div class="fondo-capa" data-fondo="proyecto" style="background-image:url('assets/img/fondos/proyecto.jpg')"></div>
-  <div class="fondo-capa" data-fondo="universo" style="background-image:url('assets/img/fondos/universo.jpg')"></div>
-  <div class="fondo-capa" data-fondo="videos" style="background-image:url('assets/img/fondos/videos.jpg')"></div>
-  <div class="fondo-capa" data-fondo="equipo" style="background-image:url('assets/img/fondos/equipo.jpg')"></div>
+  <div class="fondo-capa is-activa" data-fondo="hero" style="background-image:url('Imagenes/nasa1.jpg')"></div>
+  <div class="fondo-capa" data-fondo="proyecto" style="background-image:url('Imagenes/nasa2.jpg')"></div>
+  <div class="fondo-capa" data-fondo="universo" style="background-image:url('Imagenes/nasa3.jpg')"></div>
+  <div class="fondo-capa" data-fondo="videos" style="background-image:url('Imagenes/nasa4.jpg')"></div>
+  <div class="fondo-capa" data-fondo="equipo" style="background-image:url('Imagenes/nasa5.webp')"></div>
 </div>
 <div class="grano" aria-hidden="true"></div>
 
@@ -31,15 +30,15 @@
         <span class="nav__orb-sat"></span>
       </button>
       <div class="nav__radial" id="navRadial">
-        <a href="index.html" class="nav__radial-item is-active" style="--i:0">
+        <a href="index.html" class="nav__radial-item" style="--i:0">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9h14v-9"/><path d="M9.5 19v-5.5h5V19"/></svg>
           <span>Inicio</span>
         </a>
-        <a href="Zona Creativa.html" class="nav__radial-item" style="--i:1">
+        <a href="Zona_Creativa.html" class="nav__radial-item" style="--i:1">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9c0-1-.8-1.6-1.8-1.6h-2.1A2.1 2.1 0 0 1 15 8.3V7c0-1.5-1.3-2.6-3-4Z"/><circle cx="8.2" cy="11" r="1"/><circle cx="12" cy="7.8" r="1"/><circle cx="15.5" cy="12" r="1"/><circle cx="9.3" cy="15" r="1"/></svg>
           <span>Zona Creativa</span>
         </a>
-        <a href="Dasaboard.html" class="nav__radial-item" style="--i:2">
+        <a href="Dasaboard.html" class="nav__radial-item is-active" style="--i:2">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
           <span>Dashboard</span>
         </a>
@@ -58,12 +57,13 @@
     <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
 
     <ul class="nav__links" id="navLinks">
-      <li><a href="index.html" class="is-active">Inicio</a></li>
-      <li><a href="Zona Creativa.html">Zona Creativa</a></li>
-      <li><a href="Dasaboard.html">Dashboard</a></li>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="Zona_Creativa.html">Zona Creativa</a></li>
+      <li><a href="Dasaboard.html" class="is-active">Dashboard</a></li>
       <li><a href="Galeria.html">Galería</a></li>
       <li><a href="Acerca.html">Acerca de</a></li>
     </ul>
+
     <div class="nav__brands">
  <img src="Imagenes/logo_colegio-removebg-preview.png" alt="Escudo del Colegio Manuel Antonio Rueda Jara">
       <div class="nav__divider"></div>
@@ -82,12 +82,26 @@
       <h1>Dashboard del <span class="accent">Universo</span></h1>
       <p class="lead">Un vistazo visual a las cifras que describen el sistema solar, las estrellas y otros cuerpos celestes: cuántos son, qué tan grandes son, y qué tan lejos están.</p>
       <div class="portada__cta">
-        <a href="#composicion" class="btn btn--solid">Ver la composición del universo</a>
-        <a href="#planetas" class="btn btn--ghost">Ir a la tabla de planetas</a>
+        <a href="#composicion" class="btn btn--solid" data-ir-a-tab="panorama">Ver la composición del universo</a>
+        <a href="#planetas" class="btn btn--ghost" data-ir-a-tab="sistema-solar">Ir a la tabla de planetas</a>
       </div>
     </div>
   </section>
 
+  <!-- ============ PESTAÑAS DEL DASHBOARD ============ -->
+  <section id="explorador">
+    <div class="wrap">
+      <div class="dash-tabs" id="dashTabs" role="tablist" aria-label="Temas del dashboard">
+        <button class="dash-tab is-activo" type="button" data-tab="panorama" role="tab" aria-selected="true">🌌 Panorama</button>
+        <button class="dash-tab" type="button" data-tab="sistema-solar" role="tab" aria-selected="false">🪐 Sistema Solar</button>
+        <button class="dash-tab" type="button" data-tab="estrellas" role="tab" aria-selected="false">⭐ Estrellas</button>
+        <button class="dash-tab" type="button" data-tab="cuerpos" role="tab" aria-selected="false">☄️ Cuerpos Celestes</button>
+        <button class="dash-tab" type="button" data-tab="tiempo" role="tab" aria-selected="false">⏳ Línea de Tiempo</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="dash-panel is-activo" data-panel="panorama">
   <!-- ============ INDICADORES CLAVE (KPIs) ============ -->
   <section id="indicadores">
     <div class="wrap">
@@ -157,6 +171,9 @@
     </div>
   </section>
 
+  </div>
+
+  <div class="dash-panel" data-panel="sistema-solar" hidden>
   <!-- ============ TABLA DE PLANETAS ============ -->
   <section id="planetas">
     <div class="wrap">
@@ -259,6 +276,9 @@
     </div>
   </section>
 
+  </div>
+
+  <div class="dash-panel" data-panel="estrellas" hidden>
   <!-- ============ CLASIFICACIÓN ESTELAR ============ -->
   <section id="clasificacion-estelar">
     <div class="wrap">
@@ -373,6 +393,9 @@
     </div>
   </section>
 
+  </div>
+
+  <div class="dash-panel" data-panel="cuerpos" hidden>
   <!-- ============ TIPOS DE CUERPOS CELESTES ============ -->
   <section id="cuerpos-celestes">
     <div class="wrap">
@@ -402,6 +425,9 @@
     </div>
   </section>
 
+  </div>
+
+  <div class="dash-panel" data-panel="tiempo" hidden>
   <!-- ============ LÍNEA DE TIEMPO CÓSMICA ============ -->
   <section id="linea-tiempo">
     <div class="wrap">
@@ -451,6 +477,8 @@
       </ol>
     </div>
   </section>
+
+  </div>
 
 </main>
 
@@ -512,6 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
   iniciarMenuOrbital();
   iniciarRevelado();
   iniciarFondoInmersivo();
+  iniciarPestanasDashboard();
   document.getElementById('anio-actual').textContent = new Date().getFullYear();
 });
 
@@ -771,6 +800,7 @@ function iniciarFondoInmersivo() {
 
     secciones.forEach((s) => {
       if (elegido) return;
+      if (s.offsetParent === null) return; // sección oculta por una pestaña inactiva
       const r = s.getBoundingClientRect();
       if (r.top <= centro && r.bottom >= centro) elegido = s;
     });
@@ -779,6 +809,7 @@ function iniciarFondoInmersivo() {
     if (!elegido) {
       let mejorDistancia = Infinity;
       secciones.forEach((s) => {
+        if (s.offsetParent === null) return;
         const r = s.getBoundingClientRect();
         const distancia = Math.min(Math.abs(r.top - centro), Math.abs(r.bottom - centro));
         if (distancia < mejorDistancia) { mejorDistancia = distancia; elegido = s; }
@@ -802,6 +833,72 @@ function iniciarFondoInmersivo() {
   }, { passive: true });
 
   actualizarSegunScroll();
+}
+
+/* ---------------------------------------------------------
+   6) Pestañas del Dashboard: organizan el contenido por tema
+      (Panorama, Sistema Solar, Estrellas, Cuerpos Celestes,
+      Línea de Tiempo) en vez de un solo scroll continuo.
+   --------------------------------------------------------- */
+function iniciarPestanasDashboard() {
+  const tabs = document.querySelectorAll('.dash-tab');
+  const paneles = document.querySelectorAll('.dash-panel');
+  if (!tabs.length || !paneles.length) return;
+
+  const fondoPorTab = {
+    panorama: 'hero',
+    'sistema-solar': 'proyecto',
+    estrellas: 'videos',
+    cuerpos: 'proyecto',
+    tiempo: 'equipo'
+  };
+
+  function activarTab(nombre, { desplazar = false } = {}) {
+    tabs.forEach((t) => {
+      const activo = t.dataset.tab === nombre;
+      t.classList.toggle('is-activo', activo);
+      t.setAttribute('aria-selected', activo ? 'true' : 'false');
+    });
+
+    paneles.forEach((p) => {
+      const activo = p.dataset.panel === nombre;
+      p.classList.toggle('is-activo', activo);
+      p.hidden = !activo;
+    });
+
+    const fondo = fondoPorTab[nombre];
+    if (fondo) {
+      document.querySelectorAll('.fondo-capa').forEach((capa) => {
+        capa.classList.toggle('is-activa', capa.dataset.fondo === fondo);
+      });
+    }
+
+    // Revela de inmediato el contenido del panel recién mostrado, en vez
+    // de esperar a que el usuario haga scroll sobre él.
+    const panelActivo = document.querySelector(`.dash-panel[data-panel="${nombre}"]`);
+    if (panelActivo) {
+      panelActivo.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+    }
+
+    if (desplazar) {
+      document.getElementById('dashTabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => activarTab(tab.dataset.tab));
+  });
+
+  // Los botones de la portada ("Ver la composición…", "Ir a la tabla…")
+  // ahora abren directamente la pestaña correspondiente.
+  document.querySelectorAll('[data-ir-a-tab]').forEach((boton) => {
+    boton.addEventListener('click', (e) => {
+      e.preventDefault();
+      activarTab(boton.dataset.irATab, { desplazar: true });
+    });
+  });
+
+  activarTab('panorama');
 }
 </script>
 </body>

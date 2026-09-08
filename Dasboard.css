@@ -37,7 +37,7 @@
   --radius-lg:      28px;
   --edge:           1px solid rgba(246,244,236,0.08);
 
-  --maxw:           1400px;
+  --maxw:           min(1900px, 97vw);
 }
 
 *, *::before, *::after{ box-sizing: border-box; }
@@ -483,6 +483,51 @@ body.menu-abierto{ overflow: hidden; }
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+/* ---------- Pestañas del Dashboard ---------- */
+#explorador{ padding-top: 0; padding-bottom: 0; }
+.dash-tabs{
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 0.4rem 0.2rem 1.6rem;
+  position: sticky;
+  top: 72px;
+  z-index: 20;
+  scrollbar-width: none;
+}
+.dash-tabs::-webkit-scrollbar{ display: none; }
+.dash-tab{
+  flex: 0 0 auto;
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--ink-70);
+  background: rgba(246,244,236,0.05);
+  border: var(--edge);
+  border-radius: 999px;
+  padding: 0.65rem 1.3rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+.dash-tab:hover{ transform: translateY(-2px); color: var(--ink-100); }
+.dash-tab.is-activo{
+  background: linear-gradient(135deg, var(--gold), var(--ember));
+  border-color: transparent;
+  color: #171425;
+}
+.dash-panel{ animation: dashPanelEntra 0.4s ease; }
+.dash-panel[hidden]{ display: none; }
+@keyframes dashPanelEntra{
+  from{ opacity: 0; transform: translateY(10px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 700px){
+  .dash-tabs{ top: 64px; justify-content: flex-start; }
+  .dash-tab{ font-size: 0.78rem; padding: 0.55rem 1.05rem; }
 }
 
 /* ---------- Hero ---------- */

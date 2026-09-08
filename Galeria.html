@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Galería | Ecos del Universo</title>
 <meta name="description" content="Galería visual del universo: imágenes de la NASA y los grandes telescopios, con una vista 3D interactiva y folletos con información sobre cada una.">
-<link rel="icon" href="assets/img/logo-ecos.png">
 <link rel="stylesheet" href="galeria.css">
    <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
 </head>
@@ -13,11 +12,11 @@
 
 <canvas id="estrellas"></canvas>
 <div class="fondo-inmersivo" aria-hidden="true">
-  <div class="fondo-capa is-activa" data-fondo="hero" style="background-image:url('assets/img/fondos/hero.jpg')"></div>
-  <div class="fondo-capa" data-fondo="proyecto" style="background-image:url('assets/img/fondos/proyecto.jpg')"></div>
-  <div class="fondo-capa" data-fondo="universo" style="background-image:url('assets/img/fondos/universo.jpg')"></div>
-  <div class="fondo-capa" data-fondo="videos" style="background-image:url('assets/img/fondos/videos.jpg')"></div>
-  <div class="fondo-capa" data-fondo="equipo" style="background-image:url('assets/img/fondos/equipo.jpg')"></div>
+  <div class="fondo-capa is-activa" data-fondo="hero" style="background-image:url('Imagenes/nasa1.jpg')"></div>
+  <div class="fondo-capa" data-fondo="proyecto" style="background-image:url('Imagenes/nasa2.jpg')"></div>
+  <div class="fondo-capa" data-fondo="universo" style="background-image:url('Imagenes/nasa3.jpg')"></div>
+  <div class="fondo-capa" data-fondo="videos" style="background-image:url('Imagenes/nasa4.jpg')"></div>
+  <div class="fondo-capa" data-fondo="equipo" style="background-image:url('Imagenes/nasa5.webp')"></div>
 </div>
 <div class="grano" aria-hidden="true"></div>
 
@@ -31,11 +30,11 @@
         <span class="nav__orb-sat"></span>
       </button>
       <div class="nav__radial" id="navRadial">
-        <a href="index.html" class="nav__radial-item is-active" style="--i:0">
+        <a href="index.html" class="nav__radial-item" style="--i:0">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9h14v-9"/><path d="M9.5 19v-5.5h5V19"/></svg>
           <span>Inicio</span>
         </a>
-        <a href="Zona Creativa.html" class="nav__radial-item" style="--i:1">
+        <a href="Zona_Creativa.html" class="nav__radial-item" style="--i:1">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9c0-1-.8-1.6-1.8-1.6h-2.1A2.1 2.1 0 0 1 15 8.3V7c0-1.5-1.3-2.6-3-4Z"/><circle cx="8.2" cy="11" r="1"/><circle cx="12" cy="7.8" r="1"/><circle cx="15.5" cy="12" r="1"/><circle cx="9.3" cy="15" r="1"/></svg>
           <span>Zona Creativa</span>
         </a>
@@ -43,7 +42,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
           <span>Dashboard</span>
         </a>
-        <a href="Galeria.html" class="nav__radial-item" style="--i:3">
+        <a href="Galeria.html" class="nav__radial-item is-active" style="--i:3">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m5 17 4.5-5 3 3 3.5-4.5L20 16"/></svg>
           <span>Galería</span>
         </a>
@@ -58,10 +57,10 @@
     <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
 
     <ul class="nav__links" id="navLinks">
-      <li><a href="index.html" class="is-active">Inicio</a></li>
-      <li><a href="Zona Creativa.html">Zona Creativa</a></li>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="Zona_Creativa.html">Zona Creativa</a></li>
       <li><a href="Dasaboard.html">Dashboard</a></li>
-      <li><a href="Galeria.html">Galería</a></li>
+      <li><a href="Galeria.html" class="is-active">Galería</a></li>
       <li><a href="Acerca.html">Acerca de</a></li>
     </ul>
 
@@ -113,16 +112,24 @@
               <span class="galeria3d__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.08.49 AM.jpeg')"></span>
               <figcaption>Pilares de la Creación</figcaption>
             </figure>
+            <figure class="galeria3d__item" data-id="kepler" style="--tinte:var(--gold);" data-titulo="Telescopio Espacial Kepler" data-categoria="Telescopios" data-resumen="Entre 2009 y 2018 confirmó más de 2,600 exoplanetas midiendo pequeñas caídas de brillo en sus estrellas.">
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/kepleer.jpg')"></span>
+              <figcaption>Kepler</figcaption>
+            </figure>
             <figure class="galeria3d__item" data-id="saturno" style="--tinte:var(--ember);" data-titulo="Saturno y sus anillos" data-categoria="Planetas" data-resumen="La sonda Cassini pasó 13 años estudiando Saturno de cerca antes de terminar su misión en 2017.">
               <span class="galeria3d__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.09.28 AM.jpeg')"></span>
               <figcaption>Saturno</figcaption>
+            </figure>
+            <figure class="galeria3d__item" data-id="jupiter" style="--tinte:var(--nebula);" data-titulo="Júpiter y la Gran Mancha Roja" data-categoria="Planetas" data-resumen="La sonda Juno orbita Júpiter desde 2016, estudiando su atmósfera y su intenso campo magnético.">
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/jupiter galeria.avif')"></span>
+              <figcaption>Júpiter</figcaption>
             </figure>
             <figure class="galeria3d__item" data-id="andromeda" style="--tinte:var(--nebula);" data-titulo="Galaxia de Andrómeda" data-categoria="Nebulosas y galaxias" data-resumen="Nuestra galaxia vecina más grande, y con la que la Vía Láctea eventualmente se fusionará.">
               <span class="galeria3d__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.11.27 AM.jpeg')"></span>
               <figcaption>Andrómeda</figcaption>
             </figure>
             <figure class="galeria3d__item" data-id="marte" style="--tinte:var(--gold);" data-titulo="Superficie de Marte" data-categoria="Planetas" data-resumen="Los rovers de la NASA han recorrido el planeta rojo desde el 2004, buscando señales de agua antigua.">
-              <span class="galeria3d__imagen" style="background-image:url('assets/img/galeria/marte.jpg')"></span>
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/marte.webp')"></span>
               <figcaption>Marte</figcaption>
             </figure>
             <figure class="galeria3d__item" data-id="iss" style="--tinte:var(--wine);" data-titulo="Estación Espacial Internacional" data-categoria="Misiones" data-resumen="Un laboratorio orbital habitado de forma continua desde el año 2000, a 400 km de altura.">
@@ -206,7 +213,7 @@
 
         <article class="folleto" data-id="jupiter" data-categoria="Planetas">
           <button class="folleto__portada" aria-label="Ver folleto: Júpiter y la Gran Mancha Roja">
-            <span class="folleto__imagen" style="background-image:url('Imagenes/WhatsApp Image 2026-08-11 at 8.09.28 AM.jpeg')"></span>
+            <span class="folleto__imagen" style="background-image:url('Imagenes/jupiter galeria.avif')"></span>
             <span class="folleto__etiqueta">Planetas</span>
             <h3>Júpiter y la Gran Mancha Roja</h3>
             <span class="folleto__accion">Ver folleto <i>+</i></span>
@@ -792,61 +799,61 @@ function iniciarFolletos() {
 const datosGaleria = {
   hubble: {
     categoria: 'Telescopios', titulo: 'Telescopio Espacial Hubble',
-    imagen: 'assets/img/galeria/hubble.jpg',
+    imagen: 'Imagenes/WhatsApp Image 2026-08-11 at 8.07.37 AM.jpeg',
     detalle: 'Lanzado en 1990, el Hubble orbita a unos 540 km de altura, por encima de la atmósfera que distorsiona las imágenes tomadas desde la Tierra. Durante más de tres décadas ha capturado algunas de las fotografías más influyentes de la historia de la astronomía.',
     datos: [['Lanzamiento', '24 de abril de 1990'], ['Operado por', 'NASA / ESA'], ['Altitud orbital', '~540 km']]
   },
   webb: {
     categoria: 'Telescopios', titulo: 'Telescopio Espacial James Webb',
-    imagen: 'assets/img/galeria/webb.jpg',
+    imagen: 'Imagenes/WhatsApp Image 2026-08-11 at 8.08.15 AM.jpeg',
     detalle: 'Lanzado en 2021, es el telescopio espacial más grande y potente construido hasta ahora. Observa principalmente en luz infrarroja, lo que le permite ver a través de nubes de polvo y detectar galaxias extremadamente lejanas y antiguas.',
     datos: [['Lanzamiento', '25 de diciembre de 2021'], ['Operado por', 'NASA / ESA / CSA'], ['Ubicación', 'Punto de Lagrange L2, a 1.5 millones de km']]
   },
   kepler: {
     categoria: 'Telescopios', titulo: 'Telescopio Espacial Kepler',
-    imagen: 'assets/img/galeria/kepler.jpg',
+    imagen: 'Imagenes/kepleer.jpg',
     detalle: 'Su misión, entre 2009 y 2018, fue buscar planetas fuera del sistema solar midiendo pequeñas caídas de brillo cuando un planeta pasaba frente a su estrella. Confirmó más de 2,600 exoplanetas.',
     datos: [['Lanzamiento', '7 de marzo de 2009'], ['Exoplanetas confirmados', '2,600+'], ['Fin de la misión', '2018']]
   },
   saturno: {
     categoria: 'Planetas', titulo: 'Saturno y sus anillos',
-    imagen: 'assets/img/galeria/saturno.jpg',
+    imagen: 'Imagenes/WhatsApp Image 2026-08-11 at 8.09.28 AM.jpeg',
     detalle: 'La sonda Cassini orbitó Saturno durante 13 años, revelando el detalle de sus anillos y descubriendo océanos bajo el hielo de algunas de sus lunas. En 2017, la sonda se dejó caer intencionalmente en la atmósfera del planeta para evitar contaminar esas lunas.',
     datos: [['Misión', 'Cassini-Huygens'], ['Años en órbita', '13 (2004–2017)'], ['Lunas exploradas', 'Titán, Encélado, entre otras']]
   },
   jupiter: {
     categoria: 'Planetas', titulo: 'Júpiter y la Gran Mancha Roja',
-    imagen: 'assets/img/galeria/jupiter.jpg',
+    imagen: 'Imagenes/jupiter_galeria.avif',
     detalle: 'La sonda Juno orbita Júpiter desde 2016, estudiando su atmósfera y su intenso campo magnético. La Gran Mancha Roja es una tormenta gigante, más ancha que la Tierra, que lleva siglos activa.',
     datos: [['Misión', 'Juno'], ['Llegada', '2016'], ['Gran Mancha Roja', 'Más grande que la Tierra']]
   },
   marte: {
     categoria: 'Planetas', titulo: 'Superficie de Marte',
-    imagen: 'assets/img/galeria/marte.jpg',
+    imagen: 'Imagenes/marte.webp',
     detalle: 'Distintos rovers de la NASA —Spirit, Opportunity, Curiosity y Perseverance— han recorrido la superficie marciana desde 2004, buscando evidencia de agua líquida antigua y posibles señales de vida microbiana pasada.',
     datos: [['Rover más reciente', 'Perseverance (desde 2021)'], ['Objetivo principal', 'Buscar señales de vida antigua'], ['Gravedad marciana', '~38% de la terrestre']]
   },
   pilares: {
     categoria: 'Nebulosas y galaxias', titulo: 'Pilares de la Creación',
-    imagen: 'assets/img/galeria/pilares.jpg',
+    imagen: 'Imagenes/WhatsApp Image 2026-08-11 at 8.08.49 AM.jpeg',
     detalle: 'Estas columnas de gas y polvo, dentro de la Nebulosa del Águila, son una región donde nacen nuevas estrellas. Fotografiadas por primera vez por el Hubble en 1995, y de nuevo con más detalle por el James Webb en 2022.',
     datos: [['Ubicación', 'Nebulosa del Águila'], ['Distancia', '~6,500 años luz'], ['Primera foto famosa', 'Hubble, 1995']]
   },
   andromeda: {
     categoria: 'Nebulosas y galaxias', titulo: 'Galaxia de Andrómeda',
-    imagen: 'assets/img/galeria/andromeda.jpg',
+    imagen: 'Imagenes/WhatsApp Image 2026-08-11 at 8.11.27 AM.jpeg',
     detalle: 'Es la galaxia grande más cercana a la nuestra, visible a simple vista en una noche despejada. Se está acercando a la Vía Láctea y, dentro de unos 4,500 millones de años, ambas galaxias se fusionarán.',
     datos: [['Distancia', '~2.5 millones de años luz'], ['Tipo', 'Galaxia espiral'], ['Fusión con la Vía Láctea', 'En ~4,500 millones de años']]
   },
   'campo-profundo': {
     categoria: 'Nebulosas y galaxias', titulo: 'Campo Profundo del Hubble',
-    imagen: 'assets/img/galeria/campo-profundo.jpg',
+    imagen: 'Imagenes/WhatsApp Image 2026-08-11 at 8.03.45 AM.jpeg',
     detalle: 'En 1995, el Hubble apuntó durante 10 días seguidos a una zona del cielo que parecía completamente vacía, del tamaño de un grano de arena sostenido a la distancia de un brazo. El resultado: miles de galaxias nunca antes vistas.',
     datos: [['Año', '1995'], ['Tiempo de exposición', '10 días'], ['Galaxias reveladas', '~3,000 en una sola imagen']]
   },
   iss: {
     categoria: 'Misiones', titulo: 'Estación Espacial Internacional',
-    imagen: 'assets/img/galeria/iss.jpg',
+    imagen: 'Imagenes/WhatsApp Image 2026-08-11 at 8.14.10 AM.jpeg',
     detalle: 'Habitada de forma continua desde el año 2000, es un laboratorio orbital construido por varias agencias espaciales trabajando juntas. Da la vuelta a la Tierra cada 90 minutos aproximadamente, a unos 400 km de altura.',
     datos: [['Habitada desde', 'Noviembre del 2000'], ['Altitud', '~400 km'], ['Vuelta a la Tierra', '~cada 90 minutos']]
   }

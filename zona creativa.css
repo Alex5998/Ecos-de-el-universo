@@ -37,7 +37,7 @@
   --radius-lg:      28px;
   --edge:           1px solid rgba(246,244,236,0.08);
 
-  --maxw:           1400px;
+  --maxw:           min(1900px, 97vw);
 }
 
 *, *::before, *::after{ box-sizing: border-box; }
@@ -366,6 +366,7 @@ body::after{
   top: 0;
   right: 0;
   height: 100vh;
+  height: 100dvh;
   width: min(78vw, 320px);
   background: rgba(6,5,21,0.98);
   backdrop-filter: blur(16px);
@@ -1092,6 +1093,7 @@ section{ position: relative; padding: 7rem 0; }
 .planetario-panel:fullscreen{
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: var(--bg-panel);
 }
 .planetario-panel:fullscreen .planetario-escena,
@@ -1110,6 +1112,7 @@ section{ position: relative; padding: 7rem 0; }
   z-index: 300;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   border-radius: 0;
 }
 body.bloqueo-scroll-pantalla-completa{ overflow: hidden; }
@@ -1118,6 +1121,7 @@ body.bloqueo-scroll-pantalla-completa{ overflow: hidden; }
 .juego-panel:fullscreen{
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   padding: 2rem;
   background: var(--bg-panel);
   display: flex;
@@ -1129,6 +1133,7 @@ body.bloqueo-scroll-pantalla-completa{ overflow: hidden; }
   z-index: 300;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   border-radius: 0;
   padding: 2rem;
   overflow-y: auto;
@@ -1146,9 +1151,17 @@ body.bloqueo-scroll-pantalla-completa{ overflow: hidden; }
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
 }
 .juego-panel:fullscreen .memoria-tablero,
 .juego-panel.pantalla-completa-fallback .memoria-tablero{ max-width: 720px; width: 100%; }
+@media (max-width: 700px){
+  .juego-panel:fullscreen .memoria-tablero,
+  .juego-panel.pantalla-completa-fallback .memoria-tablero{
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.6rem;
+  }
+}
 
 .juego-hud__pantalla-completa{
   width: 34px; height: 34px;
@@ -1273,8 +1286,8 @@ body.bloqueo-scroll-pantalla-completa{ overflow: hidden; }
 .juego-lienzo-wrap{
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 480px;
+  aspect-ratio: 4 / 3;
+  max-height: 640px;
   border-radius: var(--radius-md);
   overflow: hidden;
   background: radial-gradient(ellipse at 50% 30%, rgba(140,111,232,0.12), var(--bg-void-2) 80%);
@@ -1313,6 +1326,20 @@ body.bloqueo-scroll-pantalla-completa{ overflow: hidden; }
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+@media (max-width: 560px){
+  .juego-dato-curioso{
+    top: 0.5rem;
+    max-width: 92%;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.68rem;
+    line-height: 1.25;
+    border-radius: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
 
 .juego-overlay{
   position: absolute; inset: 0;
@@ -1341,7 +1368,7 @@ body.bloqueo-scroll-pantalla-completa{ overflow: hidden; }
   margin: 0 auto;
 }
 .memoria-carta{
-  aspect-ratio: 5 / 4;
+  aspect-ratio: 4 / 5;
   border-radius: var(--radius-sm);
   cursor: pointer;
   perspective: 800px;
@@ -1558,6 +1585,29 @@ footer{
   .planetario-velocidad input[type="range"]{ width: 54px; }
   .planetario-info{ border-left: none; border-top: var(--edge); }
   .memoria-tablero{ grid-template-columns: repeat(4, 1fr); gap: 0.8rem; }
+
+  /* Pantalla completa del planetario en celular: la escena 3D debe llenar
+     el espacio disponible; la lista de planetas y el panel de info se
+     vuelven compactos con su propio scroll en vez de estirarse. */
+  .planetario-panel:fullscreen,
+  .planetario-panel.pantalla-completa-fallback{
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    height: 100dvh;
+  }
+  .planetario-panel:fullscreen .planetario-escena,
+  .planetario-panel.pantalla-completa-fallback .planetario-escena{
+    min-height: 0;
+  }
+  .planetario-panel:fullscreen .planetario-lista,
+  .planetario-panel.pantalla-completa-fallback .planetario-lista{
+    max-height: 64px;
+  }
+  .planetario-panel:fullscreen .planetario-info,
+  .planetario-panel.pantalla-completa-fallback .planetario-info{
+    max-height: 32vh;
+    overflow-y: auto;
+  }
 }
 @media (max-width: 560px){
   .grid-datos{ grid-template-columns: 1fr; }
@@ -1565,6 +1615,14 @@ footer{
   .grid-explora{ grid-template-columns: 1fr; }
   .memoria-tablero{ grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
   .planetario-velocidad input[type="range"]{ width: 60px; }
+
+  .juego-hud{
+    gap: 0.7rem;
+    margin-bottom: 0.8rem;
+  }
+  .juego-hud__dato span{ font-size: 0.6rem; }
+  .juego-hud__dato strong{ font-size: 1.05rem; }
+  .juego-hud__poder{ font-size: 0.72rem; padding: 0.28rem 0.55rem; }
 
   .juego-panel:fullscreen,
   .juego-panel.pantalla-completa-fallback{ padding: 0.9rem; }

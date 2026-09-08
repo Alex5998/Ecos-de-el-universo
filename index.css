@@ -37,7 +37,7 @@
   --radius-lg:      28px;
   --edge:           1px solid rgba(246,244,236,0.08);
 
-  --maxw:           1400px;
+  --maxw:           min(1900px, 97vw);
 }
 
 *, *::before, *::after{ box-sizing: border-box; }

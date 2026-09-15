@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zona Creativa | Ecos del Universo</title>
 <meta name="description" content="Explora un planetario 3D interactivo del sistema solar y juega dos minijuegos originales sobre el universo, hechos por el equipo de Ecos del Universo.">
-<link rel="stylesheet" href="zona creativa.css">
+<link rel="stylesheet" href="zona_creativa.css">
    <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
 </head>
 <body>
@@ -27,7 +27,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9h14v-9"/><path d="M9.5 19v-5.5h5V19"/></svg>
           <span>Inicio</span>
         </a>
-        <a href="Zona Creativa.html" class="nav__radial-item is-active" style="--i:1">
+        <a href="Zona_Creativa.html" class="nav__radial-item is-active" style="--i:1">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9c0-1-.8-1.6-1.8-1.6h-2.1A2.1 2.1 0 0 1 15 8.3V7c0-1.5-1.3-2.6-3-4Z"/><circle cx="8.2" cy="11" r="1"/><circle cx="12" cy="7.8" r="1"/><circle cx="15.5" cy="12" r="1"/><circle cx="9.3" cy="15" r="1"/></svg>
           <span>Zona Creativa</span>
         </a>
@@ -51,7 +51,7 @@
 
     <ul class="nav__links" id="navLinks">
       <li><a href="index.html">Inicio</a></li>
-      <li><a href="Zona Creativa.html" class="is-active">Zona Creativa</a></li>
+      <li><a href="Zona_Creativa.html" class="is-active">Zona Creativa</a></li>
       <li><a href="Dasaboard.html">Dashboard</a></li>
       <li><a href="Galeria.html">Galería</a></li>
       <li><a href="Acerca.html">Acerca de</a></li>
@@ -317,6 +317,13 @@ function iniciarFondoEstrellas() {
   const prefiereReducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let ancho, alto, estrellas;
+  // Mientras el usuario hace scroll, congelamos el fondo (el parpadeo es
+  // sutil y no se nota la pausa) para dejarle todo el hilo principal al
+  // scroll y evitar que la pagina se sienta trabada en celular.
+  let desplazando = false;
+  let temporizadorScroll = null;
+  let ultimoFrame = 0;
+  const intervaloFrame = 1000 / 30; // 30fps de reposo: de sobra para un parpadeo sutil
 
   function crearEstrellas() {
     const cantidad = Math.floor((ancho * alto) / 9000);
@@ -337,6 +344,11 @@ function iniciarFondoEstrellas() {
   }
 
   function dibujar(t) {
+    requestAnimationFrame(dibujar);
+    if (desplazando) return;
+    if (t - ultimoFrame < intervaloFrame) return;
+    ultimoFrame = t;
+
     ctx.clearRect(0, 0, ancho, alto);
     for (const e of estrellas) {
       const brillo = 0.55 + Math.sin(t * e.velocidad + e.fase) * 0.45;
@@ -349,10 +361,16 @@ function iniciarFondoEstrellas() {
         if (e.y > alto) e.y = 0;
       }
     }
-    requestAnimationFrame(dibujar);
+  }
+
+  function alEmpezarScroll() {
+    desplazando = true;
+    clearTimeout(temporizadorScroll);
+    temporizadorScroll = setTimeout(() => { desplazando = false; }, 200);
   }
 
   window.addEventListener('resize', ajustarTamano);
+  window.addEventListener('scroll', alEmpezarScroll, { passive: true });
   ajustarTamano();
   requestAnimationFrame(dibujar);
 }
@@ -1572,21 +1590,34 @@ function iniciarPlanetario() {
   }
 
   // Difumina los polos (borde superior e inferior) de una textura equirectangular
-  // hacia un tono sólido, para que no se vea "apachurrada" en los polos de la esfera
-  function difuminarPolos(cx, anchoTex, altoTex, colorSolido, fraccion = 0.22) {
+  // hacia un tono sólido, para que no se vea "apachurrada" en los polos de la esfera.
+  // Usa una capa 100% solida justo en la punta (donde la distorsion es total) mas
+  // un degradado amplio hacia el resto de la textura, para tapar por completo el
+  // "efecto abanico" que deja cualquier detalle dibujado cerca del polo.
+  function difuminarPolos(cx, anchoTex, altoTex, colorSolido, fraccion = 0.3) {
     const alturaFundido = altoTex * fraccion;
+    const alturaSolida = alturaFundido * 0.32;
 
-    let g = cx.createLinearGradient(0, 0, 0, alturaFundido);
-    g.addColorStop(0, colorSolido);
-    g.addColorStop(1, 'rgba(0,0,0,0)');
-    cx.fillStyle = g;
-    cx.fillRect(0, 0, anchoTex, alturaFundido);
+    function banda(y0, signo) {
+      cx.fillStyle = colorSolido;
+      cx.fillRect(0, signo > 0 ? y0 : y0 - alturaSolida, anchoTex, alturaSolida);
+      const g = cx.createLinearGradient(0, y0, 0, y0 + alturaFundido * signo);
+      g.addColorStop(0, colorSolido);
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      cx.fillStyle = g;
+      cx.fillRect(0, signo > 0 ? y0 : y0 - alturaFundido, anchoTex, alturaFundido);
+    }
+    banda(0, 1);
+    banda(altoTex, -1);
+  }
 
-    g = cx.createLinearGradient(0, altoTex, 0, altoTex - alturaFundido);
-    g.addColorStop(0, colorSolido);
-    g.addColorStop(1, 'rgba(0,0,0,0)');
-    cx.fillStyle = g;
-    cx.fillRect(0, altoTex - alturaFundido, anchoTex, alturaFundido);
+  // Genera una coordenada Y aleatoria que evita quedar demasiado cerca de los polos
+  // (arriba/abajo de la textura equirectangular), para que el detalle discreto
+  // (crateres, continentes, remolinos) nunca se dibuje justo donde la esfera lo
+  // "apachurraria" al envolverlo.
+  function yEvitandoPolos(altoTex, margenFraccion = 0.2) {
+    const margen = altoTex * margenFraccion;
+    return margen + Math.random() * (altoTex - margen * 2);
   }
 
   // Dibuja una forma tres veces (izquierda, centro, derecha) para que las manchas que
@@ -1599,7 +1630,7 @@ function iniciarPlanetario() {
 
   // Textura para planetas rocosos: manchas grandes de tono + cráteres con borde + grano fino
   function crearTexturaRocosa(colorBase) {
-    const anchoTex = 1024, altoTex = 512;
+    const anchoTex = 1536, altoTex = 768;
     const cv = document.createElement('canvas');
     cv.width = anchoTex; cv.height = altoTex;
     const cx = cv.getContext('2d');
@@ -1607,8 +1638,8 @@ function iniciarPlanetario() {
     cx.fillRect(0, 0, anchoTex, altoTex);
 
     // Regiones grandes de variación de tono (como continentes o llanuras)
-    for (let i = 0; i < 90; i++) {
-      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+    for (let i = 0; i < 190; i++) {
+      const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.16);
       const r = 40 + Math.random() * 100;
       const tono = (Math.random() - 0.5) * 0.4;
       dibujarEnvolvente(anchoTex, x, (xd) => {
@@ -1625,8 +1656,8 @@ function iniciarPlanetario() {
     cx.globalAlpha = 1;
 
     // Cráteres con borde claro (aro elevado)
-    for (let i = 0; i < 260; i++) {
-      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+    for (let i = 0; i < 560; i++) {
+      const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.14);
       const r = Math.random() * 12 + 2;
       dibujarEnvolvente(anchoTex, x, (xd) => {
         cx.globalAlpha = 0.4 + Math.random() * 0.3;
@@ -1645,7 +1676,7 @@ function iniciarPlanetario() {
     cx.globalAlpha = 1;
 
     // Grano fino para dar textura de superficie a nivel de detalle
-    for (let i = 0; i < 1400; i++) {
+    for (let i = 0; i < 3000; i++) {
       const x = Math.random() * anchoTex, y = Math.random() * altoTex;
       cx.globalAlpha = 0.04 + Math.random() * 0.07;
       cx.fillStyle = Math.random() > 0.5 ? '#ffffff' : '#000000';
@@ -1653,7 +1684,7 @@ function iniciarPlanetario() {
     }
     cx.globalAlpha = 1;
 
-    difuminarPolos(cx, anchoTex, altoTex, aClaroOscuro(colorBase, -0.05), 0.22);
+    difuminarPolos(cx, anchoTex, altoTex, aClaroOscuro(colorBase, -0.05), 0.3);
 
     const t = new THREE.CanvasTexture(cv);
     t.colorSpace = THREE.SRGBColorSpace;
@@ -1662,7 +1693,7 @@ function iniciarPlanetario() {
 
   // Textura especial para la Tierra: océanos, continentes y casquetes polares
   function crearTexturaTierra() {
-    const anchoTex = 1024, altoTex = 512;
+    const anchoTex = 1536, altoTex = 768;
     const cv = document.createElement('canvas');
     cv.width = anchoTex; cv.height = altoTex;
     const cx = cv.getContext('2d');
@@ -1670,8 +1701,8 @@ function iniciarPlanetario() {
     cx.fillRect(0, 0, anchoTex, altoTex);
 
     // Variación oceánica (corrientes/profundidad)
-    for (let i = 0; i < 50; i++) {
-      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+    for (let i = 0; i < 110; i++) {
+      const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.14);
       const r = 60 + Math.random() * 130;
       dibujarEnvolvente(anchoTex, x, (xd) => {
         const g = cx.createRadialGradient(xd, y, 0, xd, y, r);
@@ -1686,8 +1717,8 @@ function iniciarPlanetario() {
 
     // Continentes
     cx.fillStyle = '#2f8f5b';
-    for (let i = 0; i < 50; i++) {
-      const x = Math.random() * anchoTex, y = 70 + Math.random() * (altoTex - 140);
+    for (let i = 0; i < 110; i++) {
+      const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.18);
       const rx = 34 + Math.random() * 66, ry = 18 + Math.random() * 36, rot = Math.random() * Math.PI;
       dibujarEnvolvente(anchoTex, x, (xd) => {
         cx.beginPath();
@@ -1696,10 +1727,10 @@ function iniciarPlanetario() {
       });
     }
     // Relieve montañoso sutil sobre los continentes
-    for (let i = 0; i < 260; i++) {
+    for (let i = 0; i < 560; i++) {
       cx.globalAlpha = 0.06 + Math.random() * 0.1;
       cx.fillStyle = Math.random() > 0.5 ? '#ffffff' : '#0b3d24';
-      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+      const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.16);
       cx.beginPath();
       cx.arc(x, y, 3 + Math.random() * 7, 0, Math.PI * 2);
       cx.fill();
@@ -1710,7 +1741,7 @@ function iniciarPlanetario() {
     cx.fillStyle = '#eef3fb';
     cx.fillRect(0, 0, anchoTex, 16);
     cx.fillRect(0, altoTex - 16, anchoTex, 16);
-    difuminarPolos(cx, anchoTex, altoTex, 'rgba(238,243,251,0.95)', 0.22);
+    difuminarPolos(cx, anchoTex, altoTex, 'rgba(238,243,251,0.95)', 0.28);
 
     const t = new THREE.CanvasTexture(cv);
     t.colorSpace = THREE.SRGBColorSpace;
@@ -1719,13 +1750,13 @@ function iniciarPlanetario() {
 
   // Capa de nubes translúcida para la Tierra (se anima por separado)
   function crearTexturaNubes() {
-    const anchoTex = 1024, altoTex = 512;
+    const anchoTex = 1536, altoTex = 768;
     const cv = document.createElement('canvas');
     cv.width = anchoTex; cv.height = altoTex;
     const cx = cv.getContext('2d');
-    for (let i = 0; i < 90; i++) {
+    for (let i = 0; i < 190; i++) {
       const x = Math.random() * anchoTex;
-      const y = altoTex * 0.1 + Math.random() * (altoTex * 0.8); // evita concentrarse justo en los polos
+      const y = altoTex * 0.14 + Math.random() * (altoTex * 0.72); // evita concentrarse justo en los polos
       const rx = 34 + Math.random() * 80, ry = 10 + Math.random() * 24, rot = Math.random() * Math.PI;
       const alfa = 0.1 + Math.random() * 0.2;
       dibujarEnvolvente(anchoTex, x, (xd) => {
@@ -1745,7 +1776,7 @@ function iniciarPlanetario() {
   // Textura para gigantes gaseosos: bandas onduladas con turbulencia en varias frecuencias
   // (las frecuencias son múltiplos exactos de 2π/ancho para que la banda "enrosque" sin costura)
   function crearTexturaGaseosa(colorBase, conManchaRoja) {
-    const anchoTex = 1024, altoTex = 512;
+    const anchoTex = 1536, altoTex = 768;
     const cv = document.createElement('canvas');
     cv.width = anchoTex; cv.height = altoTex;
     const cx = cv.getContext('2d');
@@ -1781,8 +1812,8 @@ function iniciarPlanetario() {
     cx.globalAlpha = 1;
 
     // Vetas finas y remolinos adicionales para dar textura turbulenta
-    for (let i = 0; i < 220; i++) {
-      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
+    for (let i = 0; i < 480; i++) {
+      const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.15);
       const rx = 16 + Math.random() * 46, ry = 3 + Math.random() * 6;
       const alfa = 0.04 + Math.random() * 0.06;
       const color = Math.random() > 0.5 ? '#ffffff' : '#000000';
@@ -1807,7 +1838,7 @@ function iniciarPlanetario() {
       cx.fill();
     }
 
-    difuminarPolos(cx, anchoTex, altoTex, aClaroOscuro(colorBase, Math.sin(0) * 0.18), 0.22);
+    difuminarPolos(cx, anchoTex, altoTex, aClaroOscuro(colorBase, Math.sin(0) * 0.18), 0.26);
 
     const t = new THREE.CanvasTexture(cv);
     t.colorSpace = THREE.SRGBColorSpace;
@@ -1860,7 +1891,49 @@ function iniciarPlanetario() {
       cx.stroke();
     }
 
-    difuminarPolos(cx, anchoTex, anchoTex, '#f2b33d', 0.22);
+    difuminarPolos(cx, anchoTex, anchoTex, '#f2b33d', 0.24);
+
+    const t = new THREE.CanvasTexture(cv);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+
+  // Textura de "rayos de sol": franjas radiales de distinto largo y opacidad,
+  // como un sprite de lens-flare. Se usa en un Sprite grande detras/alrededor
+  // del Sol, que ademas gira lentamente para dar sensacion de luz viva.
+  function crearTexturaRayos() {
+    const anchoTex = 1024;
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = anchoTex;
+    const cx = cv.getContext('2d');
+    const centro = anchoTex / 2;
+    cx.translate(centro, centro);
+
+    const cantidadRayos = 40;
+    for (let i = 0; i < cantidadRayos; i++) {
+      const angulo = (i / cantidadRayos) * Math.PI * 2 + Math.random() * 0.06;
+      const largo = centro * (0.55 + Math.random() * 0.45);
+      const ancho = (0.006 + Math.random() * 0.014) * Math.PI * 2;
+      const opacidad = 0.05 + Math.random() * 0.16;
+      const g = cx.createLinearGradient(0, 0, Math.cos(angulo) * largo, Math.sin(angulo) * largo);
+      g.addColorStop(0, `rgba(255,244,224,${opacidad})`);
+      g.addColorStop(1, 'rgba(255,180,90,0)');
+      cx.fillStyle = g;
+      cx.beginPath();
+      cx.moveTo(0, 0);
+      cx.arc(0, 0, largo, angulo - ancho / 2, angulo + ancho / 2);
+      cx.closePath();
+      cx.fill();
+    }
+
+    // Nucleo suave para que los rayos no arranquen "de la nada" en el centro
+    const nucleo = cx.createRadialGradient(0, 0, 0, 0, 0, centro * 0.32);
+    nucleo.addColorStop(0, 'rgba(255,246,224,0.55)');
+    nucleo.addColorStop(1, 'rgba(255,246,224,0)');
+    cx.fillStyle = nucleo;
+    cx.beginPath();
+    cx.arc(0, 0, centro * 0.32, 0, Math.PI * 2);
+    cx.fill();
 
     const t = new THREE.CanvasTexture(cv);
     t.colorSpace = THREE.SRGBColorSpace;
@@ -1894,13 +1967,13 @@ function iniciarPlanetario() {
 
     // Nubes de color en varias capas (nebulosas de distintos tonos, con más variedad)
     const capasNubes = [
-      { color: 'rgba(140,111,232,0.24)', n: 14, rMin: 120, rMax: 320 },
-      { color: 'rgba(140,111,232,0.12)', n: 12, rMin: 200, rMax: 420 },
-      { color: 'rgba(255,122,69,0.13)', n: 9, rMin: 100, rMax: 260 },
-      { color: 'rgba(242,179,61,0.11)', n: 9, rMin: 100, rMax: 260 },
-      { color: 'rgba(122,31,43,0.17)', n: 9, rMin: 100, rMax: 260 },
-      { color: 'rgba(80,180,190,0.10)', n: 8, rMin: 90, rMax: 220 },
-      { color: 'rgba(200,90,190,0.08)', n: 7, rMin: 90, rMax: 240 }
+      { color: 'rgba(140,111,232,0.14)', n: 12, rMin: 120, rMax: 320 },
+      { color: 'rgba(140,111,232,0.07)', n: 10, rMin: 200, rMax: 420 },
+      { color: 'rgba(255,122,69,0.07)', n: 7, rMin: 100, rMax: 260 },
+      { color: 'rgba(242,179,61,0.06)', n: 7, rMin: 100, rMax: 260 },
+      { color: 'rgba(122,31,43,0.10)', n: 7, rMin: 100, rMax: 260 },
+      { color: 'rgba(80,180,190,0.06)', n: 6, rMin: 90, rMax: 220 },
+      { color: 'rgba(200,90,190,0.05)', n: 5, rMin: 90, rMax: 240 }
     ];
     capasNubes.forEach(({ color, n, rMin, rMax }) => {
       for (let i = 0; i < n; i++) {
@@ -1952,7 +2025,7 @@ function iniciarPlanetario() {
     cx.globalAlpha = 1;
 
     // Difumina los polos hacia el tono de fondo, de forma más amplia y gradual
-    difuminarPolos(cx, anchoTex, altoTex, '#050414', 0.22);
+    difuminarPolos(cx, anchoTex, altoTex, '#050414', 0.26);
 
     const textura = new THREE.CanvasTexture(cv);
     textura.colorSpace = THREE.SRGBColorSpace;
@@ -1962,8 +2035,8 @@ function iniciarPlanetario() {
   /* =======================================================
      ILUMINACIÓN
      ======================================================= */
-  escena.add(new THREE.AmbientLight(0xffffff, 0.5));
-  escena.add(new THREE.HemisphereLight(0xfff4e0, 0x1a1030, 0.4));
+  escena.add(new THREE.AmbientLight(0xffffff, 0.22));
+  escena.add(new THREE.HemisphereLight(0xfff4e0, 0x1a1030, 0.22));
   const luzSol = new THREE.PointLight(0xfff4e0, 3.6, 0, 0); // decay 0: sin atenuación por distancia
   escena.add(luzSol);
 
@@ -1976,9 +2049,11 @@ function iniciarPlanetario() {
   );
   escena.add(esferaNebulosa);
 
-  const texturaEstrella = crearTexturaCircular('rgba(255,255,255,1)', 'rgba(255,255,255,0)');
   const posicionesEstrellas = [];
   const coloresEstrellas = [];
+  const fasesEstrellas = [];
+  const velocidadesEstrellas = [];
+  const tamanosEstrellas = [];
   const colorBlanco = new THREE.Color(0xffffff);
   const colorAzulada = new THREE.Color(0xbfd4ff);
   const colorCalida = new THREE.Color(0xffe3b0);
@@ -1994,17 +2069,57 @@ function iniciarPlanetario() {
     const azar = Math.random();
     const color = azar < 0.7 ? colorBlanco : (azar < 0.87 ? colorAzulada : colorCalida);
     coloresEstrellas.push(color.r, color.g, color.b);
+    fasesEstrellas.push(Math.random() * Math.PI * 2);
+    velocidadesEstrellas.push(0.6 + Math.random() * 2.2);
+    // La mayoria son puntos pequenos; un pequeno grupo son "estrellas brillantes"
+    // con destello en cruz, para dar variedad como en un cielo real.
+    const esBrillante = Math.random() < 0.09;
+    tamanosEstrellas.push(esBrillante ? 5 + Math.random() * 3.5 : 1.4 + Math.random() * 1.8);
   }
   const geometriaEstrellas = new THREE.BufferGeometry();
   geometriaEstrellas.setAttribute('position', new THREE.Float32BufferAttribute(posicionesEstrellas, 3));
   geometriaEstrellas.setAttribute('color', new THREE.Float32BufferAttribute(coloresEstrellas, 3));
-  const materialEstrellas = new THREE.PointsMaterial({
-    size: 2,
-    map: texturaEstrella,
-    vertexColors: true,
+  geometriaEstrellas.setAttribute('aFase', new THREE.Float32BufferAttribute(fasesEstrellas, 1));
+  geometriaEstrellas.setAttribute('aVelocidad', new THREE.Float32BufferAttribute(velocidadesEstrellas, 1));
+  geometriaEstrellas.setAttribute('aTamano', new THREE.Float32BufferAttribute(tamanosEstrellas, 1));
+
+  // Shader propio en vez de PointsMaterial: permite animar el parpadeo de cada
+  // estrella por separado y dibujar un pequeno destello en cruz sobre el punto.
+  const materialEstrellas = new THREE.ShaderMaterial({
+    uniforms: { uTiempo: { value: 0 } },
     transparent: true,
     depthWrite: false,
-    sizeAttenuation: true
+    blending: THREE.AdditiveBlending,
+    vertexShader: `
+      attribute vec3 color;
+      attribute float aFase;
+      attribute float aVelocidad;
+      attribute float aTamano;
+      uniform float uTiempo;
+      varying vec3 vColor;
+      varying float vBrillo;
+      void main(){
+        vColor = color;
+        vBrillo = 0.55 + 0.45 * sin(uTiempo * aVelocidad + aFase);
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        gl_PointSize = aTamano * vBrillo * (300.0 / -mvPosition.z);
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vColor;
+      varying float vBrillo;
+      void main(){
+        vec2 uv = gl_PointCoord - vec2(0.5);
+        float dist = length(uv);
+        float nucleo = smoothstep(0.5, 0.02, dist);
+        float destelloH = smoothstep(0.03, 0.0, abs(uv.y)) * smoothstep(0.5, 0.05, abs(uv.x));
+        float destelloV = smoothstep(0.03, 0.0, abs(uv.x)) * smoothstep(0.5, 0.05, abs(uv.y));
+        float alfa = max(nucleo, (destelloH + destelloV) * 0.7 * vBrillo);
+        if (alfa < 0.02) discard;
+        gl_FragColor = vec4(vColor, alfa * vBrillo);
+      }
+    `
   });
   escena.add(new THREE.Points(geometriaEstrellas, materialEstrellas));
 
@@ -2031,6 +2146,16 @@ function iniciarPlanetario() {
   }));
   glowSolCorona.scale.set(48, 48, 1);
   escena.add(glowSolCorona);
+
+  // Rayos de luz del sol: un sprite mas grande, con franjas radiales, girando
+  // muy lentamente por debajo del resplandor circular
+  const rayosSol = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: crearTexturaRayos(),
+    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
+  }));
+  rayosSol.scale.set(80, 80, 1);
+  rayosSol.renderOrder = -1;
+  escena.add(rayosSol);
 
   const mallaSol = new THREE.Mesh(
     new THREE.SphereGeometry(4.2, 48, 48),
@@ -2430,6 +2555,8 @@ function iniciarPlanetario() {
     glowSolInterno.scale.set(13 * pulso, 13 * pulso, 1);
     glowSolExterno.scale.set(28 * pulso, 28 * pulso, 1);
     glowSolCorona.scale.set(48 * (1 + Math.sin(reloj.elapsedTime * 1.4 + 1) * 0.06), 48 * (1 + Math.sin(reloj.elapsedTime * 1.4 + 1) * 0.06), 1);
+    materialEstrellas.uniforms.uTiempo.value = reloj.elapsedTime;
+    if (rayosSol) rayosSol.material.rotation += dt * 0.045;
 
     // Si hay un planeta enfocado (y no estamos en pleno vuelo), la cámara lo sigue
     if (objetivoSeguimiento && !transicionando) {

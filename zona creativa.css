@@ -1005,7 +1005,7 @@ section{ position: relative; padding: 7rem 0; }
 .planetario-escena{
   position: relative;
   min-height: 560px;
-  background: radial-gradient(ellipse at 50% 40%, rgba(140,111,232,0.1), var(--bg-void-2) 75%);
+  background: radial-gradient(ellipse at 50% 40%, rgba(140,111,232,0.05), var(--bg-void-2) 70%);
 }
 #contenedor-3d{ position: absolute; inset: 0; }
 #contenedor-3d canvas{ display: block; width: 100% !important; height: 100% !important; touch-action: none; }
@@ -1090,18 +1090,46 @@ section{ position: relative; padding: 7rem 0; }
 }
 
 /* Pantalla completa nativa (Fullscreen API) */
-.planetario-panel:fullscreen{
+.planetario-panel:fullscreen,
+.planetario-panel.pantalla-completa-fallback{
   width: 100vw;
   height: 100vh;
   height: 100dvh;
   background: var(--bg-panel);
+  /* Pantalla completa: siempre en columna vertical (lista arriba, escena
+     al centro, info abajo) sin importar el ancho o la orientacion del
+     dispositivo, para que todo el contenido quepa siempre completo. */
+  display: flex;
+  flex-direction: column;
 }
-.planetario-panel:fullscreen .planetario-escena,
-.planetario-panel.pantalla-completa-fallback .planetario-escena{ min-height: 100%; }
 .planetario-panel:fullscreen .planetario-lista,
-.planetario-panel.pantalla-completa-fallback .planetario-lista{ max-height: 100%; }
+.planetario-panel.pantalla-completa-fallback .planetario-lista{
+  flex: 0 0 auto;
+  max-height: 17vh;
+  width: 100%;
+  border-right: none;
+  border-bottom: var(--edge);
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.planetario-panel:fullscreen .planetario-lista button,
+.planetario-panel.pantalla-completa-fallback .planetario-lista button{ width: auto; white-space: nowrap; }
+.planetario-panel:fullscreen .planetario-escena,
+.planetario-panel.pantalla-completa-fallback .planetario-escena{
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
 .planetario-panel:fullscreen .planetario-info,
-.planetario-panel.pantalla-completa-fallback .planetario-info{ max-height: 100%; }
+.planetario-panel.pantalla-completa-fallback .planetario-info{
+  flex: 0 0 auto;
+  max-height: 26vh;
+  width: 100%;
+  overflow-y: auto;
+  border-left: none;
+  border-top: var(--edge);
+}
 .planetario-panel:fullscreen #contenedor-3d canvas,
 .planetario-panel.pantalla-completa-fallback #contenedor-3d canvas{ width: 100% !important; height: 100% !important; }
 
@@ -1110,9 +1138,6 @@ section{ position: relative; padding: 7rem 0; }
   position: fixed;
   inset: 0;
   z-index: 300;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
   border-radius: 0;
 }
 body.bloqueo-scroll-pantalla-completa{ overflow: hidden; }
@@ -1585,29 +1610,6 @@ footer{
   .planetario-velocidad input[type="range"]{ width: 54px; }
   .planetario-info{ border-left: none; border-top: var(--edge); }
   .memoria-tablero{ grid-template-columns: repeat(4, 1fr); gap: 0.8rem; }
-
-  /* Pantalla completa del planetario en celular: la escena 3D debe llenar
-     el espacio disponible; la lista de planetas y el panel de info se
-     vuelven compactos con su propio scroll en vez de estirarse. */
-  .planetario-panel:fullscreen,
-  .planetario-panel.pantalla-completa-fallback{
-    grid-template-rows: auto 1fr auto;
-    height: 100vh;
-    height: 100dvh;
-  }
-  .planetario-panel:fullscreen .planetario-escena,
-  .planetario-panel.pantalla-completa-fallback .planetario-escena{
-    min-height: 0;
-  }
-  .planetario-panel:fullscreen .planetario-lista,
-  .planetario-panel.pantalla-completa-fallback .planetario-lista{
-    max-height: 64px;
-  }
-  .planetario-panel:fullscreen .planetario-info,
-  .planetario-panel.pantalla-completa-fallback .planetario-info{
-    max-height: 32vh;
-    overflow-y: auto;
-  }
 }
 @media (max-width: 560px){
   .grid-datos{ grid-template-columns: 1fr; }

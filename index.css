@@ -872,7 +872,7 @@ section{ position: relative; padding: 7rem 0; }
 .video-frame{
   position: relative;
   width: 100%;
-  min-height: 260px;
+  aspect-ratio: 16 / 9;
   max-height: 640px;
   display: flex;
   align-items: center;
@@ -884,20 +884,16 @@ section{ position: relative; padding: 7rem 0; }
 }
 .video-frame video{
   display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 640px;
+  width: 100%;
+  height: 100%;
   /* "contain" en vez de "cover": el video se ajusta completo al recuadro,
      sin recortar los bordes, sin importar si es horizontal o vertical */
   object-fit: contain;
 }
 .video-frame iframe{
   display: block;
-  width: min(100%, 420px);
-  aspect-ratio: 9 / 16;
-  height: auto;
-  max-height: 640px;
+  width: 100%;
+  height: 100%;
   border: 0;
 }
 .video-frame .video-placeholder{
@@ -2129,9 +2125,7 @@ footer{
   .kpi-tira li{ border-left: none; padding-left: 0; border-top: 1px solid rgba(246,244,236,0.1); padding-top: 1.1rem; }
   .kpi-tira li:first-child{ border-top: none; padding-top: 0; }
   .dona-panel{ flex-direction: column; }
-  .video-frame{ max-height: 75vh; }
-  .video-frame video{ max-height: 75vh; }
-  .video-frame iframe{ width: min(90vw, 340px); max-height: 75vh; }
+  .video-frame{ max-height: 60vh; }
   .folletos-grid{ grid-template-columns: 1fr; }
   .galeria3d__item{ width: 140px; height: 185px; margin: -92px 0 0 -70px; }
   .galeria3d__controles{ flex-wrap: wrap; }

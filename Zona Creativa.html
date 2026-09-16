@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zona Creativa | Ecos del Universo</title>
 <meta name="description" content="Explora un planetario 3D interactivo del sistema solar y juega dos minijuegos originales sobre el universo, hechos por el equipo de Ecos del Universo.">
-<link rel="stylesheet" href="zona creativa.css">
+<link rel="stylesheet" href="Zona creativa.css">
    <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
 </head>
 <body>
@@ -27,7 +27,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9h14v-9"/><path d="M9.5 19v-5.5h5V19"/></svg>
           <span>Inicio</span>
         </a>
-        <a href="Zona_Creativa.html" class="nav__radial-item is-active" style="--i:1">
+        <a href="Zona creativa.html" class="nav__radial-item is-active" style="--i:1">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9c0-1-.8-1.6-1.8-1.6h-2.1A2.1 2.1 0 0 1 15 8.3V7c0-1.5-1.3-2.6-3-4Z"/><circle cx="8.2" cy="11" r="1"/><circle cx="12" cy="7.8" r="1"/><circle cx="15.5" cy="12" r="1"/><circle cx="9.3" cy="15" r="1"/></svg>
           <span>Zona Creativa</span>
         </a>
@@ -51,7 +51,7 @@
 
     <ul class="nav__links" id="navLinks">
       <li><a href="index.html">Inicio</a></li>
-      <li><a href="Zona_Creativa.html" class="is-active">Zona Creativa</a></li>
+      <li><a href="Zona creativa.html" class="is-active">Zona Creativa</a></li>
       <li><a href="Dasaboard.html">Dashboard</a></li>
       <li><a href="Galeria.html">Galería</a></li>
       <li><a href="Acerca.html">Acerca de</a></li>
@@ -1386,6 +1386,9 @@ function configurarPantallaCompleta(selectorElemento, idBoton) {
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
 /* Datos educativos del sistema solar (redactados por el equipo) */
 const datosPlanetas = [
@@ -1543,6 +1546,15 @@ function iniciarPlanetario() {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   contenedor.appendChild(renderer.domElement);
+
+  // Resplandor (bloom): hace que el Sol, sus rayos y el borde brillante de los
+  // planetas "sangren" luz de verdad contra el fondo oscuro, en vez de verse
+  // como formas planas. Es sutil (umbral alto) para no lavar el resto de la
+  // escena ni molestar la vista.
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(escena, camara));
+  const pasoResplandor = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.95, 0.4, 0.62);
+  composer.addPass(pasoResplandor);
 
   const controles = new OrbitControls(camara, renderer.domElement);
   controles.enableDamping = true;
@@ -1909,14 +1921,10 @@ function iniciarPlanetario() {
     const centro = anchoTex / 2;
     cx.translate(centro, centro);
 
-    const cantidadRayos = 40;
-    for (let i = 0; i < cantidadRayos; i++) {
-      const angulo = (i / cantidadRayos) * Math.PI * 2 + Math.random() * 0.06;
-      const largo = centro * (0.55 + Math.random() * 0.45);
-      const ancho = (0.006 + Math.random() * 0.014) * Math.PI * 2;
-      const opacidad = 0.05 + Math.random() * 0.16;
+    function rayo(angulo, largo, ancho, opacidad) {
       const g = cx.createLinearGradient(0, 0, Math.cos(angulo) * largo, Math.sin(angulo) * largo);
-      g.addColorStop(0, `rgba(255,244,224,${opacidad})`);
+      g.addColorStop(0, `rgba(255,248,232,${opacidad})`);
+      g.addColorStop(0.4, `rgba(255,214,150,${opacidad * 0.35})`);
       g.addColorStop(1, 'rgba(255,180,90,0)');
       cx.fillStyle = g;
       cx.beginPath();
@@ -1926,13 +1934,27 @@ function iniciarPlanetario() {
       cx.fill();
     }
 
+    // Pocos rayos largos y marcados: el "destello de lente" clasico, como
+    // mirar al sol de frente
+    const cantidadPrincipales = 8;
+    for (let i = 0; i < cantidadPrincipales; i++) {
+      const angulo = (i / cantidadPrincipales) * Math.PI * 2 + Math.random() * 0.1;
+      rayo(angulo, centro * (0.85 + Math.random() * 0.15), (0.01 + Math.random() * 0.006) * Math.PI * 2, 0.22 + Math.random() * 0.1);
+    }
+    // Muchos rayos finos y cortos de relleno, mas sutiles
+    const cantidadFinas = 46;
+    for (let i = 0; i < cantidadFinas; i++) {
+      const angulo = (i / cantidadFinas) * Math.PI * 2 + Math.random() * 0.05;
+      rayo(angulo, centro * (0.4 + Math.random() * 0.4), (0.003 + Math.random() * 0.009) * Math.PI * 2, 0.04 + Math.random() * 0.09);
+    }
+
     // Nucleo suave para que los rayos no arranquen "de la nada" en el centro
-    const nucleo = cx.createRadialGradient(0, 0, 0, 0, 0, centro * 0.32);
-    nucleo.addColorStop(0, 'rgba(255,246,224,0.55)');
+    const nucleo = cx.createRadialGradient(0, 0, 0, 0, 0, centro * 0.3);
+    nucleo.addColorStop(0, 'rgba(255,248,232,0.5)');
     nucleo.addColorStop(1, 'rgba(255,246,224,0)');
     cx.fillStyle = nucleo;
     cx.beginPath();
-    cx.arc(0, 0, centro * 0.32, 0, Math.PI * 2);
+    cx.arc(0, 0, centro * 0.3, 0, Math.PI * 2);
     cx.fill();
 
     const t = new THREE.CanvasTexture(cv);
@@ -1946,7 +1968,7 @@ function iniciarPlanetario() {
     const cv = document.createElement('canvas');
     cv.width = anchoTex; cv.height = altoTex;
     const cx = cv.getContext('2d');
-    cx.fillStyle = '#050414';
+    cx.fillStyle = '#020208';
     cx.fillRect(0, 0, anchoTex, altoTex);
 
     // Banda galáctica: una franja diagonal más brillante y polvorienta, como la Vía Láctea
@@ -1967,13 +1989,13 @@ function iniciarPlanetario() {
 
     // Nubes de color en varias capas (nebulosas de distintos tonos, con más variedad)
     const capasNubes = [
-      { color: 'rgba(140,111,232,0.14)', n: 12, rMin: 120, rMax: 320 },
-      { color: 'rgba(140,111,232,0.07)', n: 10, rMin: 200, rMax: 420 },
-      { color: 'rgba(255,122,69,0.07)', n: 7, rMin: 100, rMax: 260 },
-      { color: 'rgba(242,179,61,0.06)', n: 7, rMin: 100, rMax: 260 },
-      { color: 'rgba(122,31,43,0.10)', n: 7, rMin: 100, rMax: 260 },
-      { color: 'rgba(80,180,190,0.06)', n: 6, rMin: 90, rMax: 220 },
-      { color: 'rgba(200,90,190,0.05)', n: 5, rMin: 90, rMax: 240 }
+      { color: 'rgba(140,111,232,0.08)', n: 10, rMin: 120, rMax: 320 },
+      { color: 'rgba(140,111,232,0.04)', n: 8, rMin: 200, rMax: 420 },
+      { color: 'rgba(255,122,69,0.04)', n: 6, rMin: 100, rMax: 260 },
+      { color: 'rgba(242,179,61,0.035)', n: 6, rMin: 100, rMax: 260 },
+      { color: 'rgba(122,31,43,0.06)', n: 6, rMin: 100, rMax: 260 },
+      { color: 'rgba(80,180,190,0.035)', n: 5, rMin: 90, rMax: 220 },
+      { color: 'rgba(200,90,190,0.03)', n: 4, rMin: 90, rMax: 240 }
     ];
     capasNubes.forEach(({ color, n, rMin, rMax }) => {
       for (let i = 0; i < n; i++) {
@@ -2000,32 +2022,14 @@ function iniciarPlanetario() {
     }
     cx.globalAlpha = 1;
 
-    // Estrellas de distintos tamaños, brillos y colores
-    const colorEstrella = ['#ffffff', '#ffffff', '#ffffff', '#bfd4ff', '#ffe3b0'];
-    for (let i = 0; i < 2600; i++) {
-      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
-      cx.globalAlpha = Math.random() * 0.8 + 0.2;
-      cx.fillStyle = colorEstrella[Math.floor(Math.random() * colorEstrella.length)];
-      cx.beginPath();
-      cx.arc(x, y, Math.random() * 1.2 + 0.2, 0, Math.PI * 2);
-      cx.fill();
-    }
-    // Un puñado de estrellas más brillantes con resplandor
-    for (let i = 0; i < 55; i++) {
-      const x = Math.random() * anchoTex, y = Math.random() * altoTex;
-      const r = 4 + Math.random() * 4;
-      const g = cx.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, 'rgba(255,255,255,0.95)');
-      g.addColorStop(1, 'rgba(255,255,255,0)');
-      cx.fillStyle = g;
-      cx.beginPath();
-      cx.arc(x, y, r, 0, Math.PI * 2);
-      cx.fill();
-    }
+    // Nota: las estrellas ya NO se dibujan aquí (en una textura 2D envolvente
+    // sufrían distorsión cerca de los polos). Todas las estrellas del fondo
+    // ahora son el sistema de puntos 3D (mas abajo), que no se deforma nunca
+    // porque cada una es un punto real en el espacio, no parte de una imagen.
     cx.globalAlpha = 1;
 
     // Difumina los polos hacia el tono de fondo, de forma más amplia y gradual
-    difuminarPolos(cx, anchoTex, altoTex, '#050414', 0.26);
+    difuminarPolos(cx, anchoTex, altoTex, '#020208', 0.26);
 
     const textura = new THREE.CanvasTexture(cv);
     textura.colorSpace = THREE.SRGBColorSpace;
@@ -2035,8 +2039,8 @@ function iniciarPlanetario() {
   /* =======================================================
      ILUMINACIÓN
      ======================================================= */
-  escena.add(new THREE.AmbientLight(0xffffff, 0.22));
-  escena.add(new THREE.HemisphereLight(0xfff4e0, 0x1a1030, 0.22));
+  escena.add(new THREE.AmbientLight(0xffffff, 0.1));
+  escena.add(new THREE.HemisphereLight(0xfff4e0, 0x1a1030, 0.12));
   const luzSol = new THREE.PointLight(0xfff4e0, 3.6, 0, 0); // decay 0: sin atenuación por distancia
   escena.add(luzSol);
 
@@ -2055,9 +2059,8 @@ function iniciarPlanetario() {
   const velocidadesEstrellas = [];
   const tamanosEstrellas = [];
   const colorBlanco = new THREE.Color(0xffffff);
-  const colorAzulada = new THREE.Color(0xbfd4ff);
-  const colorCalida = new THREE.Color(0xffe3b0);
-  for (let i = 0; i < 1600; i++) {
+  const colorAzulada = new THREE.Color(0xaed0ff);
+  for (let i = 0; i < 3400; i++) {
     const r = 200 + Math.random() * 380;
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos(Math.random() * 2 - 1);
@@ -2066,15 +2069,16 @@ function iniciarPlanetario() {
       r * Math.cos(phi),
       r * Math.sin(phi) * Math.sin(theta)
     );
-    const azar = Math.random();
-    const color = azar < 0.7 ? colorBlanco : (azar < 0.87 ? colorAzulada : colorCalida);
+    // Blancas y azules, como pidió el usuario (un cielo real tiene mas blanco
+    // que azul, asi que 62/38 se ve variado sin perder esa paleta)
+    const color = Math.random() < 0.62 ? colorBlanco : colorAzulada;
     coloresEstrellas.push(color.r, color.g, color.b);
     fasesEstrellas.push(Math.random() * Math.PI * 2);
     velocidadesEstrellas.push(0.6 + Math.random() * 2.2);
-    // La mayoria son puntos pequenos; un pequeno grupo son "estrellas brillantes"
-    // con destello en cruz, para dar variedad como en un cielo real.
-    const esBrillante = Math.random() < 0.09;
-    tamanosEstrellas.push(esBrillante ? 5 + Math.random() * 3.5 : 1.4 + Math.random() * 1.8);
+    // La mayoria son puntos pequenos; un grupo mas grande son "estrellas
+    // brillantes" con destello en cruz, para un cielo mas vistoso.
+    const esBrillante = Math.random() < 0.16;
+    tamanosEstrellas.push(esBrillante ? 6 + Math.random() * 4.5 : 1.5 + Math.random() * 2);
   }
   const geometriaEstrellas = new THREE.BufferGeometry();
   geometriaEstrellas.setAttribute('position', new THREE.Float32BufferAttribute(posicionesEstrellas, 3));
@@ -2113,9 +2117,9 @@ function iniciarPlanetario() {
         vec2 uv = gl_PointCoord - vec2(0.5);
         float dist = length(uv);
         float nucleo = smoothstep(0.5, 0.02, dist);
-        float destelloH = smoothstep(0.03, 0.0, abs(uv.y)) * smoothstep(0.5, 0.05, abs(uv.x));
-        float destelloV = smoothstep(0.03, 0.0, abs(uv.x)) * smoothstep(0.5, 0.05, abs(uv.y));
-        float alfa = max(nucleo, (destelloH + destelloV) * 0.7 * vBrillo);
+        float destelloH = smoothstep(0.045, 0.0, abs(uv.y)) * smoothstep(0.5, 0.0, abs(uv.x));
+        float destelloV = smoothstep(0.045, 0.0, abs(uv.x)) * smoothstep(0.5, 0.0, abs(uv.y));
+        float alfa = max(nucleo, (destelloH + destelloV) * 0.85 * vBrillo);
         if (alfa < 0.02) discard;
         gl_FragColor = vec4(vColor, alfa * vBrillo);
       }
@@ -2151,9 +2155,9 @@ function iniciarPlanetario() {
   // muy lentamente por debajo del resplandor circular
   const rayosSol = new THREE.Sprite(new THREE.SpriteMaterial({
     map: crearTexturaRayos(),
-    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
+    transparent: true, opacity: 0.75, blending: THREE.AdditiveBlending, depthWrite: false
   }));
-  rayosSol.scale.set(80, 80, 1);
+  rayosSol.scale.set(66, 66, 1);
   rayosSol.renderOrder = -1;
   escena.add(rayosSol);
 
@@ -2221,8 +2225,8 @@ function iniciarPlanetario() {
       new THREE.SphereGeometry(p.radio, 48, 48),
       new THREE.MeshStandardMaterial({
         map: textura,
-        roughness: esGaseoso ? 0.65 : 0.9,
-        metalness: 0.04
+        roughness: esGaseoso ? 0.5 : 0.72,
+        metalness: 0.1
       })
     );
     malla.userData.id = p.id;
@@ -2336,6 +2340,8 @@ function iniciarPlanetario() {
     camara.aspect = ancho / alto;
     camara.updateProjectionMatrix();
     renderer.setSize(ancho, alto);
+    composer.setSize(ancho, alto);
+    pasoResplandor.setSize(ancho, alto);
   }
   new ResizeObserver(ajustarTamano).observe(contenedor);
   ajustarTamano();
@@ -2349,310 +2355,4 @@ function iniciarPlanetario() {
   const elTexto = document.getElementById('info-texto');
   const elDatos = document.getElementById('info-datos');
 
-  let objetivoSeguimiento = null; // { malla, datos } del planeta enfocado actualmente
-  let transicionando = false;
-
-  function volarHacia(posicionCamaraDestino, posicionObjetivoDestino, entradaAEnfocar, duracionMs) {
-    controles.enabled = false;
-    transicionando = true;
-    anilloSeleccion.visible = !!entradaAEnfocar;
-
-    const inicioCamara = camara.position.clone();
-    const inicioObjetivo = controles.target.clone();
-    const inicioTiempo = performance.now();
-
-    function paso(ahora) {
-      const t = Math.min((ahora - inicioTiempo) / duracionMs, 1);
-      const suave = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-      camara.position.lerpVectors(inicioCamara, posicionCamaraDestino, suave);
-      controles.target.lerpVectors(inicioObjetivo, posicionObjetivoDestino, suave);
-      controles.update();
-      if (t < 1) {
-        requestAnimationFrame(paso);
-      } else {
-        transicionando = false;
-        controles.enabled = true;
-        objetivoSeguimiento = entradaAEnfocar;
-      }
-    }
-    requestAnimationFrame(paso);
-  }
-
-  function seleccionarPlaneta(id) {
-    const datos = datosPlanetas.find((p) => p.id === id);
-    if (!datos) return;
-    elTag.textContent = datos.tag;
-    elNombre.textContent = datos.nombre;
-    elTexto.textContent = datos.texto;
-    elDatos.innerHTML = datos.datos.map(([clave, valor]) => `<li><span>${clave}</span><strong>${valor}</strong></li>`).join('');
-    botonesLista.forEach((b) => b.classList.toggle('is-activo', b.dataset.planeta === id));
-
-    if (id === 'sol') {
-      volarHacia(new THREE.Vector3(0, 42, 92), new THREE.Vector3(0, 0, 0), null, 1100);
-      return;
-    }
-
-    const entrada = planetasEnEscena[id];
-    if (!entrada) return;
-    const posPlaneta = entrada.malla.position.clone();
-    let direccion = camara.position.clone().sub(controles.target);
-    if (direccion.lengthSq() < 0.0001) direccion.set(0, 0.35, 1);
-    direccion.normalize();
-    const distanciaDeseada = Math.max(entrada.datos.radio * 7.5, 8.5);
-    const posCamaraDestino = posPlaneta.clone()
-      .add(direccion.multiplyScalar(distanciaDeseada))
-      .add(new THREE.Vector3(0, distanciaDeseada * 0.22, 0));
-
-    volarHacia(posCamaraDestino, posPlaneta.clone(), entrada, 1100);
-  }
-
-  botonesLista.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      detenerTour();
-      seleccionarPlaneta(btn.dataset.planeta);
-    });
-  });
-
-  /* --- Selección con clic / toque sobre los planetas --- */
-  const raycaster = new THREE.Raycaster();
-  const puntero = new THREE.Vector2();
-
-  function alClicar(evento) {
-    const rect = renderer.domElement.getBoundingClientRect();
-    const origen = evento.changedTouches ? evento.changedTouches[0] : evento;
-    puntero.x = ((origen.clientX - rect.left) / rect.width) * 2 - 1;
-    puntero.y = -((origen.clientY - rect.top) / rect.height) * 2 + 1;
-    raycaster.setFromCamera(puntero, camara);
-    const intersecciones = raycaster.intersectObjects(mallasClicables, false);
-    if (intersecciones.length) {
-      detenerTour();
-      seleccionarPlaneta(intersecciones[0].object.userData.id);
-    }
-  }
-  renderer.domElement.addEventListener('click', alClicar);
-
-  /* --- Etiqueta flotante al pasar el mouse sobre un planeta (solo escritorio) --- */
-  const tooltip = document.getElementById('planetario-tooltip');
-  renderer.domElement.addEventListener('mousemove', (evento) => {
-    const rect = renderer.domElement.getBoundingClientRect();
-    puntero.x = ((evento.clientX - rect.left) / rect.width) * 2 - 1;
-    puntero.y = -((evento.clientY - rect.top) / rect.height) * 2 + 1;
-    raycaster.setFromCamera(puntero, camara);
-    const intersecciones = raycaster.intersectObjects(mallasClicables, false);
-    if (intersecciones.length && tooltip) {
-      const datos = datosPlanetas.find((p) => p.id === intersecciones[0].object.userData.id);
-      tooltip.textContent = datos ? datos.nombre : '';
-      tooltip.style.left = `${evento.clientX - rect.left}px`;
-      tooltip.style.top = `${evento.clientY - rect.top}px`;
-      tooltip.classList.remove('oculto');
-      renderer.domElement.style.cursor = 'pointer';
-    } else if (tooltip) {
-      tooltip.classList.add('oculto');
-      renderer.domElement.style.cursor = 'grab';
-    }
-  });
-  renderer.domElement.addEventListener('mouseleave', () => {
-    if (tooltip) tooltip.classList.add('oculto');
-  });
-
-  /* --- Controles de velocidad y pausa --- */
-  let velocidad = 1;
-  let velocidadPrevia = 1;
-  const inputVelocidad = document.getElementById('velocidad');
-  const btnPausa = document.getElementById('btn-pausa');
-
-  inputVelocidad.addEventListener('input', () => {
-    velocidad = parseFloat(inputVelocidad.value);
-    btnPausa.textContent = velocidad === 0 ? '▶' : '⏸';
-  });
-  btnPausa.addEventListener('click', () => {
-    detenerTour();
-    if (velocidad > 0) {
-      velocidadPrevia = velocidad;
-      velocidad = 0;
-      inputVelocidad.value = '0';
-      btnPausa.textContent = '▶';
-    } else {
-      velocidad = velocidadPrevia || 1;
-      inputVelocidad.value = String(velocidad);
-      btnPausa.textContent = '⏸';
-    }
-  });
-
-  /* --- Tour automático: recorre todos los planetas uno por uno --- */
-  const btnTour = document.getElementById('btn-tour');
-  const ordenTour = datosPlanetas.map((p) => p.id);
-  let tourActivo = false;
-  let indiceTour = 0;
-  let temporizadorTour = null;
-
-  function pasoTour() {
-    seleccionarPlaneta(ordenTour[indiceTour]);
-    indiceTour = (indiceTour + 1) % ordenTour.length;
-    temporizadorTour = setTimeout(pasoTour, 5200);
-  }
-
-  function iniciarTour() {
-    tourActivo = true;
-    btnTour.textContent = '⏹';
-    btnTour.setAttribute('aria-label', 'Detener recorrido automático');
-    indiceTour = 0;
-    pasoTour();
-  }
-
-  function detenerTour() {
-    if (!tourActivo) return;
-    tourActivo = false;
-    btnTour.textContent = '🚀';
-    btnTour.setAttribute('aria-label', 'Iniciar recorrido automático');
-    clearTimeout(temporizadorTour);
-  }
-
-  btnTour.addEventListener('click', () => {
-    if (tourActivo) detenerTour();
-    else iniciarTour();
-  });
-
-  /* =======================================================
-     BUCLE DE ANIMACIÓN
-     ======================================================= */
-  const reloj = new THREE.Clock();
-  let primerCuadro = true;
-
-  function animar() {
-    requestAnimationFrame(animar);
-    const dt = reloj.getDelta();
-
-    for (const id in planetasEnEscena) {
-      const p = planetasEnEscena[id];
-      p.angulo += p.datos.velocidad * dt * velocidad * 0.4;
-      p.malla.position.x = Math.cos(p.angulo) * p.datos.distancia;
-      p.malla.position.z = Math.sin(p.angulo) * p.datos.distancia;
-      p.malla.rotation.y += dt * velocidad * 0.6;
-      if (p.nubes) p.nubes.rotation.y += dt * velocidad * 0.9;
-      if (p.lunas) {
-        p.lunas.forEach((l) => {
-          l.angulo += l.datos.velocidad * dt * velocidad;
-          l.malla.position.x = p.malla.position.x + Math.cos(l.angulo) * l.datos.distancia;
-          l.malla.position.z = p.malla.position.z + Math.sin(l.angulo) * l.datos.distancia;
-          l.malla.position.y = p.malla.position.y;
-        });
-      }
-    }
-    mallaSol.rotation.y += dt * 0.04;
-    esferaNebulosa.rotation.y += dt * 0.003;
-
-    // Cinturón de asteroides: gira lentamente como conjunto alrededor del Sol
-    if (cinturonAsteroides) {
-      cinturonAsteroides.rotation.y += dt * velocidad * 0.02;
-    }
-    if (cinturonKuiper) {
-      cinturonKuiper.rotation.y += dt * velocidad * 0.008;
-    }
-
-    // El resplandor del Sol "respira" suavemente
-    const pulso = 1 + Math.sin(reloj.elapsedTime * 1.4) * 0.045;
-    glowSolInterno.scale.set(13 * pulso, 13 * pulso, 1);
-    glowSolExterno.scale.set(28 * pulso, 28 * pulso, 1);
-    glowSolCorona.scale.set(48 * (1 + Math.sin(reloj.elapsedTime * 1.4 + 1) * 0.06), 48 * (1 + Math.sin(reloj.elapsedTime * 1.4 + 1) * 0.06), 1);
-    materialEstrellas.uniforms.uTiempo.value = reloj.elapsedTime;
-    if (rayosSol) rayosSol.material.rotation += dt * 0.045;
-
-    // Si hay un planeta enfocado (y no estamos en pleno vuelo), la cámara lo sigue
-    if (objetivoSeguimiento && !transicionando) {
-      const posActual = objetivoSeguimiento.malla.position;
-      const delta = posActual.clone().sub(controles.target);
-      controles.target.copy(posActual);
-      camara.position.add(delta);
-    }
-
-    // Anillo de selección: sigue al planeta enfocado y siempre mira a cámara
-    if (anilloSeleccion.visible && objetivoSeguimiento) {
-      anilloSeleccion.position.copy(objetivoSeguimiento.malla.position);
-      const escalaAnillo = objetivoSeguimiento.datos.radio * 1.8;
-      anilloSeleccion.scale.set(escalaAnillo, escalaAnillo, escalaAnillo);
-      anilloSeleccion.quaternion.copy(camara.quaternion);
-    }
-
-    controles.update();
-    renderer.render(escena, camara);
-
-    if (primerCuadro) {
-      primerCuadro = false;
-      if (carga) carga.classList.add('oculto');
-    }
-  }
-  animar();
-
-  // Mostrar la información del Sol desde el inicio (sin animar la cámara la primera vez)
-  const datosIniciales = datosPlanetas.find((p) => p.id === 'sol');
-  elTag.textContent = datosIniciales.tag;
-  elNombre.textContent = datosIniciales.nombre;
-  elTexto.textContent = datosIniciales.texto;
-  elDatos.innerHTML = datosIniciales.datos.map(([clave, valor]) => `<li><span>${clave}</span><strong>${valor}</strong></li>`).join('');
-
-  /* =======================================================
-     SONIDO AMBIENTAL ESPACIAL (generado por código con la
-     Web Audio API, sin necesitar ningún archivo de audio)
-     ======================================================= */
-  const btnSonido = document.getElementById('btn-sonido');
-  let audioCtx = null;
-  let sonidoActivo = false;
-
-  function crearAmbienteSonoro() {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    const ganMaestro = audioCtx.createGain();
-    ganMaestro.gain.value = 0;
-    ganMaestro.connect(audioCtx.destination);
-
-    // Dos osciladores graves en quinta, para un zumbido cósmico suave
-    const frecuencias = [55, 82.5];
-    frecuencias.forEach((frec, i) => {
-      const osc = audioCtx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = frec;
-
-      const filtro = audioCtx.createBiquadFilter();
-      filtro.type = 'lowpass';
-      filtro.frequency.value = 400;
-
-      const ganOsc = audioCtx.createGain();
-      ganOsc.gain.value = i === 0 ? 0.5 : 0.3;
-
-      // LFO lento que hace "respirar" el volumen, para que no sea un tono plano
-      const lfo = audioCtx.createOscillator();
-      lfo.frequency.value = 0.06 + i * 0.02;
-      const ganLfo = audioCtx.createGain();
-      ganLfo.gain.value = 0.15;
-      lfo.connect(ganLfo);
-      ganLfo.connect(ganOsc.gain);
-      lfo.start();
-
-      osc.connect(filtro);
-      filtro.connect(ganOsc);
-      ganOsc.connect(ganMaestro);
-      osc.start();
-    });
-
-    return ganMaestro;
-  }
-
-  let ganMaestro = null;
-  btnSonido.addEventListener('click', () => {
-    if (!audioCtx) ganMaestro = crearAmbienteSonoro();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-
-    sonidoActivo = !sonidoActivo;
-    const ahora = audioCtx.currentTime;
-    ganMaestro.gain.cancelScheduledValues(ahora);
-    ganMaestro.gain.setValueAtTime(ganMaestro.gain.value, ahora);
-    ganMaestro.gain.linearRampToValueAtTime(sonidoActivo ? 0.35 : 0, ahora + 1.2);
-
-    btnSonido.textContent = sonidoActivo ? '🔊' : '🔇';
-    btnSonido.setAttribute('aria-label', sonidoActivo ? 'Silenciar sonido ambiental' : 'Activar sonido ambiental');
-  });
-}
-</script>
-</body>
-</html>
+  let objetivoSeguimiento =

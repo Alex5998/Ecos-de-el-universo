@@ -1005,7 +1005,7 @@ section{ position: relative; padding: 7rem 0; }
 .planetario-escena{
   position: relative;
   min-height: 560px;
-  background: radial-gradient(ellipse at 50% 40%, rgba(140,111,232,0.05), var(--bg-void-2) 70%);
+  background: radial-gradient(ellipse at 50% 40%, rgba(140,111,232,0.02), var(--bg-void) 65%);
 }
 #contenedor-3d{ position: absolute; inset: 0; }
 #contenedor-3d canvas{ display: block; width: 100% !important; height: 100% !important; touch-action: none; }
@@ -1641,4 +1641,4 @@ footer{
   .sol, .orbita, .punto, .scrollcue__line, .sello__anillo, .onda-barra{ animation: none !important; }
   .fondo-capa{ transition: none; }
   .reveal{ transition: none; opacity: 1; transform: none; }
-}
+                              }

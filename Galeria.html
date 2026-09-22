@@ -121,7 +121,7 @@
               <figcaption>Saturno</figcaption>
             </figure>
             <figure class="galeria3d__item" data-id="jupiter" style="--tinte:var(--nebula);" data-titulo="Júpiter y la Gran Mancha Roja" data-categoria="Planetas" data-resumen="La sonda Juno orbita Júpiter desde 2016, estudiando su atmósfera y su intenso campo magnético.">
-              <span class="galeria3d__imagen" style="background-image:url('Imagenes/jupiter_galeria.avif')"></span>
+              <span class="galeria3d__imagen" style="background-image:url('Imagenes/jupiter galeria.avif')"></span>
               <figcaption>Júpiter</figcaption>
             </figure>
             <figure class="galeria3d__item" data-id="andromeda" style="--tinte:var(--nebula);" data-titulo="Galaxia de Andrómeda" data-categoria="Nebulosas y galaxias" data-resumen="Nuestra galaxia vecina más grande, y con la que la Vía Láctea eventualmente se fusionará.">
@@ -213,7 +213,7 @@
 
         <article class="folleto" data-id="jupiter" data-categoria="Planetas">
           <button class="folleto__portada" aria-label="Ver folleto: Júpiter y la Gran Mancha Roja">
-            <span class="folleto__imagen" style="background-image:url('Imagenes/jupiter_galeria.avif')"></span>
+            <span class="folleto__imagen" style="background-image:url('Imagenes/jupiter galeria.avif')"></span>
             <span class="folleto__etiqueta">Planetas</span>
             <h3>Júpiter y la Gran Mancha Roja</h3>
             <span class="folleto__accion">Ver folleto <i>+</i></span>
@@ -294,7 +294,7 @@
   <div class="wrap">
     <div class="footer__top">
       <div class="footer__brand">
-       <img src="Imagenes/images-removebg-preview.png" alt="Escudo del colegio">s
+       <img src="Imagenes/images-removebg-preview.png" alt="Escudo del colegio">
         <div class="sep"></div>
         <div>
           <strong>Ecos del Universo</strong><br>
@@ -361,13 +361,6 @@ function iniciarFondoEstrellas() {
   const prefiereReducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let ancho, alto, estrellas;
-  // Mientras el usuario hace scroll, congelamos el fondo (el parpadeo es
-  // sutil y no se nota la pausa) para dejarle todo el hilo principal al
-  // scroll y evitar que la pagina se sienta trabada en celular.
-  let desplazando = false;
-  let temporizadorScroll = null;
-  let ultimoFrame = 0;
-  const intervaloFrame = 1000 / 30; // 30fps de reposo: de sobra para un parpadeo sutil
 
   function crearEstrellas() {
     const cantidad = Math.floor((ancho * alto) / 9000);
@@ -388,11 +381,6 @@ function iniciarFondoEstrellas() {
   }
 
   function dibujar(t) {
-    requestAnimationFrame(dibujar);
-    if (desplazando) return;
-    if (t - ultimoFrame < intervaloFrame) return;
-    ultimoFrame = t;
-
     ctx.clearRect(0, 0, ancho, alto);
     for (const e of estrellas) {
       const brillo = 0.55 + Math.sin(t * e.velocidad + e.fase) * 0.45;
@@ -405,16 +393,10 @@ function iniciarFondoEstrellas() {
         if (e.y > alto) e.y = 0;
       }
     }
-  }
-
-  function alEmpezarScroll() {
-    desplazando = true;
-    clearTimeout(temporizadorScroll);
-    temporizadorScroll = setTimeout(() => { desplazando = false; }, 200);
+    requestAnimationFrame(dibujar);
   }
 
   window.addEventListener('resize', ajustarTamano);
-  window.addEventListener('scroll', alEmpezarScroll, { passive: true });
   ajustarTamano();
   requestAnimationFrame(dibujar);
 }

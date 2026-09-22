@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zona Creativa | Ecos del Universo</title>
 <meta name="description" content="Explora un planetario 3D interactivo del sistema solar y juega dos minijuegos originales sobre el universo, hechos por el equipo de Ecos del Universo.">
-<link rel="stylesheet" href="zona creativa.css">
+<link rel="stylesheet" href="Zona creativa.css">
    <link rel="icon" type="image/png" href="Imagenes/logo-removebg-preview.png">
 </head>
 <body>
@@ -121,6 +121,7 @@
           <li><button data-planeta="saturno">Saturno</button></li>
           <li><button data-planeta="urano">Urano</button></li>
           <li><button data-planeta="neptuno">Neptuno</button></li>
+          <li><button data-planeta="pluton">Plutón</button></li>
         </ul>
 
         <div class="planetario-escena">
@@ -244,7 +245,7 @@
   <div class="wrap">
     <div class="footer__top">
       <div class="footer__brand">
-        <img src="Imagenes/images-removebg-preview.png" alt="Escudo del colegio">s
+        <img src="Imagenes/images-removebg-preview.png" alt="Escudo del colegio">
         <div class="sep"></div>
         <div>
           <strong>Ecos del Universo</strong><br>
@@ -1405,7 +1406,7 @@ const datosPlanetas = [
   },
   {
     id: 'mercurio', nombre: 'Mercurio', tag: 'Planeta rocoso', color: 0x9c9c94, tipo: 'rocoso',
-    distancia: 14, radio: 0.6, velocidad: 0.9,
+    distancia: 17, radio: 0.68, velocidad: 0.9,
     texto: 'El planeta más cercano al Sol y el más pequeño del sistema solar. No tiene una atmósfera significativa, así que su temperatura cambia bruscamente entre el día y la noche.',
     datos: [
       ['Distancia al Sol', '57.9 millones de km (0.39 UA)'],
@@ -1418,7 +1419,7 @@ const datosPlanetas = [
   },
   {
     id: 'venus', nombre: 'Venus', tag: 'Planeta rocoso', color: 0xe8c15e, tipo: 'rocoso',
-    distancia: 19, radio: 0.95, velocidad: 0.72,
+    distancia: 25, radio: 1.05, velocidad: 0.72,
     texto: 'El planeta más caliente del sistema solar por su densa atmósfera de dióxido de carbono, que atrapa el calor en un efecto invernadero extremo. Además, gira en sentido contrario al resto de los planetas.',
     datos: [
       ['Distancia al Sol', '108.2 millones de km (0.72 UA)'],
@@ -1431,7 +1432,7 @@ const datosPlanetas = [
   },
   {
     id: 'tierra', nombre: 'Tierra', tag: 'Planeta rocoso', color: 0x2f6fd6, tipo: 'tierra',
-    distancia: 25, radio: 1, velocidad: 0.6,
+    distancia: 33, radio: 1.1, velocidad: 0.6,
     texto: 'Nuestro hogar, y el único planeta conocido con vida. Tiene grandes océanos de agua líquida y una atmósfera con el equilibrio justo de gases para sostenerla.',
     datos: [
       ['Distancia al Sol', '149.6 millones de km (1 UA)'],
@@ -1441,11 +1442,11 @@ const datosPlanetas = [
       ['Gravedad', '1 (es nuestra referencia)'],
       ['Superficie de agua', '~71% del planeta']
     ],
-    lunas: [{ nombre: 'Luna', radio: 0.27, distancia: 1.9, velocidad: 1.4, color: 0xbfbfc2 }]
+    lunas: [{ nombre: 'Luna', radio: 0.27, distancia: 2.1, velocidad: 1.4, color: 0xbfbfc2 }]
   },
   {
     id: 'marte', nombre: 'Marte', tag: 'Planeta rocoso', color: 0xc1440e, tipo: 'rocoso',
-    distancia: 31, radio: 0.75, velocidad: 0.48,
+    distancia: 42, radio: 0.85, velocidad: 0.48,
     texto: 'Conocido como el "planeta rojo" por el óxido de hierro en su superficie. Tiene el volcán más grande del sistema solar, el Monte Olimpo, casi tres veces más alto que el Everest.',
     datos: [
       ['Distancia al Sol', '227.9 millones de km (1.52 UA)'],
@@ -1456,13 +1457,22 @@ const datosPlanetas = [
       ['Monte Olimpo', '~22 km de altura']
     ],
     lunas: [
-      { nombre: 'Fobos', radio: 0.09, distancia: 1.35, velocidad: 2.6, color: 0x8a7f74 },
-      { nombre: 'Deimos', radio: 0.06, distancia: 1.7, velocidad: 2.0, color: 0x9c9186 }
+      { nombre: 'Fobos', radio: 0.09, distancia: 1.55, velocidad: 2.6, color: 0x8a7f74 },
+      { nombre: 'Deimos', radio: 0.06, distancia: 1.95, velocidad: 2.0, color: 0x9c9186 }
     ]
   },
   {
     id: 'jupiter', nombre: 'Júpiter', tag: 'Gigante gaseoso', color: 0xd9a066, tipo: 'gaseoso',
-    distancia: 42, radio: 2.6, velocidad: 0.32,
+    distancia: 66, radio: 3.6, velocidad: 0.32,
+    anillo: {
+      radioInterno: 1.35, radioExterno: 1.55, opacidad: 0.22,
+      bandas: [
+        [0.0, 'rgba(120,100,80,0)'],
+        [0.3, 'rgba(150,125,100,0.55)'],
+        [0.7, 'rgba(140,115,90,0.4)'],
+        [1.0, 'rgba(110,90,70,0)']
+      ]
+    },
     texto: 'El planeta más grande del sistema solar: un gigante gaseoso con una tormenta, la Gran Mancha Roja, que lleva siglos activa y es más grande que la Tierra.',
     datos: [
       ['Distancia al Sol', '778.5 millones de km (5.2 UA)'],
@@ -1473,15 +1483,31 @@ const datosPlanetas = [
       ['Composición', 'Principalmente hidrógeno y helio']
     ],
     lunas: [
-      { nombre: 'Ío', radio: 0.16, distancia: 3.4, velocidad: 2.1, color: 0xe8d27a },
-      { nombre: 'Europa', radio: 0.14, distancia: 4.1, velocidad: 1.7, color: 0xd9c9a8 },
-      { nombre: 'Ganímedes', radio: 0.22, distancia: 4.9, velocidad: 1.3, color: 0xa89c8a },
-      { nombre: 'Calisto', radio: 0.2, distancia: 5.7, velocidad: 1.0, color: 0x7d7267 }
+      { nombre: 'Ío', radio: 0.16, distancia: 4.7, velocidad: 2.1, color: 0xe8d27a },
+      { nombre: 'Europa', radio: 0.14, distancia: 5.7, velocidad: 1.7, color: 0xd9c9a8 },
+      { nombre: 'Ganímedes', radio: 0.22, distancia: 6.8, velocidad: 1.3, color: 0xa89c8a },
+      { nombre: 'Calisto', radio: 0.2, distancia: 7.9, velocidad: 1.0, color: 0x7d7267 }
     ]
   },
   {
-    id: 'saturno', nombre: 'Saturno', tag: 'Gigante gaseoso', color: 0xe8d4a0, tipo: 'gaseoso', anillo: true,
-    distancia: 52, radio: 2.2, velocidad: 0.24,
+    id: 'saturno', nombre: 'Saturno', tag: 'Gigante gaseoso', color: 0xe8d4a0, tipo: 'gaseoso',
+    distancia: 85, radio: 3.0, velocidad: 0.24,
+    anillo: {
+      radioInterno: 1.25, radioExterno: 2.5, opacidad: 0.95,
+      bandas: [
+        [0.0, 'rgba(120,100,75,0.3)'],
+        [0.08, 'rgba(200,180,140,0.7)'],
+        [0.20, 'rgba(225,205,165,0.9)'],
+        [0.35, 'rgba(235,220,185,0.95)'],
+        [0.46, 'rgba(210,195,160,0.5)'],
+        [0.50, 'rgba(70,60,45,0.06)'],
+        [0.54, 'rgba(215,198,160,0.85)'],
+        [0.70, 'rgba(230,212,175,0.92)'],
+        [0.82, 'rgba(200,180,140,0.55)'],
+        [0.94, 'rgba(160,140,105,0.25)'],
+        [1.0, 'rgba(130,110,85,0.05)']
+      ]
+    },
     texto: 'Famoso por su espectacular sistema de anillos, formados principalmente por hielo y roca. Es tan poco denso que, en teoría, podría flotar en un océano lo bastante grande.',
     datos: [
       ['Distancia al Sol', '1,434 millones de km (9.5 UA)'],
@@ -1492,15 +1518,30 @@ const datosPlanetas = [
       ['Densidad', 'Menor que la del agua']
     ],
     lunas: [
-      { nombre: 'Titán', radio: 0.24, distancia: 4.4, velocidad: 1.1, color: 0xd9a458 },
-      { nombre: 'Rea', radio: 0.13, distancia: 3.7, velocidad: 1.4, color: 0xc9c2b8 },
-      { nombre: 'Encélado', radio: 0.09, distancia: 3.2, velocidad: 1.7, color: 0xeef3f5 },
-      { nombre: 'Mimas', radio: 0.07, distancia: 2.9, velocidad: 1.9, color: 0xb8b3ac }
+      { nombre: 'Titán', radio: 0.24, distancia: 11.5, velocidad: 1.1, color: 0xd9a458 },
+      { nombre: 'Rea', radio: 0.13, distancia: 9.8, velocidad: 1.4, color: 0xc9c2b8 },
+      { nombre: 'Encélado', radio: 0.09, distancia: 8.8, velocidad: 1.7, color: 0xeef3f5 },
+      { nombre: 'Mimas', radio: 0.07, distancia: 8.0, velocidad: 1.9, color: 0xb8b3ac }
     ]
   },
   {
     id: 'urano', nombre: 'Urano', tag: 'Gigante de hielo', color: 0x9fe0e0, tipo: 'gaseoso',
-    distancia: 61, radio: 1.6, velocidad: 0.17,
+    distancia: 102, radio: 2.2, velocidad: 0.17,
+    anillo: {
+      radioInterno: 1.5, radioExterno: 1.66, opacidad: 0.55,
+      bandas: [
+        [0.0, 'rgba(150,190,190,0)'],
+        [0.08, 'rgba(170,205,205,0.55)'],
+        [0.14, 'rgba(150,190,190,0)'],
+        [0.30, 'rgba(175,210,210,0.5)'],
+        [0.36, 'rgba(150,190,190,0)'],
+        [0.55, 'rgba(180,215,215,0.6)'],
+        [0.62, 'rgba(150,190,190,0)'],
+        [0.85, 'rgba(190,220,220,0.65)'],
+        [0.92, 'rgba(150,190,190,0)'],
+        [1.0, 'rgba(150,190,190,0)']
+      ]
+    },
     texto: 'Un gigante de hielo que gira casi de costado, con un eje de rotación inclinado más de 90 grados. Por eso sus polos reciben luz solar directa durante décadas seguidas.',
     datos: [
       ['Distancia al Sol', '2,871 millones de km (19.2 UA)'],
@@ -1511,14 +1552,23 @@ const datosPlanetas = [
       ['Inclinación del eje', '~98 grados']
     ],
     lunas: [
-      { nombre: 'Titania', radio: 0.13, distancia: 3.1, velocidad: 1.3, color: 0xb0aaa4 },
-      { nombre: 'Oberón', radio: 0.12, distancia: 3.6, velocidad: 1.1, color: 0x9c968f },
-      { nombre: 'Miranda', radio: 0.07, distancia: 2.6, velocidad: 1.6, color: 0xc7c2bb }
+      { nombre: 'Titania', radio: 0.13, distancia: 5.3, velocidad: 1.3, color: 0xb0aaa4 },
+      { nombre: 'Oberón', radio: 0.12, distancia: 6.2, velocidad: 1.1, color: 0x9c968f },
+      { nombre: 'Miranda', radio: 0.07, distancia: 4.6, velocidad: 1.6, color: 0xc7c2bb }
     ]
   },
   {
     id: 'neptuno', nombre: 'Neptuno', tag: 'Gigante de hielo', color: 0x4361d9, tipo: 'gaseoso',
-    distancia: 69, radio: 1.55, velocidad: 0.13,
+    distancia: 118, radio: 2.1, velocidad: 0.13,
+    anillo: {
+      radioInterno: 1.6, radioExterno: 1.68, opacidad: 0.14,
+      bandas: [
+        [0.0, 'rgba(120,140,190,0)'],
+        [0.4, 'rgba(140,160,205,0.5)'],
+        [0.75, 'rgba(130,150,195,0.4)'],
+        [1.0, 'rgba(110,130,180,0)']
+      ]
+    },
     texto: 'El planeta más alejado del Sol, con los vientos más fuertes registrados en el sistema solar: pueden superar los 2,000 km/h.',
     datos: [
       ['Distancia al Sol', '4,495 millones de km (30.1 UA)'],
@@ -1528,11 +1578,33 @@ const datosPlanetas = [
       ['Gravedad', '1.14 veces la de la Tierra'],
       ['Vientos máximos', '~2,100 km/h']
     ],
-    lunas: [{ nombre: 'Tritón', radio: 0.15, distancia: 3.0, velocidad: -1.2, color: 0xd8e2e8 }]
+    lunas: [{ nombre: 'Tritón', radio: 0.15, distancia: 4.1, velocidad: -1.2, color: 0xd8e2e8 }]
+  },
+  {
+    id: 'pluton', nombre: 'Plutón', tag: 'Planeta enano', color: 0xcdbba3, tipo: 'rocoso',
+    distancia: 150, radio: 0.32, velocidad: 0.09,
+    texto: 'El más famoso de los planetas enanos, en el borde del cinturón de Kuiper. Fue considerado el noveno planeta hasta 2006, cuando se redefinió qué es un planeta.',
+    datos: [
+      ['Distancia al Sol', '5,900 millones de km (39.5 UA)'],
+      ['Duración del día', '6.4 días terrestres'],
+      ['Duración del año', '248 años terrestres'],
+      ['Lunas conocidas', '5 (la mayor: Caronte)'],
+      ['Gravedad', '0.06 veces la de la Tierra'],
+      ['Categoría', 'Planeta enano desde 2006']
+    ],
+    lunas: [{ nombre: 'Caronte', radio: 0.1, distancia: 1.1, velocidad: 1.8, color: 0x9c948a }]
   }
 ];
 
-iniciarPlanetario();
+try {
+  iniciarPlanetario();
+} catch (err) {
+  console.error('No se pudo iniciar el planetario 3D.', err);
+  const carga = document.getElementById('planetario-carga');
+  if (carga) {
+    carga.innerHTML = '<p>No se pudo cargar el planetario 3D en este dispositivo. Prueba recargando la página o desde otro navegador.</p>';
+  }
+}
 
 function iniciarPlanetario() {
   const contenedor = document.getElementById('contenedor-3d');
@@ -1541,26 +1613,38 @@ function iniciarPlanetario() {
 
   const escena = new THREE.Scene();
   const camara = new THREE.PerspectiveCamera(50, 1, 0.1, 2000);
-  camara.position.set(0, 42, 92);
+  camara.position.set(0, 62, 138);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   contenedor.appendChild(renderer.domElement);
 
-  // Resplandor (bloom): hace que el Sol, sus rayos y el borde brillante de los
-  // planetas "sangren" luz de verdad contra el fondo oscuro, en vez de verse
-  // como formas planas. Es sutil (umbral alto) para no lavar el resto de la
-  // escena ni molestar la vista.
-  const composer = new EffectComposer(renderer);
-  composer.addPass(new RenderPass(escena, camara));
-  const pasoResplandor = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.95, 0.4, 0.62);
-  composer.addPass(pasoResplandor);
+  // El resplandor (bloom) es exigente para la GPU. En celulares (donde suele
+  // haber menos memoria de video y drivers mas limitados) lo omitimos de
+  // entrada para evitar que el planetario se quede "cargando" para siempre
+  // si el navegador no logra compilar el efecto.
+  const esDispositivoLimitado = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 820;
+  let usarResplandor = !esDispositivoLimitado;
+  let composer = null;
+  let pasoResplandor = null;
+  if (usarResplandor) {
+    try {
+      composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(escena, camara));
+      pasoResplandor = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.95, 0.4, 0.62);
+      composer.addPass(pasoResplandor);
+    } catch (err) {
+      console.warn('No se pudo activar el resplandor (bloom); se usa render simple.', err);
+      usarResplandor = false;
+      composer = null;
+    }
+  }
 
   const controles = new OrbitControls(camara, renderer.domElement);
   controles.enableDamping = true;
   controles.dampingFactor = 0.08;
   controles.minDistance = 2.5;
-  controles.maxDistance = 260;
+  controles.maxDistance = 380;
   controles.target.set(0, 0, 0);
   controles.autoRotate = false;
   controles.autoRotateSpeed = 0.35;
@@ -1640,46 +1724,231 @@ function iniciarPlanetario() {
     dibujarFn(x + anchoTex);
   }
 
-  // Textura para planetas rocosos: manchas grandes de tono + cráteres con borde + grano fino
-  function crearTexturaRocosa(colorBase) {
+  function aClaroOscuroRGB(hex, factor) {
+    const c = new THREE.Color(hex);
+    if (factor >= 0) c.lerp(new THREE.Color(0xffffff), factor);
+    else c.lerp(new THREE.Color(0x000000), -factor);
+    return [c.r * 255, c.g * 255, c.b * 255];
+  }
+  function lerpNum(a, b, t) { return a + (b - a) * Math.min(1, Math.max(0, t)); }
+  function lerpColor(c1, c2, t) {
+    return [lerpNum(c1[0], c2[0], t), lerpNum(c1[1], c2[1], t), lerpNum(c1[2], c2[2], t)];
+  }
+
+  // ---------------------------------------------------------------
+  // Generador de ruido fractal (fBm), tileable en longitud: da a las
+  // texturas relieve y continentes con forma natural en vez de manchas
+  // circulares. Cada octava usa su propia rejilla, del tamaño exacto de
+  // su frecuencia, así el patrón siempre "enrosca" perfecto en la
+  // costura este-oeste de la textura (sin costura visible).
+  // ---------------------------------------------------------------
+  function crearGeneradorRuido(semilla, frecBase = 4, octavas = 5) {
+    let s = semilla >>> 0;
+    function azar() {
+      s = (s + 0x6D2B79F5) | 0;
+      let t = Math.imul(s ^ (s >>> 15), 1 | s);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    }
+    function suavizar(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+
+    const capas = [];
+    for (let o = 0; o < octavas; o++) {
+      const tam = frecBase * Math.pow(2, o);
+      const alto = Math.max(2, Math.round(tam / 2));
+      const grid = new Float32Array(tam * alto);
+      for (let i = 0; i < tam * alto; i++) grid[i] = azar();
+      capas.push({ tam, alto, grid });
+    }
+
+    function muestrear(capa, x, y) {
+      const { tam, alto, grid } = capa;
+      const xi = Math.floor(x), yi = Math.floor(y);
+      const xf = x - xi, yf = Math.min(Math.max(y - yi, 0), 1);
+      const x0 = ((xi % tam) + tam) % tam;
+      const x1 = (x0 + 1) % tam;
+      const y0 = Math.min(Math.max(yi, 0), alto - 1);
+      const y1 = Math.min(Math.max(yi + 1, 0), alto - 1);
+      const sx = suavizar(xf), sy = suavizar(yf);
+      const n00 = grid[y0 * tam + x0], n10 = grid[y0 * tam + x1];
+      const n01 = grid[y1 * tam + x0], n11 = grid[y1 * tam + x1];
+      const nx0 = n00 + (n10 - n00) * sx;
+      const nx1 = n01 + (n11 - n01) * sx;
+      return nx0 + (nx1 - nx0) * sy;
+    }
+
+    // nx: longitud normalizada [0,1) — enrosca. ny: latitud normalizada [0,1] — no enrosca.
+    return function fbm(nx, ny) {
+      let total = 0, amplitud = 1, max = 0;
+      for (let o = 0; o < capas.length; o++) {
+        const capa = capas[o];
+        total += muestrear(capa, nx * capa.tam, ny * capa.alto) * amplitud;
+        max += amplitud;
+        amplitud *= 0.5;
+      }
+      return total / max;
+    };
+  }
+
+  // Pinta un campo de color por-pixel (fnColor(nx,ny) -> [r,g,b]) a una
+  // resolución interna reducida y lo escala al canvas destino: el ruido ya
+  // es suave por naturaleza, así que esto ahorra mucho tiempo de cómputo
+  // sin que se note en calidad.
+  function pintarCampoRuido(cxDestino, anchoDestino, altoDestino, resInterna, fnColor) {
+    const w = resInterna, h = Math.max(2, Math.round(resInterna / 2));
+    const cvBase = document.createElement('canvas');
+    cvBase.width = w; cvBase.height = h;
+    const cxBase = cvBase.getContext('2d');
+    const img = cxBase.createImageData(w, h);
+    for (let y = 0; y < h; y++) {
+      const ny = y / (h - 1);
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        const [r, g, b] = fnColor(nx, ny);
+        const i = (y * w + x) * 4;
+        img.data[i] = r; img.data[i + 1] = g; img.data[i + 2] = b; img.data[i + 3] = 255;
+      }
+    }
+    cxBase.putImageData(img, 0, 0);
+    cxDestino.drawImage(cvBase, 0, 0, w, h, 0, 0, anchoDestino, altoDestino);
+  }
+
+  // ---------------------------------------------------------------
+  // Textura RADIAL para anillos planetarios: a diferencia de una imagen
+  // normal, esto es un degradado 1D (varía de adentro hacia afuera) con
+  // bandas de brillo, huecos (como la División de Cassini de Saturno) y
+  // grano fino, para que el anillo se vea hecho de miles de partículas
+  // de hielo y roca en vez de un disco de color plano.
+  function crearTexturaAnillo(bandas) {
+    const ancho = 1024, alto = 4;
+    const cv = document.createElement('canvas');
+    cv.width = ancho; cv.height = alto;
+    const cx = cv.getContext('2d');
+    const g = cx.createLinearGradient(0, 0, ancho, 0);
+    bandas.forEach(([pos, color]) => g.addColorStop(pos, color));
+    cx.fillStyle = g;
+    cx.fillRect(0, 0, ancho, alto);
+
+    // Grano fino radial: miles de "partículas" de brillo distinto, como
+    // el hielo y polvo real que forma los anillos
+    const img = cx.getImageData(0, 0, ancho, alto);
+    for (let i = 0; i < img.data.length; i += 4) {
+      const variacion = (Math.random() - 0.5) * 26;
+      img.data[i] = Math.min(255, Math.max(0, img.data[i] + variacion));
+      img.data[i + 1] = Math.min(255, Math.max(0, img.data[i + 1] + variacion));
+      img.data[i + 2] = Math.min(255, Math.max(0, img.data[i + 2] + variacion));
+    }
+    cx.putImageData(img, 0, 0);
+
+    const t = new THREE.CanvasTexture(cv);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.wrapS = THREE.ClampToEdgeWrapping;
+    return t;
+  }
+
+  // Construye un anillo real: usa un shader propio (no el UV normal de
+  // RingGeometry, que no sirve para degradados radiales) que calcula la
+  // distancia al centro por cada píxel y así sí pinta bandas concéntricas
+  // limpias, sin importar el radio del planeta.
+  function crearAnillo(radioInterno, radioExterno, mapa, opacidadBase = 1) {
+    const geometria = new THREE.RingGeometry(radioInterno, radioExterno, 128, 1);
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        radioInterno: { value: radioInterno },
+        radioExterno: { value: radioExterno },
+        mapa: { value: mapa },
+        opacidadBase: { value: opacidadBase }
+      },
+      vertexShader: `
+        varying vec2 vPosicion;
+        void main() {
+          vPosicion = position.xy;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float radioInterno;
+        uniform float radioExterno;
+        uniform float opacidadBase;
+        uniform sampler2D mapa;
+        varying vec2 vPosicion;
+
+        float hash(vec2 p) {
+          return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453123);
+        }
+
+        void main() {
+          float r = length(vPosicion);
+          float angulo = atan(vPosicion.y, vPosicion.x);
+          float t = clamp((r - radioInterno) / (radioExterno - radioInterno), 0.0, 1.0);
+          vec4 color = texture2D(mapa, vec2(t, 0.5));
+
+          // El anillo real no es una banda de color lisa: son miles de
+          // fragmentos de hielo y roca. Simulamos eso con dos capas de ruido
+          // (grumos grandes + chispa fina) que varían tanto con el radio
+          // como con el ángulo, no solo con el radio como el color base.
+          vec2 coordGrano = vec2(angulo * 60.0, r * 34.0);
+          float grumos = hash(floor(coordGrano * 0.3));
+          float chispa = hash(floor(coordGrano) + 0.5);
+          float brillo = mix(0.45, 1.2, grumos) * mix(0.7, 1.15, chispa);
+
+          float alfa = color.a * opacidadBase * mix(0.5, 1.0, chispa) * mix(0.75, 1.05, grumos);
+          if (alfa < 0.02) discard;
+          // 0.82 general: los anillos reales no son tan brillantes/blancos
+          // como se veían antes, tienen un tono más apagado y polvoriento
+          gl_FragColor = vec4(color.rgb * brillo * 0.82, alfa);
+        }
+      `,
+      transparent: true,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
+    return new THREE.Mesh(geometria, material);
+  }
+
+  // Textura para planetas rocosos: relieve por ruido fractal + cráteres con
+  // sombra y aro elevado + grano fino. `casquetesPolares` agrega hielo blanco
+  // en los polos (para Marte); si no, los polos solo se difuminan al tono base.
+  function crearTexturaRocosa(colorBase, opciones = {}) {
+    const { casquetesPolares = false } = opciones;
     const anchoTex = 1536, altoTex = 768;
     const cv = document.createElement('canvas');
     cv.width = anchoTex; cv.height = altoTex;
     const cx = cv.getContext('2d');
-    cx.fillStyle = aClaroOscuro(colorBase, -0.05);
-    cx.fillRect(0, 0, anchoTex, altoTex);
 
-    // Regiones grandes de variación de tono (como continentes o llanuras)
-    for (let i = 0; i < 190; i++) {
-      const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.16);
-      const r = 40 + Math.random() * 100;
-      const tono = (Math.random() - 0.5) * 0.4;
-      dibujarEnvolvente(anchoTex, x, (xd) => {
-        const g = cx.createRadialGradient(xd, y, 0, xd, y, r);
-        g.addColorStop(0, aClaroOscuro(colorBase, tono));
-        g.addColorStop(1, 'rgba(0,0,0,0)');
-        cx.fillStyle = g;
-        cx.globalAlpha = 0.5;
-        cx.beginPath();
-        cx.arc(xd, y, r, 0, Math.PI * 2);
-        cx.fill();
-      });
-    }
-    cx.globalAlpha = 1;
+    const semilla = Math.abs(Math.round(colorBase)) % 100000;
+    const ruidoTerreno = crearGeneradorRuido(semilla + 1, 5, 5);
+    const ruidoFino = crearGeneradorRuido(semilla + 2, 16, 3);
 
-    // Cráteres con borde claro (aro elevado)
-    for (let i = 0; i < 560; i++) {
+    pintarCampoRuido(cx, anchoTex, altoTex, 512, (nx, ny) => {
+      const e = ruidoTerreno(nx, ny) * 0.75 + ruidoFino(nx, ny) * 0.25;
+      let color = aClaroOscuroRGB(colorBase, (e - 0.5) * 0.55);
+      if (casquetesPolares) {
+        const lat = Math.abs(ny - 0.5) * 2;
+        const hielo = Math.max(0, (lat - 0.72) / 0.28);
+        color = lerpColor(color, [235, 240, 245], hielo * hielo * 0.85);
+      }
+      return color;
+    });
+
+    // Cráteres con sombra interior y aro elevado brillante (simulan luz direccional)
+    for (let i = 0; i < 480; i++) {
       const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.14);
-      const r = Math.random() * 12 + 2;
+      const r = Math.random() * 13 + 2;
       dibujarEnvolvente(anchoTex, x, (xd) => {
-        cx.globalAlpha = 0.4 + Math.random() * 0.3;
-        cx.fillStyle = aClaroOscuro(colorBase, -0.4);
+        cx.globalAlpha = 0.5 + Math.random() * 0.25;
+        cx.fillStyle = aClaroOscuro(colorBase, -0.42);
         cx.beginPath();
         cx.arc(xd, y, r, 0, Math.PI * 2);
         cx.fill();
-        cx.globalAlpha = 0.3;
-        cx.strokeStyle = aClaroOscuro(colorBase, 0.4);
-        cx.lineWidth = Math.max(1, r * 0.22);
+        cx.globalAlpha = 0.28;
+        cx.fillStyle = aClaroOscuro(colorBase, -0.55);
+        cx.beginPath();
+        cx.arc(xd - r * 0.18, y - r * 0.18, r * 0.82, 0, Math.PI * 2);
+        cx.fill();
+        cx.globalAlpha = 0.35;
+        cx.strokeStyle = aClaroOscuro(colorBase, 0.45);
+        cx.lineWidth = Math.max(1, r * 0.2);
         cx.beginPath();
         cx.arc(xd, y, r * 1.08, 0, Math.PI * 2);
         cx.stroke();
@@ -1688,98 +1957,130 @@ function iniciarPlanetario() {
     cx.globalAlpha = 1;
 
     // Grano fino para dar textura de superficie a nivel de detalle
-    for (let i = 0; i < 3000; i++) {
+    for (let i = 0; i < 2600; i++) {
       const x = Math.random() * anchoTex, y = Math.random() * altoTex;
-      cx.globalAlpha = 0.04 + Math.random() * 0.07;
+      cx.globalAlpha = 0.04 + Math.random() * 0.06;
       cx.fillStyle = Math.random() > 0.5 ? '#ffffff' : '#000000';
       cx.fillRect(x, y, 1.3, 1.3);
     }
     cx.globalAlpha = 1;
 
-    difuminarPolos(cx, anchoTex, altoTex, aClaroOscuro(colorBase, -0.05), 0.3);
+    difuminarPolos(cx, anchoTex, altoTex, casquetesPolares ? 'rgba(235,240,245,0.85)' : aClaroOscuro(colorBase, -0.15), 0.16);
 
     const t = new THREE.CanvasTexture(cv);
     t.colorSpace = THREE.SRGBColorSpace;
     return t;
   }
 
-  // Textura especial para la Tierra: océanos, continentes y casquetes polares
+  // Textura especial para la Tierra: continentes y océanos generados con
+  // ruido fractal (relieve real, no manchas), con biomas (bosque/desierto),
+  // relieve montañoso y casquetes polares que se funden con la latitud.
   function crearTexturaTierra() {
     const anchoTex = 1536, altoTex = 768;
     const cv = document.createElement('canvas');
     cv.width = anchoTex; cv.height = altoTex;
     const cx = cv.getContext('2d');
-    cx.fillStyle = '#123a7a';
-    cx.fillRect(0, 0, anchoTex, altoTex);
 
-    // Variación oceánica (corrientes/profundidad)
-    for (let i = 0; i < 110; i++) {
-      const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.14);
-      const r = 60 + Math.random() * 130;
-      dibujarEnvolvente(anchoTex, x, (xd) => {
-        const g = cx.createRadialGradient(xd, y, 0, xd, y, r);
-        g.addColorStop(0, 'rgba(70,140,220,0.35)');
-        g.addColorStop(1, 'rgba(0,0,0,0)');
-        cx.fillStyle = g;
-        cx.beginPath();
-        cx.arc(xd, y, r, 0, Math.PI * 2);
-        cx.fill();
-      });
-    }
+    const ruidoContinentes = crearGeneradorRuido(11, 5, 6);
+    const ruidoDetalle = crearGeneradorRuido(22, 14, 3);
+    const ruidoHumedad = crearGeneradorRuido(33, 4, 4);
+    const ruidoWarp = crearGeneradorRuido(44, 3, 3);
+    const UMBRAL = 0.52;
 
-    // Continentes
-    cx.fillStyle = '#2f8f5b';
-    for (let i = 0; i < 110; i++) {
-      const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.18);
-      const rx = 34 + Math.random() * 66, ry = 18 + Math.random() * 36, rot = Math.random() * Math.PI;
-      dibujarEnvolvente(anchoTex, x, (xd) => {
-        cx.beginPath();
-        cx.ellipse(xd, y, rx, ry, rot, 0, Math.PI * 2);
-        cx.fill();
-      });
-    }
-    // Relieve montañoso sutil sobre los continentes
-    for (let i = 0; i < 560; i++) {
-      cx.globalAlpha = 0.06 + Math.random() * 0.1;
-      cx.fillStyle = Math.random() > 0.5 ? '#ffffff' : '#0b3d24';
-      const x = Math.random() * anchoTex, y = yEvitandoPolos(altoTex, 0.16);
-      cx.beginPath();
-      cx.arc(x, y, 3 + Math.random() * 7, 0, Math.PI * 2);
-      cx.fill();
-    }
-    cx.globalAlpha = 1;
+    pintarCampoRuido(cx, anchoTex, altoTex, 640, (nx, ny) => {
+      const warp = (ruidoWarp(nx, ny) - 0.5) * 0.12;
+      const e = ruidoContinentes(nx + warp, ny + warp) + (ruidoDetalle(nx, ny) - 0.5) * 0.12;
+      const lat = Math.abs(ny - 0.5) * 2; // 0 ecuador, 1 polos
+      const humedad = ruidoHumedad(nx, ny);
 
-    // Casquetes polares (banda sólida + difuminado suave hacia el océano, sin costura visible)
-    cx.fillStyle = '#eef3fb';
-    cx.fillRect(0, 0, anchoTex, 16);
-    cx.fillRect(0, altoTex - 16, anchoTex, 16);
-    difuminarPolos(cx, anchoTex, altoTex, 'rgba(238,243,251,0.95)', 0.28);
+      let color;
+      if (e < UMBRAL) {
+        const profundidad = Math.min(1, (UMBRAL - e) / 0.22);
+        color = lerpColor([70, 150, 205], [8, 35, 95], profundidad);
+      } else {
+        const altura = Math.min(1, (e - UMBRAL) / (1 - UMBRAL));
+        if (altura > 0.68) {
+          color = lerpColor([120, 108, 96], [235, 235, 240], (altura - 0.68) / 0.32);
+        } else if (humedad > 0.52 && lat < 0.75) {
+          color = lerpColor([76, 122, 60], [150, 168, 96], altura / 0.68);
+        } else {
+          color = lerpColor([196, 176, 128], [214, 190, 140], altura / 0.68);
+        }
+      }
+      // casquetes polares: se funden con la latitud, sobre tierra y océano por igual
+      const hielo = Math.max(0, (lat - 0.76) / 0.24);
+      color = lerpColor(color, [232, 240, 250], hielo * hielo);
+      return color;
+    });
+
+    difuminarPolos(cx, anchoTex, altoTex, 'rgba(232,240,250,0.9)', 0.16);
 
     const t = new THREE.CanvasTexture(cv);
     t.colorSpace = THREE.SRGBColorSpace;
     return t;
   }
 
-  // Capa de nubes translúcida para la Tierra (se anima por separado)
+  // Textura especial para Venus: su superficie real está oculta todo el
+  // tiempo bajo una capa de nubes ácidas, así que se dibuja como un
+  // remolino continuo de nubes amarillentas, como se ve en fotos reales
+  function crearTexturaVenus() {
+    const anchoTex = 1536, altoTex = 768;
+    const cv = document.createElement('canvas');
+    cv.width = anchoTex; cv.height = altoTex;
+    const cx = cv.getContext('2d');
+
+    const ruidoBase = crearGeneradorRuido(88, 5, 5);
+    const ruidoWarp1 = crearGeneradorRuido(99, 3, 3);
+    const ruidoWarp2 = crearGeneradorRuido(100, 2, 3);
+
+    pintarCampoRuido(cx, anchoTex, altoTex, 512, (nx, ny) => {
+      const warpX = (ruidoWarp1(nx, ny) - 0.5) * 0.5;
+      const warpY = (ruidoWarp2(nx, ny) - 0.5) * 0.12;
+      const n = ruidoBase(nx + warpX, ny * 0.6 + warpY + 0.2);
+      return lerpColor([196, 150, 80], [244, 220, 160], n);
+    });
+
+    difuminarPolos(cx, anchoTex, altoTex, 'rgba(210,175,110,0.5)', 0.16);
+
+    const t = new THREE.CanvasTexture(cv);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+
+  // Capa de nubes translúcida para la Tierra (se anima por separado): ahora
+  // con ruido "deformado" (domain warping) para remolinos orgánicos en vez
+  // de óvalos repetidos
   function crearTexturaNubes() {
     const anchoTex = 1536, altoTex = 768;
     const cv = document.createElement('canvas');
     cv.width = anchoTex; cv.height = altoTex;
     const cx = cv.getContext('2d');
-    for (let i = 0; i < 190; i++) {
-      const x = Math.random() * anchoTex;
-      const y = altoTex * 0.14 + Math.random() * (altoTex * 0.72); // evita concentrarse justo en los polos
-      const rx = 34 + Math.random() * 80, ry = 10 + Math.random() * 24, rot = Math.random() * Math.PI;
-      const alfa = 0.1 + Math.random() * 0.2;
-      dibujarEnvolvente(anchoTex, x, (xd) => {
-        cx.globalAlpha = alfa;
-        cx.fillStyle = '#ffffff';
-        cx.beginPath();
-        cx.ellipse(xd, y, rx, ry, rot, 0, Math.PI * 2);
-        cx.fill();
-      });
+
+    const ruidoNubes = crearGeneradorRuido(55, 5, 5);
+    const ruidoWarp1 = crearGeneradorRuido(66, 3, 3);
+    const ruidoWarp2 = crearGeneradorRuido(77, 3, 3);
+
+    const w = 512, h = 256;
+    const cvBase = document.createElement('canvas');
+    cvBase.width = w; cvBase.height = h;
+    const cxBase = cvBase.getContext('2d');
+    const img = cxBase.createImageData(w, h);
+    for (let y = 0; y < h; y++) {
+      const ny = y / (h - 1);
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        const warpX = (ruidoWarp1(nx, ny) - 0.5) * 0.35;
+        const warpY = (ruidoWarp2(nx, ny) - 0.5) * 0.18;
+        let n = ruidoNubes(nx + warpX, ny + warpY);
+        n = Math.pow(Math.max(0, (n - 0.42) / 0.58), 1.4); // deja más cielo despejado que nublado
+        const alfa = Math.round(Math.min(1, n * 1.4) * 255);
+        const i = (y * w + x) * 4;
+        img.data[i] = 255; img.data[i + 1] = 255; img.data[i + 2] = 255; img.data[i + 3] = alfa;
+      }
     }
-    cx.globalAlpha = 1;
+    cxBase.putImageData(img, 0, 0);
+    cx.drawImage(cvBase, 0, 0, w, h, 0, 0, anchoTex, altoTex);
+
     const t = new THREE.CanvasTexture(cv);
     t.colorSpace = THREE.SRGBColorSpace;
     return t;
@@ -2218,7 +2519,8 @@ function iniciarPlanetario() {
     let textura;
     if (p.tipo === 'tierra') textura = crearTexturaTierra();
     else if (p.tipo === 'gaseoso') textura = crearTexturaGaseosa(p.color, p.id === 'jupiter');
-    else textura = crearTexturaRocosa(p.color);
+    else if (p.id === 'venus') textura = crearTexturaVenus();
+    else textura = crearTexturaRocosa(p.color, { casquetesPolares: p.id === 'marte' || p.id === 'pluton' });
 
     const esGaseoso = p.tipo === 'gaseoso';
     const malla = new THREE.Mesh(
@@ -2234,11 +2536,11 @@ function iniciarPlanetario() {
     malla.rotation.z = (Math.random() - 0.5) * 0.4;
     escena.add(malla);
 
+    let anilloPlaneta = null;
     if (p.anillo) {
-      const anilloPlaneta = new THREE.Mesh(
-        new THREE.RingGeometry(p.radio * 1.3, p.radio * 2.1, 64),
-        new THREE.MeshStandardMaterial({ color: 0xe8d4a0, transparent: true, opacity: 0.8, side: THREE.DoubleSide, roughness: 0.9 })
-      );
+      const a = p.anillo;
+      const mapaAnillo = crearTexturaAnillo(a.bandas);
+      anilloPlaneta = crearAnillo(p.radio * a.radioInterno, p.radio * a.radioExterno, mapaAnillo, a.opacidad);
       anilloPlaneta.rotation.x = Math.PI / 2 * 0.85;
       malla.add(anilloPlaneta);
     }
@@ -2277,22 +2579,22 @@ function iniciarPlanetario() {
     }
 
     mallasClicables.push(malla);
-    planetasEnEscena[p.id] = { malla, nubes, lunas: lunasEnEscena, angulo: Math.random() * Math.PI * 2, datos: p };
+    planetasEnEscena[p.id] = { malla, nubes, lunas: lunasEnEscena, anillo: anilloPlaneta, angulo: Math.random() * Math.PI * 2, datos: p };
   });
 
   /* =======================================================
      CINTURÓN DE ASTEROIDES (entre Marte y Júpiter)
      ======================================================= */
-  const cantidadAsteroides = 550;
-  const geometriaAsteroide = new THREE.DodecahedronGeometry(0.09, 0);
+  const cantidadAsteroides = 700;
+  const geometriaAsteroide = new THREE.DodecahedronGeometry(0.1, 0);
   const materialAsteroide = new THREE.MeshStandardMaterial({ color: 0x8a8378, roughness: 1, metalness: 0.05 });
   const cinturonAsteroides = new THREE.InstancedMesh(geometriaAsteroide, materialAsteroide, cantidadAsteroides);
   const datosAsteroides = [];
   const objetoTemporal = new THREE.Object3D();
   for (let i = 0; i < cantidadAsteroides; i++) {
-    const distancia = 35 + Math.random() * 5.5; // entre la órbita de Marte (31) y Júpiter (42)
+    const distancia = 48 + Math.random() * 9; // entre la órbita de Marte (42) y Júpiter (66)
     const angulo = Math.random() * Math.PI * 2;
-    const alturaY = (Math.random() - 0.5) * 1.4;
+    const alturaY = (Math.random() - 0.5) * 1.8;
     const escala = 0.4 + Math.random() * 1.3;
     datosAsteroides.push({ distancia, angulo, alturaY, escala, velocidad: 0.09 + Math.random() * 0.05 });
     objetoTemporal.position.set(Math.cos(angulo) * distancia, alturaY, Math.sin(angulo) * distancia);
@@ -2307,14 +2609,14 @@ function iniciarPlanetario() {
      CINTURÓN DE KUIPER (más allá de Neptuno): cuerpos helados
      y dispersos, mucho más amplio y tenue que el de asteroides
      ======================================================= */
-  const cantidadKuiper = 420;
-  const geometriaKuiper = new THREE.DodecahedronGeometry(0.1, 0);
+  const cantidadKuiper = 550;
+  const geometriaKuiper = new THREE.DodecahedronGeometry(0.11, 0);
   const materialKuiper = new THREE.MeshStandardMaterial({ color: 0xcdd8e0, roughness: 1, metalness: 0.05 });
   const cinturonKuiper = new THREE.InstancedMesh(geometriaKuiper, materialKuiper, cantidadKuiper);
   for (let i = 0; i < cantidadKuiper; i++) {
-    const distancia = 80 + Math.random() * 45; // bien más allá de Neptuno (69)
+    const distancia = 132 + Math.random() * 55; // bien más allá de Neptuno (118) y Plutón (150)
     const angulo = Math.random() * Math.PI * 2;
-    const alturaY = (Math.random() - 0.5) * 6;
+    const alturaY = (Math.random() - 0.5) * 7;
     const escala = 0.3 + Math.random() * 1.1;
     objetoTemporal.position.set(Math.cos(angulo) * distancia, alturaY, Math.sin(angulo) * distancia);
     objetoTemporal.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
@@ -2340,8 +2642,10 @@ function iniciarPlanetario() {
     camara.aspect = ancho / alto;
     camara.updateProjectionMatrix();
     renderer.setSize(ancho, alto);
-    composer.setSize(ancho, alto);
-    pasoResplandor.setSize(ancho, alto);
+    if (usarResplandor && composer) {
+      composer.setSize(ancho, alto);
+      pasoResplandor.setSize(ancho, alto);
+    }
   }
   new ResizeObserver(ajustarTamano).observe(contenedor);
   ajustarTamano();
@@ -2355,4 +2659,325 @@ function iniciarPlanetario() {
   const elTexto = document.getElementById('info-texto');
   const elDatos = document.getElementById('info-datos');
 
-  let objetivoSeguimiento =
+  let objetivoSeguimiento = null; // { malla, datos } del planeta enfocado actualmente
+  let transicionando = false;
+
+  function volarHacia(posicionCamaraDestino, posicionObjetivoDestino, entradaAEnfocar, duracionMs) {
+    controles.enabled = false;
+    transicionando = true;
+    anilloSeleccion.visible = !!entradaAEnfocar;
+
+    const inicioCamara = camara.position.clone();
+    const inicioObjetivo = controles.target.clone();
+    const inicioTiempo = performance.now();
+
+    function paso(ahora) {
+      const t = Math.min((ahora - inicioTiempo) / duracionMs, 1);
+      const suave = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      camara.position.lerpVectors(inicioCamara, posicionCamaraDestino, suave);
+      controles.target.lerpVectors(inicioObjetivo, posicionObjetivoDestino, suave);
+      controles.update();
+      if (t < 1) {
+        requestAnimationFrame(paso);
+      } else {
+        transicionando = false;
+        controles.enabled = true;
+        objetivoSeguimiento = entradaAEnfocar;
+      }
+    }
+    requestAnimationFrame(paso);
+  }
+
+  function seleccionarPlaneta(id) {
+    const datos = datosPlanetas.find((p) => p.id === id);
+    if (!datos) return;
+    elTag.textContent = datos.tag;
+    elNombre.textContent = datos.nombre;
+    elTexto.textContent = datos.texto;
+    elDatos.innerHTML = datos.datos.map(([clave, valor]) => `<li><span>${clave}</span><strong>${valor}</strong></li>`).join('');
+    botonesLista.forEach((b) => b.classList.toggle('is-activo', b.dataset.planeta === id));
+
+    if (id === 'sol') {
+      volarHacia(new THREE.Vector3(0, 62, 138), new THREE.Vector3(0, 0, 0), null, 1100);
+      return;
+    }
+
+    const entrada = planetasEnEscena[id];
+    if (!entrada) return;
+    const posPlaneta = entrada.malla.position.clone();
+    let direccion = camara.position.clone().sub(controles.target);
+    if (direccion.lengthSq() < 0.0001) direccion.set(0, 0.35, 1);
+    direccion.normalize();
+    const distanciaDeseada = Math.max(entrada.datos.radio * 7.5, 8.5);
+    const posCamaraDestino = posPlaneta.clone()
+      .add(direccion.multiplyScalar(distanciaDeseada))
+      .add(new THREE.Vector3(0, distanciaDeseada * 0.22, 0));
+
+    volarHacia(posCamaraDestino, posPlaneta.clone(), entrada, 1100);
+  }
+
+  botonesLista.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      detenerTour();
+      seleccionarPlaneta(btn.dataset.planeta);
+    });
+  });
+
+  /* --- Selección con clic / toque sobre los planetas --- */
+  const raycaster = new THREE.Raycaster();
+  const puntero = new THREE.Vector2();
+
+  function alClicar(evento) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    const origen = evento.changedTouches ? evento.changedTouches[0] : evento;
+    puntero.x = ((origen.clientX - rect.left) / rect.width) * 2 - 1;
+    puntero.y = -((origen.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(puntero, camara);
+    const intersecciones = raycaster.intersectObjects(mallasClicables, false);
+    if (intersecciones.length) {
+      detenerTour();
+      seleccionarPlaneta(intersecciones[0].object.userData.id);
+    }
+  }
+  renderer.domElement.addEventListener('click', alClicar);
+
+  /* --- Etiqueta flotante al pasar el mouse sobre un planeta (solo escritorio) --- */
+  const tooltip = document.getElementById('planetario-tooltip');
+  renderer.domElement.addEventListener('mousemove', (evento) => {
+    const rect = renderer.domElement.getBoundingClientRect();
+    puntero.x = ((evento.clientX - rect.left) / rect.width) * 2 - 1;
+    puntero.y = -((evento.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(puntero, camara);
+    const intersecciones = raycaster.intersectObjects(mallasClicables, false);
+    if (intersecciones.length && tooltip) {
+      const datos = datosPlanetas.find((p) => p.id === intersecciones[0].object.userData.id);
+      tooltip.textContent = datos ? datos.nombre : '';
+      tooltip.style.left = `${evento.clientX - rect.left}px`;
+      tooltip.style.top = `${evento.clientY - rect.top}px`;
+      tooltip.classList.remove('oculto');
+      renderer.domElement.style.cursor = 'pointer';
+    } else if (tooltip) {
+      tooltip.classList.add('oculto');
+      renderer.domElement.style.cursor = 'grab';
+    }
+  });
+  renderer.domElement.addEventListener('mouseleave', () => {
+    if (tooltip) tooltip.classList.add('oculto');
+  });
+
+  /* --- Controles de velocidad y pausa --- */
+  let velocidad = 1;
+  let velocidadPrevia = 1;
+  const inputVelocidad = document.getElementById('velocidad');
+  const btnPausa = document.getElementById('btn-pausa');
+
+  inputVelocidad.addEventListener('input', () => {
+    velocidad = parseFloat(inputVelocidad.value);
+    btnPausa.textContent = velocidad === 0 ? '▶' : '⏸';
+  });
+  btnPausa.addEventListener('click', () => {
+    detenerTour();
+    if (velocidad > 0) {
+      velocidadPrevia = velocidad;
+      velocidad = 0;
+      inputVelocidad.value = '0';
+      btnPausa.textContent = '▶';
+    } else {
+      velocidad = velocidadPrevia || 1;
+      inputVelocidad.value = String(velocidad);
+      btnPausa.textContent = '⏸';
+    }
+  });
+
+  /* --- Tour automático: recorre todos los planetas uno por uno --- */
+  const btnTour = document.getElementById('btn-tour');
+  const ordenTour = datosPlanetas.map((p) => p.id);
+  let tourActivo = false;
+  let indiceTour = 0;
+  let temporizadorTour = null;
+
+  function pasoTour() {
+    seleccionarPlaneta(ordenTour[indiceTour]);
+    indiceTour = (indiceTour + 1) % ordenTour.length;
+    temporizadorTour = setTimeout(pasoTour, 5200);
+  }
+
+  function iniciarTour() {
+    tourActivo = true;
+    btnTour.textContent = '⏹';
+    btnTour.setAttribute('aria-label', 'Detener recorrido automático');
+    indiceTour = 0;
+    pasoTour();
+  }
+
+  function detenerTour() {
+    if (!tourActivo) return;
+    tourActivo = false;
+    btnTour.textContent = '🚀';
+    btnTour.setAttribute('aria-label', 'Iniciar recorrido automático');
+    clearTimeout(temporizadorTour);
+  }
+
+  btnTour.addEventListener('click', () => {
+    if (tourActivo) detenerTour();
+    else iniciarTour();
+  });
+
+  /* =======================================================
+     BUCLE DE ANIMACIÓN
+     ======================================================= */
+  const reloj = new THREE.Clock();
+  let primerCuadro = true;
+
+  function animar() {
+    requestAnimationFrame(animar);
+    const dt = reloj.getDelta();
+
+    for (const id in planetasEnEscena) {
+      const p = planetasEnEscena[id];
+      p.angulo += p.datos.velocidad * dt * velocidad * 0.4;
+      p.malla.position.x = Math.cos(p.angulo) * p.datos.distancia;
+      p.malla.position.z = Math.sin(p.angulo) * p.datos.distancia;
+      p.malla.rotation.y += dt * velocidad * 0.6;
+      // El anillo es "hijo" del planeta para viajar junto con él en la órbita,
+      // pero un anillo real NO gira al mismo ritmo que la rotación del planeta
+      // sobre su propio eje. Sin esto, se ve "tambalear" de forma rara con el
+      // tiempo. Lo contrarrotamos exactamente para que se quede fijo.
+      if (p.anillo) p.anillo.rotation.y -= dt * velocidad * 0.6;
+      if (p.nubes) p.nubes.rotation.y += dt * velocidad * 0.9;
+      if (p.lunas) {
+        p.lunas.forEach((l) => {
+          l.angulo += l.datos.velocidad * dt * velocidad;
+          l.malla.position.x = p.malla.position.x + Math.cos(l.angulo) * l.datos.distancia;
+          l.malla.position.z = p.malla.position.z + Math.sin(l.angulo) * l.datos.distancia;
+          l.malla.position.y = p.malla.position.y;
+        });
+      }
+    }
+    mallaSol.rotation.y += dt * 0.04;
+    esferaNebulosa.rotation.y += dt * 0.003;
+
+    // Cinturón de asteroides: gira lentamente como conjunto alrededor del Sol
+    if (cinturonAsteroides) {
+      cinturonAsteroides.rotation.y += dt * velocidad * 0.02;
+    }
+    if (cinturonKuiper) {
+      cinturonKuiper.rotation.y += dt * velocidad * 0.008;
+    }
+
+    // El resplandor del Sol "respira" suavemente
+    const pulso = 1 + Math.sin(reloj.elapsedTime * 1.4) * 0.045;
+    glowSolInterno.scale.set(13 * pulso, 13 * pulso, 1);
+    glowSolExterno.scale.set(28 * pulso, 28 * pulso, 1);
+    glowSolCorona.scale.set(48 * (1 + Math.sin(reloj.elapsedTime * 1.4 + 1) * 0.06), 48 * (1 + Math.sin(reloj.elapsedTime * 1.4 + 1) * 0.06), 1);
+    materialEstrellas.uniforms.uTiempo.value = reloj.elapsedTime;
+    if (rayosSol) rayosSol.material.rotation += dt * 0.045;
+
+    // Si hay un planeta enfocado (y no estamos en pleno vuelo), la cámara lo sigue
+    if (objetivoSeguimiento && !transicionando) {
+      const posActual = objetivoSeguimiento.malla.position;
+      const delta = posActual.clone().sub(controles.target);
+      controles.target.copy(posActual);
+      camara.position.add(delta);
+    }
+
+    // Anillo de selección: sigue al planeta enfocado y siempre mira a cámara
+    if (anilloSeleccion.visible && objetivoSeguimiento) {
+      anilloSeleccion.position.copy(objetivoSeguimiento.malla.position);
+      const escalaAnillo = objetivoSeguimiento.datos.radio * 1.8;
+      anilloSeleccion.scale.set(escalaAnillo, escalaAnillo, escalaAnillo);
+      anilloSeleccion.quaternion.copy(camara.quaternion);
+    }
+
+    controles.update();
+    try {
+      if (usarResplandor && composer) composer.render();
+      else renderer.render(escena, camara);
+    } catch (err) {
+      // Si el bloom falla ya en marcha (algunos navegadores de celular lo
+      // aceptan al crearse pero fallan al dibujar), lo apagamos y seguimos
+      // con el render simple en vez de dejar la escena congelada.
+      console.warn('Fallo el render con resplandor; se desactiva y se sigue con render simple.', err);
+      usarResplandor = false;
+      renderer.render(escena, camara);
+    }
+
+    if (primerCuadro) {
+      primerCuadro = false;
+      if (carga) carga.classList.add('oculto');
+    }
+  }
+  animar();
+
+  // Mostrar la información del Sol desde el inicio (sin animar la cámara la primera vez)
+  const datosIniciales = datosPlanetas.find((p) => p.id === 'sol');
+  elTag.textContent = datosIniciales.tag;
+  elNombre.textContent = datosIniciales.nombre;
+  elTexto.textContent = datosIniciales.texto;
+  elDatos.innerHTML = datosIniciales.datos.map(([clave, valor]) => `<li><span>${clave}</span><strong>${valor}</strong></li>`).join('');
+
+  /* =======================================================
+     SONIDO AMBIENTAL ESPACIAL (generado por código con la
+     Web Audio API, sin necesitar ningún archivo de audio)
+     ======================================================= */
+  const btnSonido = document.getElementById('btn-sonido');
+  let audioCtx = null;
+  let sonidoActivo = false;
+
+  function crearAmbienteSonoro() {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const ganMaestro = audioCtx.createGain();
+    ganMaestro.gain.value = 0;
+    ganMaestro.connect(audioCtx.destination);
+
+    // Dos osciladores graves en quinta, para un zumbido cósmico suave
+    const frecuencias = [55, 82.5];
+    frecuencias.forEach((frec, i) => {
+      const osc = audioCtx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = frec;
+
+      const filtro = audioCtx.createBiquadFilter();
+      filtro.type = 'lowpass';
+      filtro.frequency.value = 400;
+
+      const ganOsc = audioCtx.createGain();
+      ganOsc.gain.value = i === 0 ? 0.5 : 0.3;
+
+      // LFO lento que hace "respirar" el volumen, para que no sea un tono plano
+      const lfo = audioCtx.createOscillator();
+      lfo.frequency.value = 0.06 + i * 0.02;
+      const ganLfo = audioCtx.createGain();
+      ganLfo.gain.value = 0.15;
+      lfo.connect(ganLfo);
+      ganLfo.connect(ganOsc.gain);
+      lfo.start();
+
+      osc.connect(filtro);
+      filtro.connect(ganOsc);
+      ganOsc.connect(ganMaestro);
+      osc.start();
+    });
+
+    return ganMaestro;
+  }
+
+  let ganMaestro = null;
+  btnSonido.addEventListener('click', () => {
+    if (!audioCtx) ganMaestro = crearAmbienteSonoro();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    sonidoActivo = !sonidoActivo;
+    const ahora = audioCtx.currentTime;
+    ganMaestro.gain.cancelScheduledValues(ahora);
+    ganMaestro.gain.setValueAtTime(ganMaestro.gain.value, ahora);
+    ganMaestro.gain.linearRampToValueAtTime(sonidoActivo ? 0.35 : 0, ahora + 1.2);
+
+    btnSonido.textContent = sonidoActivo ? '🔊' : '🔇';
+    btnSonido.setAttribute('aria-label', sonidoActivo ? 'Silenciar sonido ambiental' : 'Activar sonido ambiental');
+  });
+}
+</script>
+</body>
+</html>
